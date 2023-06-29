@@ -4,7 +4,7 @@ const { modul } = require('./module')
 const ttt = require("google-tts-api");
 const { os, axios, baileys, chalk, cheerio, child_process, crypto, cookie, FormData, FileType, fetch, fs, fsx, ffmpeg, Jimp, jsobfus, PhoneNumber, process, moment, ms, speed, syntaxerror, util, ytdl, googleTTS, maker } = modul
 const { exec, spawn, execSync } = child_process
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = baileys
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, jidNormalizedUser, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = baileys
 const { clockString, parseMention, formatp, tanggal, getTime, isUrl, sleep, runtime, fetchJson, getBuffer, jsonformat, format, reSize, generateProfilePicture, getRandom } = require('./lib/myfunc')
 const { color, bgcolor } = require('./lib/color')
 const { fetchBuffer, buffergif } = require("./lib/myfunc2")
@@ -87,7 +87,7 @@ try {
         const messagesC = pes.slice(0).trim()
         const content = JSON.stringify(m.message)
         const isCmd = body.startsWith(prefix)
-        const from = m.key.remoteJid
+        const from = jidNormalizedUser(m.key.remoteJid || m.key.participant)
         const messagesD = body.slice(0).trim().split(/ +/).shift().toLowerCase()
         const command = body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase()
         const args = body.trim().split(/ +/).slice(1)
@@ -491,7 +491,7 @@ async function sendZeroBotIncMessage(chatId, message, options = {}){
 
 //group chat msg by Zero
 const replygcZero = (teks) => {
-client.sendMessage(m.chat,
+client.sendMessage(from,
 { text: teks,
 contextInfo:{
 mentionedJid:[sender],
@@ -550,31 +550,31 @@ client.sendMessage(from, { audio: teks, mimetype: 'audio/mp4', ptt: true }, { qu
 for (let lolzero of VoiceNoteZero) {
 if (budy === lolzero) {
 let audiobuffy = fs.readFileSync(`./Media/audio/${lolzero}.mp3`)
-client.sendMessage(m.chat, { audio: audiobuffy, mimetype: 'audio/mp4', ptt: true }, { quoted: m })     
+client.sendMessage(from, { audio: audiobuffy, mimetype: 'audio/mp4', ptt: true }, { quoted: m })     
 }
 }
 for (let lolzero of StickerZero){
 if (budy === lolzero){
 let stickerbuffy = fs.readFileSync(`./Media/sticker/${lolzero}.webp`)
-client.sendMessage(m.chat, { sticker: stickerbuffy }, { quoted: m })
+client.sendMessage(from, { sticker: stickerbuffy }, { quoted: m })
 }
 }
 for (let lolzero of ImageZero){
 if (budy === lolzero){
 let imagebuffy = fs.readFileSync(`./Media/image/${lolzero}.jpg`)
-client.sendMessage(m.chat, { image: imagebuffy }, { quoted: m })
+client.sendMessage(from, { image: imagebuffy }, { quoted: m })
 }
 }
 for (let lolzero of VideoZero){
 if (budy === lolzero){
 let videobuffy = fs.readFileSync(`./Media/video/${lolzero}.mp4`)
-client.sendMessage(m.chat, { video: videobuffy }, { quoted: m })
+client.sendMessage(from, { video: videobuffy }, { quoted: m })
 }
 }
 
 if (m.isGroup && m.mtype == 'viewOnceMessage') {
 let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${m.sender.split("@")[0]}\n├ *Clock* : ${time2}\n└ *Message* : ${m.mtype}`
-client.sendMessage(m.chat, { text: teks, mentions: [m.sender] }, { quoted: m })
+client.sendMessage(from, { text: teks, mentions: [m.sender] }, { quoted: m })
 await sleep(500)
 m.copyNForward(m.chat, true, {readViewOnce: true}, {quoted: m}).catch(_ => m.reply(`Maybe It's Opened`))
 }
@@ -607,7 +607,7 @@ title: `${m.pushName}`,
 jpegThumbnail: defaultpp } } }
 
 const banRep = () => {
-client.sendMessage(m.chat, {
+client.sendMessage(from, {
 text:`Sorry you've been banned, please chat @${creator.split("@")[0]} to unban`,
 mentions: [creator],
 },
@@ -1037,11 +1037,11 @@ async function replyprem(teks) {
         let gclink = (`https://chat.whatsapp.com/`+await client.groupInviteCode(m.chat))
         let isLinkThisGc = new RegExp(gclink, 'i')
         let isgclink = isLinkThisGc.test(m.text)
-        if (isgclink) return client.sendMessage(m.chat, {text: `\`\`\`「 Group Link Detected 」\`\`\`\n\nYou won't be kicked by a bot because what you send is a link to this group`})
-        if (isAdmins) return client.sendMessage(m.chat, {text: `\`\`\`「 Group Link Detected 」\`\`\`\n\nAdmin has sent a link, admin is free to post any link`})
-        if (ZeroTheCreator) return client.sendMessage(m.chat, {text: `\`\`\`「 Group Link Detected 」\`\`\`\n\nOwner has sent a link, owner is free to post any link`})
+        if (isgclink) return client.sendMessage(from, {text: `\`\`\`「 Group Link Detected 」\`\`\`\n\nYou won't be kicked by a bot because what you send is a link to this group`})
+        if (isAdmins) return client.sendMessage(from, {text: `\`\`\`「 Group Link Detected 」\`\`\`\n\nAdmin has sent a link, admin is free to post any link`})
+        if (ZeroTheCreator) return client.sendMessage(from, {text: `\`\`\`「 Group Link Detected 」\`\`\`\n\nOwner has sent a link, owner is free to post any link`})
         kice = m.sender
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1064,7 +1064,7 @@ if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
 kice = m.sender
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1085,7 +1085,7 @@ if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
 kice = m.sender
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1102,7 +1102,7 @@ client.sendMessage(from, {text:`\`\`\`「 Wa.me Link Detected 」\`\`\`\n\n@${ki
   if (antiVirtex) {
   if (budy.length > 3500) {
   if (!isBotAdmins) return ZeroStickBotAdmin()
-          await client.sendMessage(m.chat,
+          await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1123,7 +1123,7 @@ bvl = `\`\`\`「 Bad Word Detected 」\`\`\`\n\nYou are using bad word but you a
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1143,7 +1143,7 @@ bvl = `\`\`\`「 YoutTube Video Link Detected 」\`\`\`\n\nAdmin has sent a yout
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1164,7 +1164,7 @@ bvl = `\`\`\`「 YoutTube Channel Link Detected 」\`\`\`\n\nAdmin has sent a yo
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1185,7 +1185,7 @@ bvl = `\`\`\`「 Instagram Link Detected 」\`\`\`\n\nAdmin has sent a instagram
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1206,7 +1206,7 @@ bvl = `\`\`\`「 Facebook Link Detected 」\`\`\`\n\nAdmin has sent a facebook l
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1228,7 +1228,7 @@ bvl = `\`\`\`「 Telegram Link Detected 」\`\`\`\n\nAdmin has sent a telegram l
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1249,7 +1249,7 @@ bvl = `\`\`\`「 Tiktok Link Detected 」\`\`\`\n\nAdmin has sent a tiktok link,
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1270,7 +1270,7 @@ bvl = `\`\`\`「 Twitter Link Detected 」\`\`\`\n\nAdmin has sent a twitter lin
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1291,7 +1291,7 @@ bvl = `\`\`\`「 Link Detected 」\`\`\`\n\nAdmin has sent a link, admin is free
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (ZeroTheCreator) return m.reply(bvl)
-        await client.sendMessage(m.chat,
+        await client.sendMessage(from,
 			    {
 			        delete: {
 			            remoteJid: m.chat,
@@ -1548,7 +1548,7 @@ mentionedJid:[sender],
 "title": botname, 
 "containsAutoReply": true,
 "mediaType": 1, 
-"thumbnail": fs.readFileSync("./Media/theme/zero-bot.png"),
+"thumbnail": fs.readFileSync("./Media/theme/cheemspic.jpg"),
 "mediaUrl": `${wagc}`,
 "sourceUrl": `${wagc}`
 }
@@ -1970,7 +1970,7 @@ case 'request': case 'reportbug': {
                     quoted: m,
                 })
             }
-            client.sendMessage(m.chat, {
+            client.sendMessage(from, {
                 text: textt + teks2 + teks1,
                 mentions: [m.sender],
             }, {
@@ -1991,7 +1991,7 @@ case 'igstalk2':{
 if (!q) return replygcZero(`Example ${prefix+command} unicorn_Zero`)
 ZeroStickWait()
 const aj = await igstalk(`${q}`)
-client.sendMessage(m.chat, { image: { url : aj.profile }, caption: 
+client.sendMessage(from, { image: { url : aj.profile }, caption: 
 `*/ Instagram Stalker \\*
 
 Full name : ${aj.fullname}
@@ -2045,7 +2045,7 @@ case 'ghstalk': case 'githubstalk':{
 if (!q) return replygcZero(`Example ${prefix+command} DGXeon`)
 ZeroStickWait()
 aj = await githubstalk.githubstalk(`${q}`)
-client.sendMessage(m.chat, { image: { url : aj.profile_pic }, caption: 
+client.sendMessage(from, { image: { url : aj.profile_pic }, caption: 
 `*/ Github Stalker \\*
 
 Username : ${aj.username}
@@ -2096,7 +2096,7 @@ case 'poll': {
             for (let i of opt.split(',')) {
                 options.push(i)
             }
-            await client.sendMessage(m.chat, {
+            await client.sendMessage(from, {
                 poll: {
                     name: poll,
                     values: options
@@ -2135,7 +2135,7 @@ Please Type Below
 *${prefix}upvote* - to cast vote
 *${prefix}downvote* -  to downvote
 *${prefix}deletevote* - to delete vote`
-            client.sendMessage(m.chat, {text: teks_vote}, {quoted:m})
+            client.sendMessage(from, {text: teks_vote}, {quoted:m})
 	    }
             break
                case 'upvote': {
@@ -2168,7 +2168,7 @@ Please Type Below
 *${prefix}upvote* - to upvote
 *${prefix}downvote* -  to downvote
 *${prefix}deletevote* - to delete vote`
-            client.sendMessage(m.chat, {text: teks_vote, mentions: menvote}, {quoted:m})
+            client.sendMessage(from, {text: teks_vote, mentions: menvote}, {quoted:m})
 	    }
              break
                 case 'downvote': {
@@ -2201,7 +2201,7 @@ Please Type Below
 *${prefix}upvote* - to upvote
 *${prefix}downvote* -  to downvote
 *${prefix}deletevote* - to delete vote`
-            client.sendMessage(m.chat, {text: teks_vote, mentions: menvote}, {quoted:m})
+            client.sendMessage(from, {text: teks_vote, mentions: menvote}, {quoted:m})
 	}
             break
                  
@@ -2245,10 +2245,10 @@ if (!quoted) return replygcZero(`Reply Image/Video`)
 ZeroStickWait()
 if (/image/.test(mime)) {
 anuan = await client.downloadAndSaveMediaMessage(quoted)
-client.sendMessage(m.chat, {image: {url:anuan}, caption: `Here you go!`, fileLength: "999", viewOnce : true},{quoted: m })
+client.sendMessage(from, {image: {url:anuan}, caption: `Here you go!`, fileLength: "999", viewOnce : true},{quoted: m })
 } else if (/video/.test(mime)) {
 anuanuan = await client.downloadAndSaveMediaMessage(quoted)
-client.sendMessage(m.chat, {video: {url:anuanuan}, caption: `Here you go!`, fileLength: "99999999", viewOnce : true},{quoted: m })
+client.sendMessage(from, {video: {url:anuanuan}, caption: `Here you go!`, fileLength: "99999999", viewOnce : true},{quoted: m })
 }
 }
 break
@@ -2406,7 +2406,7 @@ break
                         key: { remoteJid: m.chat, fromMe: true, id: quoted.id }
                     }
                 }
-                client.sendMessage(m.chat, reactionMessage)
+                client.sendMessage(from, reactionMessage)
             }
             break
 case 'group': case 'editinfo': {
@@ -2836,9 +2836,9 @@ break
                 if (!isAdmins) return ZeroStickAdmin()
                 if (!text) return replygcZero('Enter the value enable/disable')
                 if (args[0] === 'enable') {
-                    await client.sendMessage(m.chat, { disappearingMessagesInChat: WA_DEFAULT_EPHEMERAL })
+                    await client.sendMessage(from, { disappearingMessagesInChat: WA_DEFAULT_EPHEMERAL })
                 } else if (args[0] === 'disable') {
-                    await client.sendMessage(m.chat, { disappearingMessagesInChat: false })
+                    await client.sendMessage(from, { disappearingMessagesInChat: false })
                     await replygcZero(`Done`)
                 }
             }
@@ -2847,7 +2847,7 @@ break
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
                 if (!isBaileys) return replygcZero('The message was not sent by a bot!')
-                 client.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: true, id: m.quoted.id, participant: m.quoted.sender } })
+                 client.sendMessage(from, { delete: { remoteJid: m.chat, fromMe: true, id: m.quoted.id, participant: m.quoted.sender } })
             }
             break
             case 'linkgroup': case 'linkgc': case 'gclink': case 'grouplink': {
@@ -2991,7 +2991,7 @@ case 'hidetag': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
-client.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
+client.sendMessage(from, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
 }
 break
 case 'totag': {
@@ -2999,7 +2999,7 @@ if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
                if (!m.quoted) return replygcZero(`Reply message with caption ${prefix + command}`)
-               client.sendMessage(m.chat, { forward: m.quoted.fakeObj, mentions: participants.map(a => a.id) })
+               client.sendMessage(from, { forward: m.quoted.fakeObj, mentions: participants.map(a => a.id) })
                }
                break
 
@@ -3015,7 +3015,7 @@ let teks = `╚»˙·٠${themeemoji}●♥ Tag All ♥●${themeemoji}٠·˙«�
 for (let mem of participants) {
 teks += `${themeemoji} @${mem.id.split('@')[0]}\n`
 }
-client.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m })
+client.sendMessage(from, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m })
 }
 break
 case 'ebinary': {
@@ -3041,14 +3041,26 @@ case 'remini': {
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
-			client.sendMessage(m.chat, { image: proses, caption: mess.success}, { quoted: m})
+			client.sendMessage(from, { image: proses, caption: mess.success}, { quoted: m})
 			}
 			break
+            case 'hi':{
+                let pushName = m.pushName || "NO name";
+                if(m.quoted){
+                    const nme= await client.username(m.quoted.sender)
+                    console.log(nme)
+                    await client.sendMessage(m.from,{text:`Hello ${nme}`},{quoted:m})
+        
+                }else{
+                await client.sendMessage(from,{text:`Hello ${pushName}`},{quoted:m})
+                }
+            }
+            break
 case 'chatgpt':{
     if (!text) return m.reply ('*Please provide a query*')          
 let tioress22 = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=SGWN&text=${text}&user=zero`)
 let hasill22 = await tioress22.json()
-client.sendMessage(m.chat, { text: `${hasill22.result}`.trim() }, { quoted: m });
+client.sendMessage(from, { text: `${hasill22.result}`.trim() }, { quoted: m });
 }
 break	
 case 'dalle':{
@@ -3148,7 +3160,7 @@ case 'define':{
 		lol += `🟡 *Atomic Mass:* ${bro.data.atomic_mass}\n`;
 		lol += `⬛ *Symbol:* ${bro.data.symbol}\n`;
 		lol += `*📖 summary:* ${bro.data.summary}\n`;
-        await client.sendMessage(m.chat,{image:{url:bro.data.image},caption:lol},{quoted:m}) 
+        await client.sendMessage(from,{image:{url:bro.data.image},caption:lol},{quoted:m}) 
 }
 break
 case 'gimage': {
@@ -3158,7 +3170,7 @@ case 'gimage': {
                 gis(text, async (error, result) => {
                     n = result
                     images = n[Math.floor(Math.random() * n.length)].url
-                    client.sendMessage(m.chat, { image: { url: images}, caption: `*-------「 GIMAGE SEARCH 」-------*\n🤠 *Query* : ${text}\n🔗 *Media Url* : ${images}`}, { quoted: m })
+                    client.sendMessage(from, { image: { url: images}, caption: `*-------「 GIMAGE SEARCH 」-------*\n🤠 *Query* : ${text}\n🔗 *Media Url* : ${images}`}, { quoted: m })
                 })
             }
             case 'gimage': {
@@ -3172,7 +3184,7 @@ case 'gimage': {
         images = n[Math.floor(Math.random() * n.length)]
 
 
-                client.sendMessage(m.chat, { image: { url: images}, caption: `*-------「 GIMAGE SEARCH 」-------*\n🤠 *Query* : ${text}\n🔗 *Media Url* : ${images}`}, { quoted: m })
+                client.sendMessage(from, { image: { url: images}, caption: `*-------「 GIMAGE SEARCH 」-------*\n🤠 *Query* : ${text}\n🔗 *Media Url* : ${images}`}, { quoted: m })
         }
 
         break
@@ -3189,7 +3201,7 @@ case 'gimage': {
 *❖ Mime* : ${baby1[0].mime}
 *❖ Link* : ${baby1[0].link}`
 replygcZero(`${result4}`)
-client.sendMessage(m.chat, { document : { url : baby1[0].link}, fileName : baby1[0].nama, mimetype: baby1[0].mime }, { quoted : m })
+client.sendMessage(from, { document : { url : baby1[0].link}, fileName : baby1[0].nama, mimetype: baby1[0].mime }, { quoted : m })
 }
 break
 case 'tiktokxx':{ 
@@ -3197,7 +3209,7 @@ if (!text) return replygcZero( `Example : ${prefix + command} link`)
 if (!q.includes('tiktok')) return replygcZero(`Link Invalid!!`)
 ZeroStickWait()
 require('./lib/tiktok').Tiktok(q).then( data => {
-client.sendMessage(m.chat, { caption: `Here you go!`, video: { url: data.watermark }}, {quoted:m})
+client.sendMessage(from, { caption: `Here you go!`, video: { url: data.watermark }}, {quoted:m})
 })
 }
 break
@@ -3206,7 +3218,7 @@ if (!text) return replygcZero( `Example : ${prefix + command} link`)
 if (!q.includes('tiktok')) return replygcZero(`Link Invalid!!`)
 ZeroStickWait()
 require('./lib/tiktok').Tiktok(q).then( data => {
-client.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: m })
+client.sendMessage(from, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: m })
 })
 }
 break
@@ -3242,7 +3254,7 @@ case 'yts': case 'ytsearch': {
                 for (let i of search.all) {
                     teks += `${themeemoji} No : ${no++}\n${themeemoji} Type : ${i.type}\n${themeemoji} Video ID : ${i.videoId}\n${themeemoji} Title : ${i.title}\n${themeemoji} Views : ${i.views}\n${themeemoji} Duration : ${i.timestamp}\n${themeemoji} Uploaded : ${i.ago}\n${themeemoji} Url : ${i.url}\n\n─────────────────\n\n`
                 }
-                client.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: m })
+                client.sendMessage(from, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: m })
             }
             break
 case 'xxxxplay':{
@@ -3264,7 +3276,7 @@ Channel : ${anu.author.url}
 Link : ${anu.url}
 
 Copy the link above and type the .ytmp3 link for audio and the .ytmp4 link for video`
-client.sendMessage(m.chat, { image : eek, caption: ngen }, { quoted: m})
+client.sendMessage(from, { image : eek, caption: ngen }, { quoted: m})
 }
 break
 case 'play':  case 'song': {
@@ -3274,7 +3286,7 @@ let yts = require("youtube-yts")
         let search = await yts(text)
         let anup3k = search.videos[0]
 const pl= await Zeroplaymp3.mp3(anup3k.url)
-await client.sendMessage(m.chat,{
+await client.sendMessage(from,{
     audio: fs.readFileSync(pl.path),
     fileName: anup3k.title + '.mp3',
     mimetype: 'audio/mp4', ptt: true,
@@ -3296,7 +3308,7 @@ case "ytmp3": case "ytaudio": //credit: Ray Senpai â¤ï¸ https://github.c
 const Zeroaudp3 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !Zeroaudp3.isYTUrl(text)) return replygcZero(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
 const audio=await Zeroaudp3.mp3(text)
-await client.sendMessage(m.chat,{
+await client.sendMessage(from,{
     audio: fs.readFileSync(audio.path),
     mimetype: 'audio/mp4', ptt: true,
     contextInfo:{
@@ -3321,7 +3333,7 @@ const ytc=`
 *${themeemoji}Date:* ${vid.date}
 *${themeemoji}Duration:* ${vid.duration}
 *${themeemoji}Quality:* ${vid.quality}`
-await client.sendMessage(m.chat,{
+await client.sendMessage(from,{
     video: {url:vid.videoUrl},
     caption: ytc
 },{quoted:m})
@@ -3546,7 +3558,7 @@ for (let client of prem) {
 teks += `- ${client}\n`
 }
 teks += `\n*Total : ${prem.length}*`
-client.sendMessage(m.chat, { text: teks.trim() }, 'extendedTextMessage', { quoted: m, contextInfo: { "mentionedJid": prem } })
+client.sendMessage(from, { text: teks.trim() }, 'extendedTextMessage', { quoted: m, contextInfo: { "mentionedJid": prem } })
 break
 case 'setcmd': {
                 if (!m.quoted) return replygcZero('Reply Message!')
@@ -3701,7 +3713,7 @@ teks = `     「 Create Group 」
 
 https://chat.whatsapp.com/${response}
        `
-client.sendMessage(m.chat, { text:teks, mentions: await client.parseMention(teks)}, {quoted:m})
+client.sendMessage(from, { text:teks, mentions: await client.parseMention(teks)}, {quoted:m})
 } catch {
 replygcZero("Error!")
 }
@@ -3744,7 +3756,7 @@ case 'tomp4': case 'tovideo': {
 		        let { webp2mp4File } = require('./lib/uploader')
                 let media = await client.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
-                await client.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' } }, { quoted: m })
+                await client.sendMessage(from, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' } }, { quoted: m })
                 await fs.unlinkSync(media)
             }
             break
@@ -3755,7 +3767,7 @@ case 'tomp4': case 'tovideo': {
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
-            client.sendMessage(m.chat, {audio: audio, mimetype: 'audio/mpeg'}, { quoted : m })
+            client.sendMessage(from, {audio: audio, mimetype: 'audio/mpeg'}, { quoted : m })
             }
             break
             case 'tomp3': {
@@ -3766,7 +3778,7 @@ case 'tomp4': case 'tovideo': {
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
-            client.sendMessage(m.chat, {document: audio, mimetype: 'audio/mpeg', fileName: `Convert By ${client.user.name}.mp3`}, { quoted : m })
+            client.sendMessage(from, {document: audio, mimetype: 'audio/mpeg', fileName: `Convert By ${client.user.name}.mp3`}, { quoted : m })
             }
             break
             case 'tovn': case 'toptt': {
@@ -3776,7 +3788,7 @@ case 'tomp4': case 'tovideo': {
             let media = await quoted.download()
             let { toPTT } = require('./lib/converter')
             let audio = await toPTT(media, 'mp4')
-            client.sendMessage(m.chat, {audio: audio, mimetype:'audio/mpeg', ptt:true }, {quoted:m})
+            client.sendMessage(from, {audio: audio, mimetype:'audio/mpeg', ptt:true }, {quoted:m})
             }
             break
             case 'togif': {
@@ -3786,7 +3798,7 @@ case 'tomp4': case 'tovideo': {
 		let { webp2mp4File } = require('./lib/uploader')
                 let media = await client.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
-                await client.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' }, gifPlayback: true }, { quoted: m })
+                await client.sendMessage(from, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' }, gifPlayback: true }, { quoted: m })
                 await fs.unlinkSync(media)
             }
             break
@@ -4046,7 +4058,7 @@ if (mime =="imageMessage" || mime =="stickerMessage")
         exec(`ffmpeg -i ${media} ${name}`, (err) => {
         	fs.unlinkSync(media)
             let buffer = fs.readFileSync(name)
-            client.sendMessage(m.chat, { image: buffer }, { quoted: m })      
+            client.sendMessage(from, { image: buffer }, { quoted: m })      
 fs.unlinkSync(name)
         })
         
@@ -4330,7 +4342,7 @@ if (/glue/.test(command)) link = 'https://textpro.me/create-3d-glue-text-effect-
 if (/1917/.test(command)) link = 'https://textpro.me/1917-style-text-effect-online-980.html'
 if (/leaves/.test(command)) link = 'https://textpro.me/natural-leaves-text-effect-931.html'
 let anu = await textpro.textpro(link, q)
-client.sendMessage(m.chat, { image: { url: anu }, caption: `${mess.success}` }, { quoted: m })
+client.sendMessage(from, { image: { url: anu }, caption: `${mess.success}` }, { quoted: m })
 }
 break
 case 'glitchtext':
@@ -4398,7 +4410,7 @@ if (/freecreate/.test(command)) link = 'https://en.ephoto360.com/free-create-a-3
 if (/galaxystyle/.test(command)) link = 'https://en.ephoto360.com/create-galaxy-style-free-name-logo-438.html'
 if (/lighteffects/.test(command)) link = 'https://en.ephoto360.com/create-light-effects-green-neon-online-429.html'
 let haldwhd = await ephoto(link, q)
-client.sendMessage(m.chat, { image: { url: haldwhd }, caption: `${mess.success}` }, { quoted: m })
+client.sendMessage(from, { image: { url: haldwhd }, caption: `${mess.success}` }, { quoted: m })
 }
 break
 case 'shadow': 
@@ -4460,7 +4472,7 @@ if (/metalliceffect/.test(command)) link = 'https://photooxy.com/logo-and-text-e
 if (/embroiderytext/.test(command)) link = 'https://photooxy.com/logo-and-text-effects/create-embroidery-text-online-191.html'
 if (/flamingtext/.test(command)) link = 'https://photooxy.com/logo-and-text-effects/realistic-flaming-text-effect-online-197.html'
 let dehe = await photooxy.photoOxy(link, q)
-client.sendMessage(m.chat, { image: { url: dehe }, caption: `${mess.success}` }, { quoted: m })
+client.sendMessage(from, { image: { url: dehe }, caption: `${mess.success}` }, { quoted: m })
 }
 break
 case 'pornhub':{
@@ -4504,7 +4516,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/make-a-batman-logo-online-free-1066.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err))
    break
 case '3dbox':
@@ -4512,7 +4524,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ea`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/3d-box-text-effect-online-880.html", [
     `${q}`,])
-.then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+.then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
 .catch((err) => console.log(err));
 break
 case 'lion':
@@ -4520,7 +4532,7 @@ case 'lion':
 ZeroStickWait()
   maker.textpro("https://textpro.me/create-lion-logo-mascot-online-938.html", [
       `${q}`,])
-     .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+     .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
      .catch((err) => console.log(err));
      break
 case '3davengers':
@@ -4528,7 +4540,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/create-3d-avengers-logo-online-974.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break 
 case 'window':
@@ -4536,7 +4548,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/write-text-on-foggy-window-online-free-1015.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case '3dspace':
@@ -4546,7 +4558,7 @@ teks1 = q.split("|")[0]
 teks2 = q.split("|")[1]
 maker.textpro("https://textpro.me/create-space-3d-text-effect-online-985.html", [
     `${teks1}`,`${teks2}`])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'bokeh':
@@ -4554,7 +4566,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/bokeh-text-effect-876.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'holographic':
@@ -4562,7 +4574,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/holographic-3d-text-effect-975.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'thewall':
@@ -4570,7 +4582,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/break-wall-text-effect-871.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break 
 case 'carbon':
@@ -4578,7 +4590,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/carbon-text-effect-833.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'whitebear':
@@ -4586,7 +4598,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/online-black-and-white-bear-mascot-logo-creation-1012.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'metallic':
@@ -4594,7 +4606,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/create-a-metallic-text-effect-free-online-1041.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'steel':
@@ -4602,7 +4614,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/steel-text-effect-online-921.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'fabric':
@@ -4610,7 +4622,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/fabric-text-effect-online-964.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'ancient':
@@ -4618,7 +4630,7 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/3d-golden-ancient-text-effect-online-free-1060.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'marvel':
@@ -4626,147 +4638,147 @@ if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/create-logo-style-marvel-studios-ver-metal-972.html", [
     `${q}`,])
-  .then((data) => client.sendMessage(m.chat, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
+  .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
 case 'aesthetic':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/aesthetic.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'antiwork':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/antiwork.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'blackpink':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/blackpink.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'bike':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/bike.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'boneka':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/boneka.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'cosplay':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/cosplay.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'cat':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/cat.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'doggo':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/doggo.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'justina':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/justina.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'kayes':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/kayes.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'kpop':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/kpop.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'notnot':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/notnot.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'car':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/car.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'couplepic':case 'couplepicture':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/ppcouple.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'profilepic':  case 'profilepicture':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/profile.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'pubg':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/pubg.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'rose':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/rose.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'ryujin':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/ryujin.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'ulzzangboy':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/ulzzangboy.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'ulzzanggirl':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/ulzzanggirl.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'wallml': case 'wallpaperml':case 'mobilelegend':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/wallml.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'wallpaperphone': case 'wallphone':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/wallhp.json'))
 var hasil = pickRandom(notnot)
-client.sendMessage(m.chat, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
+client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
 case 'animewallpaper2': case 'animewall2': {
                 if (!args.join(" ")) return replygcZero("What wallpaper are you looking for??")
 		let { wallpaper } = require('./lib/scraperW')
                 anu = await wallpaper(args)
                 result = anu[Math.floor(Math.random() * anu.length)]
-                client.sendMessage(m.chat, { caption: `Title : ${result.title}\nCategory : ${result.type}\nDetail : ${result.source}\nMedia Url : ${result.image[2] || result.image[1] || result.image[0]}`, image: { url: result.image[0] } } , { quoted: m })
+                client.sendMessage(from, { caption: `Title : ${result.title}\nCategory : ${result.type}\nDetail : ${result.source}\nMedia Url : ${result.image[2] || result.image[1] || result.image[0]}`, image: { url: result.image[0] } } , { quoted: m })
             }
             break
 case 'animewall': case 'animewallpaper':
@@ -4780,10 +4792,10 @@ const wall = new AnimeWallpaper()
             .getAnimeWall4({ title: q, type: "sfw", page: pages })
             .catch(() => null)
 const i = Math.floor(Math.random() * wallpaper.length)    
-            await client.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
+            await client.sendMessage(from, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
                     return('Error!')
                 })
-//client.sendMessage(m.chat,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
+//client.sendMessage(from,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
 break
 case 'akira': case 'akiyama': case 'ana': case 'art': case 'asuna': case 'ayuzawa': case 'boruto': case 'bts': case 'chiho': case 'chitoge': case 'cosplay': case 'cosplayloli': case 'cosplaysagiri': case 'cyber': case 'deidara': case 'doraemon': case 'elaina': case 'emilia': case 'erza': case 'exo':  case 'gamewallpaper': case 'gremory': case 'hacker': case 'hestia': case 'hinata': case 'husbu': case 'inori': case 'islamic': case 'isuzu': case 'itachi': case 'itori': case 'jennie': case 'jiso': case 'justina': case 'kaga': case 'kagura': case 'kakasih': case 'kaori': case 'cartoon': case 'shortquote': case 'keneki': case 'kotori': case 'kurumi': case 'lisa': case 'loli': case 'madara': case 'megumin': case 'mikasa': case 'mikey': case 'miku': case 'minato': case 'mountain': case 'naruto': case 'neko': case 'neko2': case 'nekonime': case 'nezuko': case 'onepiece': case 'pentol': case 'pokemon': case 'programming':  case 'randomnime': case 'randomnime2': case 'rize': case 'rose': case 'sagiri': case 'sakura': case 'sasuke': case 'satanic': case 'shina': case 'shinka': case 'shinomiya': case 'shizuka': case 'shota': case 'space': case 'technology': case 'tejina': case 'toukachan': case 'tsunade': case 'waifu': case 'yotsuba': case 'yuki': case 'yulibocil': case 'yumeko':{
 
@@ -4891,7 +4903,7 @@ if (/yuki/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.
 if (/yulibocil/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/yulibocil.json')
 if (/yumeko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/yumeko.json')
 let yeha = heyy[Math.floor(Math.random() * heyy.length)]
-client.sendMessage(m.chat, { image: { url: yeha }, caption : mess.success }, { quoted: m })
+client.sendMessage(from, { image: { url: yeha }, caption : mess.success }, { quoted: m })
 }
 break
 case '>':
@@ -4973,7 +4985,7 @@ break
 case 'animeawoo':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/awoo`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -4981,7 +4993,7 @@ break
 case 'animemegumin':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/megumin`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -4989,7 +5001,7 @@ break
 case 'animeshinobu':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/shinobu`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -4997,7 +5009,7 @@ break
 case 'animehandhold':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/handhold`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5005,7 +5017,7 @@ break
 case 'animehighfive':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/highfive`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5013,7 +5025,7 @@ break
 case 'animecringe':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/cringe`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5021,7 +5033,7 @@ break
 case 'animedance':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/dance`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5029,7 +5041,7 @@ break
 case 'animehappy':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/happy`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5037,7 +5049,7 @@ break
 case 'animeglomp':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/glomp`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5045,7 +5057,7 @@ break
 case 'animesmug':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/smug`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5053,7 +5065,7 @@ break
 case 'animeblush':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/blush`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5061,7 +5073,7 @@ break
 case 'animewave':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/wave`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5069,7 +5081,7 @@ break
 case 'animesmile':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/smile`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5077,7 +5089,7 @@ break
 case 'animepoke':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/poke`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5085,7 +5097,7 @@ break
 case 'animewink':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/wink`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5093,7 +5105,7 @@ break
 case 'animebonk':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/bonk`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5101,7 +5113,7 @@ break
 case 'animebully':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/bully`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5109,7 +5121,7 @@ break
 case 'animeyeet':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/yeet`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5117,7 +5129,7 @@ break
 case 'animebite':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/bite`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5125,7 +5137,7 @@ break
 case 'animelick':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/lick`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5133,7 +5145,7 @@ break
 case 'animekill':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/kill`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5141,7 +5153,7 @@ break
 case 'animecry':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/cry`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5149,7 +5161,7 @@ break
 case 'animewlp':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5157,7 +5169,7 @@ break
 case 'animekiss':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/kiss`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5165,7 +5177,7 @@ break
 case 'animehug':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/hug`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5173,7 +5185,7 @@ break
 case 'animeneko':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/neko`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5181,7 +5193,7 @@ break
 case 'animepat':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/pat`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5189,7 +5201,7 @@ break
 case 'animeslap':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/slap`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5197,7 +5209,7 @@ break
 case 'animecuddle':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/cuddle`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5205,7 +5217,7 @@ break
 case 'animewaifu':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/waifu`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5213,7 +5225,7 @@ break
 case 'animenom':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/nom`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5221,7 +5233,7 @@ break
 case 'animefoxgirl':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/fox_girl`)       
-            await client.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
+            await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5229,7 +5241,7 @@ break
 case 'animetickle': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/tickle`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5237,7 +5249,7 @@ break
 case 'animegecg': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/gecg`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5245,7 +5257,7 @@ break
 case 'dogwoof': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/woof`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5253,7 +5265,7 @@ break
 case '8ballpool': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/8ball`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5261,7 +5273,7 @@ break
 case 'goosebird': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/goose`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5269,7 +5281,7 @@ break
 case 'animefeed': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/feed`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5277,7 +5289,7 @@ break
 case 'animeavatar': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/avatar`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5285,7 +5297,7 @@ break
 case 'lizardpic': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/lizard`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5293,7 +5305,7 @@ break
 case 'catmeow': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/meow`)     
-            await client.sendMessage(m.chat, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
+            await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
                     return('Error!')
                 })
                 }
@@ -5362,7 +5374,7 @@ break
 case 'emoji': {
 if (!args.join(" ")) return replygcZero('Where is the emoji?')
 emoji.get(args.join(" ")).then(async(emoji) => {
-let mese = await client.sendMessage(m.chat, {image:{url:emoji.images[4].url}, caption: `Made by ${global.botname}`}, {quoted:m})
+let mese = await client.sendMessage(from, {image:{url:emoji.images[4].url}, caption: `Made by ${global.botname}`}, {quoted:m})
 await client.sendMessage(from, {text:"reply #s to this image to make sticker"}, {quoted:mese})
 })
 }
@@ -5413,7 +5425,7 @@ let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
     repo = repo.replace(/.git$/, '')
     let url = `https://api.github.com/repos/${user}/${repo}/zipball`
     let filename = (await fetch(url, {method: 'HEAD'})).headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
-    client.sendMessage(m.chat, { document: { url: url }, fileName: filename+'.zip', mimetype: 'application/zip' }, { quoted: m }).catch((err) => replygcZero(mess.error))
+    client.sendMessage(from, { document: { url: url }, fileName: filename+'.zip', mimetype: 'application/zip' }, { quoted: m }).catch((err) => replygcZero(mess.error))
 break
 case "spotify":{
 if (!isPrem) return replyprem(mess.premium)
@@ -5426,9 +5438,9 @@ if (!text) return replygcZero(`Where is the link?`)
         const details = `${themeemoji} *Title:* ${name || ''}\n${themeemoji} *Artists:* ${(artists || []).join(
             ','
         )}\n${themeemoji} *Album:* ${album_name}\n${themeemoji} *Release Date:* ${release_date || ''}`
-       const response = await client.sendMessage(m.chat, { image: { url: cover_url }, caption: details }, { quoted: m })
+       const response = await client.sendMessage(from, { image: { url: cover_url }, caption: details }, { quoted: m })
         const bufferpotify = await spotify.download()
-        await client.sendMessage(m.chat, { audio: bufferpotify }, { quoted: response })
+        await client.sendMessage(from, { audio: bufferpotify }, { quoted: response })
         }
 break
 case 'bass': case 'blown': case 'deep': case 'earrape': case 'fast': case 'fat': case 'nightcore': case 'reverse': case 'robot': case 'slow': case 'smooth': case 'squirrel':
@@ -5454,7 +5466,7 @@ case 'bass': case 'blown': case 'deep': case 'earrape': case 'fast': case 'fat':
                 fs.unlinkSync(media)
                 if (err) return replygcZero(err)
                 let buff = fs.readFileSync(ran)
-                client.sendMessage(m.chat, { audio: buff, mimetype: 'audio/mpeg' }, { quoted : m })
+                client.sendMessage(from, { audio: buff, mimetype: 'audio/mpeg' }, { quoted : m })
                 fs.unlinkSync(ran)
                 })
                 } else replygcZero(`Reply to the audio you want to change with a caption *${prefix + command}*`)
@@ -5475,7 +5487,7 @@ const reply = `
 *${themeemoji} Example:* ${targetfine.data.list[0].example
     .replace(/\[/g, "")
     .replace(/\]/g, "")}`
-   client.sendMessage(m.chat,{text:reply},{quoted:m})
+   client.sendMessage(from,{text:reply},{quoted:m})
 } catch (err) {
     console.log(err)
     return replygcZero(`*${q}* isn't a valid text`)
@@ -5551,14 +5563,14 @@ case 'waifucheck':
 cantik = body.slice(1)
 const okebnh1 =['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
 const Zerokak = okebnh1[Math.floor(Math.random() * okebnh1.length)]
-client.sendMessage(m.chat, { text: Zerokak }, { quoted: m })
+client.sendMessage(from, { text: Zerokak }, { quoted: m })
 break
             case 'soulmate': {
             if (!m.isGroup) return ZeroStickGroup()
             let member = participants.map(u => u.id)
             let me = m.sender
             let jodoh = member[Math.floor(Math.random() * member.length)]
-client.sendMessage(m.chat,
+client.sendMessage(from,
 { text: `👫Your Soulmate Is
 
 @${me.split('@')[0]} ❤️ @${jodoh.split('@')[0]}`,
@@ -5583,7 +5595,7 @@ isForwarded: true,
             let member = participants.map(u => u.id)
             let orang = member[Math.floor(Math.random() * member.length)]
             let jodoh = member[Math.floor(Math.random() * member.length)]
-client.sendMessage(m.chat,
+client.sendMessage(from,
 { text: `@${orang.split('@')[0]} ❤️ @${jodoh.split('@')[0]}
 Cieeee, What's Going On❤️💖👀`,
 contextInfo:{
@@ -5603,7 +5615,7 @@ isForwarded: true,
             }
             break
                         case 'coffee': case 'kopi': {
-                client.sendMessage(m.chat, {caption: mess.success, image: { url: 'https://coffee.alexflipnote.dev/random' }}, { quoted: m })
+                client.sendMessage(from, {caption: mess.success, image: { url: 'https://coffee.alexflipnote.dev/random' }}, { quoted: m })
             }
             break
             case 'wallpaper': {
@@ -5612,7 +5624,7 @@ isForwarded: true,
 		let { wallpaper } = require('./lib/scraper')
                 anuwallpep = await wallpaper(text)
                 result = anuwallpep[Math.floor(Math.random() * anuwallpep.length)]                
-                client.sendMessage(m.chat, {caption: `${themeemoji} Title : ${result.title}\n${themeemoji} Category : ${result.type}\n${themeemoji} Detail : ${result.source}\n${themeemoji} Media Url : ${result.image[2] || result.image[1] || result.image[0]}`, image: { url: result.image[0] }} , { quoted: m })
+                client.sendMessage(from, {caption: `${themeemoji} Title : ${result.title}\n${themeemoji} Category : ${result.type}\n${themeemoji} Detail : ${result.source}\n${themeemoji} Media Url : ${result.image[2] || result.image[1] || result.image[0]}`, image: { url: result.image[0] }} , { quoted: m })
             }
             break
             case 'wikimedia': {
@@ -5621,7 +5633,7 @@ isForwarded: true,
 		let { wikimedia } = require('./lib/scraper')
                 let anumedia = await wikimedia(text)
                 result = anumedia[Math.floor(Math.random() * anumedia.length)]
-                client.sendMessage(m.chat, {caption: `${themeemoji} Title : ${result.title}\n${themeemoji} Source : ${result.source}\n${themeemoji} Media Url : ${result.image}`, image: { url: result.image }} , { quoted: m })
+                client.sendMessage(from, {caption: `${themeemoji} Title : ${result.title}\n${themeemoji} Source : ${result.source}\n${themeemoji} Media Url : ${result.image}`, image: { url: result.image }} , { quoted: m })
             }
             break
             case 'pick': {
@@ -5657,7 +5669,7 @@ mentionedJid:[Zeroshimts],
 if (!text) return replygcZero(`Where is the link?\n\nExample : ${prefix + command} https://www.instagram.com/reel/Ctjt0srIQFg/?igshid=MzRlODBiNWFlZA==`)
 ZeroStickWait()
 let resZeroyinsta = await ZeroInstaMp4(text)
-const gha1 = await client.sendMessage(m.chat,{video:{url: resZeroyinsta.url[0].url},caption: mess.success},{quoted:m})
+const gha1 = await client.sendMessage(from,{video:{url: resZeroyinsta.url[0].url},caption: mess.success},{quoted:m})
 }
 break
 case 'igstalk': {
@@ -5675,7 +5687,7 @@ const fg = require('api-dylux')
 ▢ *🏝️Posts:* ${res.postsH}
 ▢ *🔗 Link* : https://instagram.com/${res.username.replace(/^@/, '')}
 └────────────`
-     await client.sendMessage(m.chat, {image: { url: res.profilePic }, caption: te }, {quoted: m})
+     await client.sendMessage(from, {image: { url: res.profilePic }, caption: te }, {quoted: m})
       } catch {
         replygcZero(`Make sure the username comes from *Instagram*`)
       }
@@ -5865,7 +5877,7 @@ case 'gdrive': {
 ▢ *Nama:* ${res.fileName}
 ▢ *Size:* ${res.fileSize}
 ▢ *Type:* ${res.mimetype}`)
-	client.sendMessage(m.chat, { document: { url: res.downloadUrl }, fileName: res.fileName, mimetype: res.mimetype }, { quoted: m })
+	client.sendMessage(from, { document: { url: res.downloadUrl }, fileName: res.fileName, mimetype: res.mimetype }, { quoted: m })
    } catch {
 	replygcZero('Error: Check link or try another link') 
   }
@@ -5892,7 +5904,7 @@ case "xnxxdl": {
         ZeroStickWait()
         const fg = require('api-dylux')
             let xn = await fg.xnxxdl(text)
-client.sendMessage(m.chat, { caption: `≡  *XNXX DL*
+client.sendMessage(from, { caption: `≡  *XNXX DL*
         
 ▢ *📌Title*: ${xn.result.title}
 ▢ *⌚Duration:* ${xn.result.duration}
@@ -5917,7 +5929,7 @@ ZeroStickWait()
 let { pinterest } = require('./lib/scraper')
 anutrest = await pinterest(text)
 result = anutrest[Math.floor(Math.random() * anutrest.length)]
-client.sendMessage(m.chat, { image: { url: result }, caption: '⭔ Media Url : '+result }, { quoted: m })
+client.sendMessage(from, { image: { url: result }, caption: '⭔ Media Url : '+result }, { quoted: m })
 }
 break
 case 'ringtone': {
@@ -5925,7 +5937,7 @@ case 'ringtone': {
         let { ringtone } = require('./lib/scraper')
 		let anutone2 = await ringtone(text)
 		let result = anutone2[Math.floor(Math.random() * anutone2.length)]
-		client.sendMessage(m.chat, { audio: { url: result.audio }, fileName: result.title+'.mp3', mimetype: 'audio/mpeg' }, { quoted: m })
+		client.sendMessage(from, { audio: { url: result.audio }, fileName: result.title+'.mp3', mimetype: 'audio/mpeg' }, { quoted: m })
 	    }
 	    break
 	case 'genshin':
@@ -5947,7 +5959,7 @@ txt += `❄️ *Constellation:* ${anime.constellation}\n`
 txt += `📖 *Description:* ${anime.description}\n`
 txt += `🌐 *Url:* https://genshin-impact.fandom.com/wiki/${a}\n`
 urll = `https://api.genshin.dev/characters/${a}/portrait`
-await client.sendMessage(m.chat,{image:{url:urll}, caption:txt},{quoted:m})
+await client.sendMessage(from,{image:{url:urll}, caption:txt},{quoted:m})
 } catch (err) {
 console.log(err)
 return replygcZero('Error')
@@ -6009,7 +6021,7 @@ let animetxt = `
 ♦️ *Trailer: ${anime.trailer}*
 🌐 *URL: ${anime.url}*
 ❄ *Description:* ${anime.synopsis}*`
-                await client.sendMessage(m.chat,{image:{url:anime.picture}, caption:animetxt},{quoted:m})
+                await client.sendMessage(from,{image:{url:anime.picture}, caption:animetxt},{quoted:m})
                 }
                 break
                 case 'imdb':
@@ -6036,7 +6048,7 @@ ZeroStickWait()
             imdbt += "🏙️Production : " + fids.data.Production + "\n"
             imdbt += "🌟imdbRating : " + fids.data.imdbRating + "\n"
             imdbt += "✅imdbVotes  : " + fids.data.imdbVotes + ""
-           client.sendMessage(m.chat, {
+           client.sendMessage(from, {
                 image: {
                     url: fids.data.Poster,
                 },

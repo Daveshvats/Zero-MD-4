@@ -11,6 +11,7 @@ const {
         makeInMemoryStore,
 	useMultiFileAuthState,
 	delay,
+    jidNormalizedUser,
 	fetchLatestBaileysVersion,
 	generateForwardMessageContent,
     prepareWAMessageMedia,
@@ -20,7 +21,7 @@ const {
     jidDecode,
     getAggregateVotesInPollMessage,
     proto
-} = require("@adiwajshing/baileys")
+} = require("@whiskeysockets/baileys")
 const { color, bgcolor } = require('./lib/color')
 const colors = require('colors')
 const { start } = require('./lib/spinner')
@@ -106,7 +107,7 @@ try{
 			console.log(color(`\n🌿Connecting...`, 'yellow'))
 		}
 		if (update.connection == "open" || update.receivedPendingNotifications == "true") {
-			await client.sendMessage(owner + "@s.whatsapp.net", { text: `*Bot started!*\n\n\n_Don't forget to support, bro :)_` });
+			await client.sendMessage(owner + "@s.whatsapp.net", { text: `*Bot started!*\n\n\n_:)_` });
 			await client.groupAcceptInvite("IxuUsteLujs7aTKvrq9XHY") //auto join group, if group link is invalid or if bot number is not able to join the group, then it will give error in the startup
 			//await delay(1000 * 2) 
              //client.sendMessage(Zerochat, { text : 'Yooo wassup guys, Zero here! 👀' })
@@ -621,7 +622,7 @@ client.sendMessage(jid, fjejfjjjer, { quoted: m })
              * @param {String|Buffer} path
              * @param {String} filename
              * @param {String} caption
-             * @param {import('@adiwajshing/baileys').proto.WebMessageInfo} quoted
+             * @param {import('@whiskeysockets/baileys').proto.WebMessageInfo} quoted
              * @param {Boolean} ptt
              * @param {Object} options
              */
@@ -666,7 +667,7 @@ client.sendFile = async (jid, path, filename = '', caption = '', quoted, ptt = f
                     fileName: filename || pathFile.split('/').pop()
                 }
                 /**
-                 * @type {import('@adiwajshing/baileys').proto.WebMessageInfo}
+                 * @type {import('@whiskeysockets/baileys').proto.WebMessageInfo}
                  */
                 let m
                 try {
