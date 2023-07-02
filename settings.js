@@ -6,7 +6,7 @@ global.autoTyping = false //auto tying in gc (true to on, false to off)
 global.autoRecord = false //auto recording (true to on, false to off)
 global.autoblockmorroco = false //auto block 212 (true to on, false to off)
 global.autokickmorroco = false //auto kick 212 (true to on, false to off) 
-global.antispam = false //auto kick spammer (true to on, false to off)
+global.antispam = true //auto kick spammer (true to on, false to off)
 
 
 //documents variants
@@ -20,10 +20,10 @@ global.doc6 = 'application/vnd.android.package-archive'
 //owmner v card
 global.owner = ['917404854406'] //ur owner number
 global.ownernomer = "917404854406" //ur owner number2
-global.ownername = "🦄Dream Guy Zero" //ur owner name
+global.ownername = "Ghost" //ur owner name
 global.ytname = "YT: Zero" //ur yt chanel name
-global.socialm = "GitHub: DGXeon" //ur github or insta name
-global.location = "India, Mizoram, Aizawl" //ur location
+global.socialm = "GitHub: Daveshvtas" //ur github or insta name
+global.location = "India, Haryana, Rohtak" //ur location
 
 //new
 global.botname = "Zero MD V4"
@@ -33,11 +33,11 @@ global.ownerNumber = ["917404854406@s.whatsapp.net"]
 global.wagc = "https://chat.whatsapp.com/IxuUsteLujs7aTKvrq9XHY"
 global.themeemoji = '🪀'
 global.wm = "Zero Bot Inc."
-global.botscript = 'https://github.com/Daveshvats/zero-md-3' //script link
+global.botscript = 'https://github.com/Daveshvats/Zero-MD-4' //script link
 global.packname = "Sticker By"
-global.author = "GHOST\n\n+917404854406"
+global.author = "Zero"
 global.creator = "917404854406@s.whatsapp.net"
-global.prefa = ['','!','/','#','&','.']
+global.prefa = ['!','/','#','&','.']
 global.sessionName = 'session'
 global.hituet = 0
 

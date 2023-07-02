@@ -1526,9 +1526,6 @@ case 'alive': case 'panel': case 'list': case 'menu': case 'help': case '?': {
 │❏/textpromenu
 │❏/ephoto360menu
 │❏/animemenu
-│❏/nsfwmenu
-│❏/randomphotomenu
-│❏/randomvideomenu
 │❏/stickermenu
 │❏/databasemenu
 │❏/stalkermenu
@@ -1556,6 +1553,27 @@ mentionedJid:[sender],
 }, { quoted: m })
            }
            break
+           case 'allmenu': {
+            var unicorn = await getBuffer(picak+'allmenu')
+            sendZeroBotIncMessage(from, { 
+            text: `Hi @${sender.split("@")[0]}\n\n${allmenu(prefix)}`,
+            mentions:[sender],
+            contextInfo:{
+            mentionedJid:[sender],
+            "externalAdReply": {
+            "showAdAttribution": true,
+            "renderLargerThumbnail": true,
+            "title": botname, 
+            "containsAutoReply": true,
+            "mediaType": 1, 
+            "thumbnail": fs.readFileSync("./Media/theme/zero-bot.png"),
+            "mediaUrl": `${wagc}`,
+            "sourceUrl": `${wagc}`
+            }
+            }
+            })
+            }
+            break
 case 'ownermenu': {
 var unicorn = await getBuffer(picak+'Owner Menu')
 sendZeroBotIncMessage(from, { 
@@ -1681,49 +1699,8 @@ mentionedJid:[sender],
 }
 })
 }
-break
-case 'randomphotomenu': {
-var unicorn = await getBuffer(picak+'Random Pic Menu')
-sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${randphotomenu(prefix)}`,
-mentions:[sender],
-contextInfo:{
-mentionedJid:[sender],
-"externalAdReply": {
-"showAdAttribution": true,
-"renderLargerThumbnail": true,
-"title": botname, 
-"containsAutoReply": true,
-"mediaType": 1, 
-"thumbnail": fs.readFileSync("./Media/theme/zero-bot.png"),
-"mediaUrl": `${wagc}`,
-"sourceUrl": `${wagc}`
-}
-}
-})
-}
-break
-case 'randomvideomenu': {
-var unicorn = await getBuffer(picak+'Random Vid Menu')
-sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${randvideomenu(prefix)}`,
-mentions:[sender],
-contextInfo:{
-mentionedJid:[sender],
-"externalAdReply": {
-"showAdAttribution": true,
-"renderLargerThumbnail": true,
-"title": botname, 
-"containsAutoReply": true,
-"mediaType": 1, 
-"thumbnail": fs.readFileSync("./Media/theme/zero-bot.png"),
-"mediaUrl": `${wagc}`,
-"sourceUrl": `${wagc}`
-}
-}
-})
-}
-break
+
+
 case 'textpromenu': {
 var unicorn = await getBuffer(picak+'Textpro Menu')
 sendZeroBotIncMessage(from, { 
@@ -1770,27 +1747,6 @@ case 'ephoto360menu': {
 var unicorn = await getBuffer(picak+'Photo360 Menu')
 sendZeroBotIncMessage(from, { 
 text: `Hi @${sender.split("@")[0]}\n\n${ephoto360menu(prefix)}`,
-mentions:[sender],
-contextInfo:{
-mentionedJid:[sender],
-"externalAdReply": {
-"showAdAttribution": true,
-"renderLargerThumbnail": true,
-"title": botname, 
-"containsAutoReply": true,
-"mediaType": 1, 
-"thumbnail": fs.readFileSync("./Media/theme/zero-bot.png"),
-"mediaUrl": `${wagc}`,
-"sourceUrl": `${wagc}`
-}
-}
-})
-}
-break
-case 'nsfwmenu': {
-var unicorn = await getBuffer(picak+'Anime NSFW Menu')
-sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${nsfwmenu(prefix)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1979,13 +1935,6 @@ case 'request': case 'reportbug': {
 
         }
         break
-case 'q': case 'quoted': {
-if (!m.quoted) return replygcZero('Reply the Message!!')
-let Zeroquotx= await client.serializeM(await m.getQuotedObj())
-if (!Zeroquotx.quoted) return replygcZero('The message you are replying to is not sent by the bot')
-await Zeroquotx.quoted.copyNForward(m.chat, true)
-}
-break
 case 'igstalk2':{
 
 if (!q) return replygcZero(`Example ${prefix+command} unicorn_Zero`)
@@ -4801,107 +4750,107 @@ case 'akira': case 'akiyama': case 'ana': case 'art': case 'asuna': case 'ayuzaw
 
 ZeroStickWait()
 let heyy
-if (/akira/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/akira.json')
-if (/akiyama/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/akiyama.json')
-if (/ana/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/ana.json')
-if (/art/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/art.json')
-if (/asuna/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/asuna.json')
-if (/ayuzawa/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/ayuzawa.json')
-if (/boneka/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/boneka.json')
-if (/boruto/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/boruto.json')
-if (/bts/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/bts.json')
-if (/cecan/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/cecan.json')
-if (/chiho/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/chiho.json')
-if (/chitoge/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/chitoge.json')
-if (/cogan/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/cogan.json')
-if (/cosplay/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/cosplay.json')
-if (/cosplayloli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/cosplayloli.json')
-if (/cosplaysagiri/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/cosplaysagiri.json')
-if (/cyber/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/cyber.json')
-if (/deidara/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/deidara.json')
-if (/doraemon/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/doraemon.json')
-if (/eba/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/eba.json')
-if (/elaina/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/elaina.json')
-if (/emilia/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/emilia.json')
-if (/erza/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/erza.json')
-if (/exo/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/exo.json')
-if (/femdom/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/femdom.json')
-if (/freefire/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/freefire.json')
-if (/gamewallpaper/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/gamewallpaper.json')
-if (/glasses/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/glasses.json')
-if (/gremory/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/gremory.json')
-if (/hacker/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/hekel.json')
-if (/hestia/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/hestia.json')
-if (/husbu/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/husbu.json')
-if (/inori/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/inori.json')
-if (/islamic/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/islamic.json')
-if (/isuzu/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/isuzu.json')
-if (/itachi/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/itachi.json')
-if (/itori/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/itori.json')
-if (/jennie/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/jeni.json')
-if (/jiso/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/jiso.json')
-if (/justina/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/justina.json')
-if (/kaga/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kaga.json')
-if (/kagura/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kagura.json')
-if (/kakasih/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kakasih.json')
-if (/kaori/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kaori.json')
-if (/cartoon/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kartun.json')
-if (/shortquote/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/katakata.json')
-if (/keneki/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/keneki.json')
-if (/kotori/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kotori.json')
-if (/kpop/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kpop.json')
-if (/kucing/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kucing.json')
-if (/kurumi/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/kurumi.json')
-if (/lisa/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/lisa.json')
-if (/loli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/loli.json')
-if (/madara/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/madara.json')
-if (/megumin/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/megumin.json')
-if (/mikasa/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/mikasa.json')
-if (/mikey/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/mikey.json')
-if (/miku/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/miku.json')
-if (/minato/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/minato.json')
-if (/mobile/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/mobil.json')
-if (/motor/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/motor.json')
-if (/mountain/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/mountain.json')
-if (/naruto/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/naruto.json')
-if (/neko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/neko.json')
-if (/neko2/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/neko2.json')
-if (/nekonime/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/nekonime.json')
-if (/nezuko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/nezuko.json')
-if (/onepiece/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/onepiece.json')
-if (/pentol/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/pentol.json')
-if (/pokemon/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/pokemon.json')
-if (/profil/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/profil.json')
-if (/progamming/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/programming.json')
-if (/pubg/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/pubg.json')
-if (/randblackpink/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/randblackpink.json')
-if (/randomnime/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/randomnime.json')
-if (/randomnime2/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/randomnime2.json')
-if (/rize/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/rize.json')
-if (/rose/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/rose.json')
-if (/ryujin/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/ryujin.json')
-if (/sagiri/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/sagiri.json')
-if (/sakura/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/sakura.json')
-if (/sasuke/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/sasuke.json')
-if (/satanic/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/satanic.json')
-if (/shina/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/shina.json')
-if (/shinka/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/shinka.json')
-if (/shinomiya/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/shinomiya.json')
-if (/shizuka/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/shizuka.json')
-if (/shota/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/shota.json')
-if (/space/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/tatasurya.json')
-if (/technology/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/technology.json')
-if (/tejina/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/tejina.json')
-if (/toukachan/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/toukachan.json')
-if (/tsunade/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/tsunade.json')
-if (/waifu/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/waifu.json')
-if (/wallhp/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/wallhp.json')
-if (/wallml/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/wallml.json')
-if (/wallmlnime/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/wallnime.json')
-if (/yotsuba/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/yotsuba.json')
-if (/yuki/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/yuki.json')
-if (/yulibocil/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/yulibocil.json')
-if (/yumeko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermaster/yumeko.json')
+if (/akira/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/akira.json')
+if (/akiyama/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/akiyama.json')
+if (/ana/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/ana.json')
+if (/art/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/art.json')
+if (/asuna/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/asuna.json')
+if (/ayuzawa/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/ayuzawa.json')
+if (/boneka/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/boneka.json')
+if (/boruto/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/boruto.json')
+if (/bts/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/bts.json')
+if (/cecan/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/cecan.json')
+if (/chiho/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/chiho.json')
+if (/chitoge/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/chitoge.json')
+if (/cogan/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/cogan.json')
+if (/cosplay/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/cosplay.json')
+if (/cosplayloli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/cosplayloli.json')
+if (/cosplaysagiri/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/cosplaysagiri.json')
+if (/cyber/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/cyber.json')
+if (/deidara/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/deidara.json')
+if (/doraemon/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/doraemon.json')
+if (/eba/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/eba.json')
+if (/elaina/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/elaina.json')
+if (/emilia/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/emilia.json')
+if (/erza/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/erza.json')
+if (/exo/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/exo.json')
+if (/femdom/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/femdom.json')
+if (/freefire/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/freefire.json')
+if (/gamewallpaper/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/gamewallpaper.json')
+if (/glasses/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/glasses.json')
+if (/gremory/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/gremory.json')
+if (/hacker/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/hekel.json')
+if (/hestia/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/hestia.json')
+if (/husbu/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/husbu.json')
+if (/inori/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/inori.json')
+if (/islamic/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/islamic.json')
+if (/isuzu/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/isuzu.json')
+if (/itachi/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/itachi.json')
+if (/itori/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/itori.json')
+if (/jennie/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/jeni.json')
+if (/jiso/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/jiso.json')
+if (/justina/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/justina.json')
+if (/kaga/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kaga.json')
+if (/kagura/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kagura.json')
+if (/kakasih/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kakasih.json')
+if (/kaori/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kaori.json')
+if (/cartoon/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kartun.json')
+if (/shortquote/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/katakata.json')
+if (/keneki/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/keneki.json')
+if (/kotori/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kotori.json')
+if (/kpop/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kpop.json')
+if (/kucing/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kucing.json')
+if (/kurumi/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/kurumi.json')
+if (/lisa/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/lisa.json')
+if (/loli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/loli.json')
+if (/madara/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/madara.json')
+if (/megumin/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/megumin.json')
+if (/mikasa/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/mikasa.json')
+if (/mikey/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/mikey.json')
+if (/miku/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/miku.json')
+if (/minato/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/minato.json')
+if (/mobile/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/mobil.json')
+if (/motor/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/motor.json')
+if (/mountain/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/mountain.json')
+if (/naruto/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/naruto.json')
+if (/neko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/neko.json')
+if (/neko2/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/neko2.json')
+if (/nekonime/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/nekonime.json')
+if (/nezuko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/nezuko.json')
+if (/onepiece/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/onepiece.json')
+if (/pentol/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/pentol.json')
+if (/pokemon/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/pokemon.json')
+if (/profil/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/profil.json')
+if (/progamming/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/programming.json')
+if (/pubg/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/pubg.json')
+if (/randblackpink/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/randblackpink.json')
+if (/randomnime/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/randomnime.json')
+if (/randomnime2/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/randomnime2.json')
+if (/rize/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/rize.json')
+if (/rose/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/rose.json')
+if (/ryujin/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/ryujin.json')
+if (/sagiri/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/sagiri.json')
+if (/sakura/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/sakura.json')
+if (/sasuke/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/sasuke.json')
+if (/satanic/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/satanic.json')
+if (/shina/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/shina.json')
+if (/shinka/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/shinka.json')
+if (/shinomiya/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/shinomiya.json')
+if (/shizuka/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/shizuka.json')
+if (/shota/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/shota.json')
+if (/space/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/tatasurya.json')
+if (/technology/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/technology.json')
+if (/tejina/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/tejina.json')
+if (/toukachan/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/toukachan.json')
+if (/tsunade/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/tsunade.json')
+if (/waifu/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/waifu.json')
+if (/wallhp/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/wallhp.json')
+if (/wallml/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/wallml.json')
+if (/wallmlnime/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/wallnime.json')
+if (/yotsuba/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/yotsuba.json')
+if (/yuki/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/yuki.json')
+if (/yulibocil/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/yulibocil.json')
+if (/yumeko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/yumeko.json')
 let yeha = heyy[Math.floor(Math.random() * heyy.length)]
 client.sendMessage(from, { image: { url: yeha }, caption : mess.success }, { quoted: m })
 }
@@ -5967,7 +5916,7 @@ return replygcZero('Error')
 break
 case 'patrick':
 case 'patricksticker': {
-var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermain/patrick')
+var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/patrick')
 var wifegerak = ano.split('\n')
 var wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
 encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: global.packname, author: global.author, })
@@ -5976,7 +5925,7 @@ break
 case 'dogesticker':
 case 'dogestick':
 	case 'doge':{
-var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermain/doge')
+var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/doge')
 var wifegerak = ano.split('\n')
 var wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
 encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: global.packname, author: global.author, })
@@ -5984,7 +5933,7 @@ encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: glob
 break
 case 'lovesticker':
 case 'lovestick' :{
-var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermain/love')
+var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/love')
 var wifegerak = ano.split('\n')
 var wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
 encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: global.packname, author: global.author, })
@@ -5993,7 +5942,7 @@ encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: glob
 break
 case 'gura':
 case 'gurastick':{
-var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/mastermain/gura')
+var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/gura')
 var wifegerak = ano.split('\n')
 var wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
 encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: global.packname, author: global.author, })

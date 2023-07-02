@@ -237,10 +237,10 @@ ZeroLft = await getBuffer(ppuser)
 └┬❖ 「  @${ZeroName.split("@")[0]}  」
    │✑  𝗪𝗲𝗹𝗰𝗼𝗺𝗲 𝘁𝗼 
    │✑  ${metadata.subject}
+   │✑  DESCRIPTION 
+   │✑  ${metadata.desc}
    │✑  𝗠𝗲𝗺𝗯𝗲𝗿 : 
    │✑ ${xmembers}th
-   │✑  𝗝𝗼𝗶𝗻𝗲𝗱 : 
-   │✑ ${xtime} ${xdate}
    └───────────────┈ ⳹`
 client.sendMessage(anu.id,
  { text: Zerobody,
@@ -267,8 +267,6 @@ client.sendMessage(anu.id,
    │✑ ${metadata.subject}
    │✑  𝗠𝗲𝗺𝗯𝗲𝗿 : 
    │✑ ${Zeromembers}th
-   │✑  𝗧𝗶𝗺𝗲 : 
-   │✑  ${Zerotime} ${Zerodate}
    └───────────────┈ ⳹`
 client.sendMessage(anu.id,
  { text: Zerobody,
