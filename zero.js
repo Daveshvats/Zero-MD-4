@@ -89,7 +89,7 @@ try {
         const isCmd = body.startsWith(prefix)
         const from = jidNormalizedUser(m.key.remoteJid || m.key.participant)
         const messagesD = body.slice(0).trim().split(/ +/).shift().toLowerCase()
-        const command = body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase()
+        const command = body.replace(prefix).trim().split(/ +/).shift().toLowerCase()
         const args = body.trim().split(/ +/).slice(1)
         const pushname = m.pushName || "No Name"
         const botNumber = await client.decodeJid(client.user.id)
