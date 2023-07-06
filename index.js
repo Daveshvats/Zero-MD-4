@@ -29,7 +29,7 @@ const { uncache, nocache } = require('./lib/loader')
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/exif')
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep, reSize } = require('./lib/myfunc')
 
-const prefix = '.'
+const prefixo = '/'
 
 global.db = JSON.parse(fs.readFileSync('./database/database.json'))
 if (global.db) global.db = {
@@ -344,7 +344,7 @@ console.log(err)
 						})
 	                var toCmd = pollUpdate.filter(v => v.voters.length !== 0)[0]?.name
 	                if (toCmd == undefined) return
-                    var prefCmd = prefix+toCmd
+                    var prefCmd = prefixo+toCmd
 	                client.appenTextMessage(prefCmd, chatUpdate)
 				}
 			}

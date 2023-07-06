@@ -223,10 +223,10 @@ function _liveFilter(result, index, results) {
 
 function _allFilter(result, index, results) {
   switch (result.type) {
-    case 'video':
-    case 'list':
-    case 'channel':
-    case 'live':
+    case '/video':
+    case '/list':
+    case '/channel':
+    case '/live':
       break;
 
     default:
@@ -489,7 +489,7 @@ function _parseSearchResultInitialData(responseText, callback) {
 
     try {
       switch (type) {
-        case 'video':
+        case '/video':
           {
             var thumbnail = _normalizeThumbnail(_jp.value(item, '$..thumbnail..url')) || _normalizeThumbnail(_jp.value(item, '$..thumbnails..url')) || _normalizeThumbnail(_jp.value(item, '$..thumbnails'));
 
@@ -535,7 +535,7 @@ function _parseSearchResultInitialData(responseText, callback) {
           }
           break;
 
-        case 'list':
+        case '/list':
           {
             var _thumbnail = _normalizeThumbnail(_jp.value(item, '$..thumbnail..url')) || _normalizeThumbnail(_jp.value(item, '$..thumbnails..url')) || _normalizeThumbnail(_jp.value(item, '$..thumbnails'));
 
@@ -567,7 +567,7 @@ function _parseSearchResultInitialData(responseText, callback) {
           }
           break;
 
-        case 'channel':
+        case '/channel':
           {
             var _thumbnail2 = _normalizeThumbnail(_jp.value(item, '$..thumbnail..url')) || _normalizeThumbnail(_jp.value(item, '$..thumbnails..url')) || _normalizeThumbnail(_jp.value(item, '$..thumbnails'));
 
@@ -605,7 +605,7 @@ function _parseSearchResultInitialData(responseText, callback) {
           }
           break;
 
-        case 'live':
+        case '/live':
           {
             var _thumbnail3 = _normalizeThumbnail(_jp.value(item, '$..thumbnail..url')) || _normalizeThumbnail(_jp.value(item, '$..thumbnails..url')) || _normalizeThumbnail(_jp.value(item, '$..thumbnails'));
 
