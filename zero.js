@@ -1487,7 +1487,7 @@ contacts: list }, mentions: [sender] }, { quoted: m })
 client.sendMessage(from, { text : `Hi @${sender.split("@")[0]}, Here is my handsome owner😇`, mentions: [sender]}, { quoted: repf })
 }
 break
-case '/alive': case '/panel': case '/list': case '/menu': case '/help': case '/?': {
+case '/alive': case '/panel': case '/list': case '/menu': case '/help':{
 	        let ownernya = ownernomer + '@s.whatsapp.net'
             let me = m.sender
             let timestampe = speed()
