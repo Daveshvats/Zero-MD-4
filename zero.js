@@ -3030,6 +3030,19 @@ case '/dalle':{
         );
 }		
 break
+case'/waifudiff':{
+    if (!text) return m.reply ('*Please provide a query*')
+    let wife =`https://api.itsrose.life/image/anime/diffusion?prompt=${text}&negative_prompt=${args[1]}&width=512&height=512&apikey=Rs-edgarsan`
+    const bufer = Buffer.from(wife.result.images , 'base64')
+    client.sendMessage(
+        m.chat,
+        { image: bufer },
+        {
+          quoted: m,
+        }
+      )
+}
+break
 case '/dehaze':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
@@ -3089,6 +3102,7 @@ case '/recolor':{
             );});
 }
 break
+
 case '/diffme':{
     if (args[0] === 'anime') {
     const queryParams = {
