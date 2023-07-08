@@ -3103,12 +3103,8 @@ case'/waifudiff':{
 		let kome = await some.json()
         let ame = kome.result.images
         const urlf = Buffer.from(ame , 'base64')
-        await client.sendMessage(m.chat, {
-			text: {
-				 ame
-			},
-		}, { quoted: m })
-	}
+        client.sendMessage(from, { text: `${kome.result.images}`}, { quoted: m });
+}
 break
 case '/diffme':{
     const q = m.quoted ? m.quoted : m;
