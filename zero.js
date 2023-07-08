@@ -3043,6 +3043,20 @@ case '/dalle':{
 }		
 break
 case '/stablediff':{
+    if (!text) return m.reply ('*Please provide a query and a model to use* for example /stablediff potrait of a girl|dream_shaper top know list of models available use /listmodel')
+    await m.reply("wait")
+    inilogo4 = args.join(" ")
+    inilogo9 = args.join(" ")
+       var logo4 = inilogo4.split('|')[0]
+    var logo9 = inilogo9.split('|')[1]
+    let wife = await fetch(`https://api.itsrose.life/image/diffusion/txt2img?server_name=frieren&prompt=${logo4}&negative_prompt=paintings%2C%20sketches%2C%20(worst%20quality%3A2)%2C%20(low%20quality%3A2)%2C%20(normal%20quality%3A2)%2C%20lowres%2C%20normal%20quality%2C%20((monochrome))%2C%20((grayscale))%2C%20skin%20spots%2C%20acnes%2C%20skin%20blemishes%2C%20age%20spot%2C%20glans&width=512&height=512&steps=25&model_id=${logo9}&sampler=UniPC&cfg=7.5&enhance_prompt=yes&multi_lingual=yes&image_num=1&safety_checker=no&panorama=no&hiresFix=no&lora_strength=1&clip_skip=2&tomesd=yes&use_karras_sigmas=yes&apikey=Rs-edgarsan`)
+    let kalu = await wife.json()
+    client.sendMessage(from, { image: `${kalu.result.images}`}, { quoted: m });
+
+}
+
+break
+case '/midjourney':{
     if (!text) return m.reply ('*Please provide a query*')
     await m.reply("wait")
     let wife = `https://api.itsrose.life/image/stable/diffusion?prompt=${text}&negative_prompt=nsfw%2C%203d%2C%20bad%20anatomy.&ratio=1%3A1&cfg=7.5&model_id=midjourney&seed=&apikey=Rs-edgarsan`
