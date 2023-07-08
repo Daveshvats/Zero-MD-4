@@ -3053,10 +3053,86 @@ case '/stablediff':{
     let kalu = await wife.json()
     let imgfs = fetch(`${kalu.result.images}`)
     client.sendMessage(from, { text:`${kalu.result.images}`}, { quoted: m });
-
 }
-
 break
+case'listmodel':{
+    let buru = `
+    "anything_v3",
+    "dream_shaper",
+    "midjourney_v4_art",
+    "gta5_artwork",
+    "anything_v4",
+    "stable_diffusion_v1_5",
+    "openjourney",
+    "portrait_plus",
+    "photoreal_2_0",
+    "analog_diffusion",
+    "nitro_diffusion",
+    "redshift_diffusion",
+    "openjourney_v2",
+    "realistic_vision_v13",
+    "lowpoly_world",
+    "steampunk_diffusion",
+    "pixel_art",
+    "openjourney_v4",
+    "ink_punk",
+    "future",
+    "majic_mix",
+    "realisian",
+    "graceful",
+    "edge_of_realism",
+    "realistic_vision_v20",
+    "toon_you",
+    "counterfeit_v3",
+    "mistoon",
+    "aom3",
+    "car_dos",
+    "prime_mix",
+    "ligne_claire_anime",
+    "comics_vision",
+    "disney",
+    "cute_rich",
+    "cartoon_classic",
+    "caricaturizer",
+    "western_cartoon",
+    "seek_you",
+    "childrens_stories",
+    "pixar",
+    "henmix_real",
+    "chilloutmix_NiPrunedFp32Fix",
+    "braBeautifulRealistic_brav5",
+    "yesMix_v16",
+    "halcyon_v20Bergamot",
+    "inkpunk",
+    "CyberRealistic_V3",
+    "babes",
+    "frieren_trained",
+    "epicrealism",
+    "uber-realistic-merge",
+    "AbsoluteReality",
+    "pirsusEpicRealism_v20HyperDetailed",
+    "analogMadness_v40",
+    "pureRealisticPorn_v10",
+    "aZovyaPhotoreal_v1VAE",
+    "FurryModel",
+    "pirsusEpicRealism",
+    "rev_animated",
+    "perfect_world_v4Baked",
+    "deliberate_v2",
+    "anything-v5",
+    "lofi_v22",
+    "toonYou_beta3",
+    "anyPastelMix",
+    "based65_finalMix",
+    "jam_v15",
+    "cameliaMix_25d_pruned",
+    "cameliaMix_nsfw_pruned",
+    "dream_shaper_v7",
+    "mix_9_realistic",
+    "guo_feng_3"
+    `
+    client.sendMessage(m.chat,{text:buru}, {quoted:m});
+}
 case '/midjourney':{
     if (!text) return m.reply ('*Please provide a query*')
     await m.reply("wait")
