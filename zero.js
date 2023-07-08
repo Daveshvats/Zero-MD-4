@@ -3107,10 +3107,10 @@ case'/waifudiff':{
 			image: {
 				url: urlf
 			},
-			caption: "Prompt: " + prompt + ""
+			caption: `Prompt:${text}`
 		}, { quoted: m })
-	} catch (err){
-		m.reply(err)
+	} catch {
+		m.reply("Failed")
 }}
 break
 case '/diffme':{
