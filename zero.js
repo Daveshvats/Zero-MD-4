@@ -3106,7 +3106,7 @@ case '/diffme':{
     const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpg`);
     const blob = new Blob([imageBufer], { type: "image/jpg" });
     
-    form.append("file", fs.readFileSync(`./dustbin/${filename}.jpg`), "filename.jpg");
+    form.append("file", [fs.readFileSync(`./dustbin/${filename}.jpg`),"image/jpg"], "filename.jpg");
     const { data } = await axios
         .request({
             baseURL: "https://api.itsrose.life",
