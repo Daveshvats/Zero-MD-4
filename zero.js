@@ -3100,11 +3100,13 @@ case '/diffme':{
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let media = await await quoted.download()
-    const savee = Buffer.from(media , 'base64')
+    const filename = `${Math.random().toString(36)}`;
+    const vedya = await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
+    const imageBufer = readFileSync(`./dustbin/${filename}.jpg`);
     const form = new FormData();
-    const blob = new Blob([savee], { type: "image/jpg" });
+    const blob = new Blob([imageBufer], { type: "image/jpg" });
     
-    form.append("file", blob, "image.jpg");
+    form.append("file", blob, filename);
     const { data } = await axios
         .request({
             baseURL: "https://api.itsrose.life",
