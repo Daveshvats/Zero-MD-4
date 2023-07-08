@@ -3035,7 +3035,7 @@ case '/stablediff':{
     if (!text) return m.reply ('*Please provide a query*')
     await m.reply("wait")
     let wife = `https://api.itsrose.life/image/stable/diffusion?prompt=${text}&negative_prompt=nsfw%2C%203d%2C%20bad%20anatomy.&ratio=1%3A1&cfg=7.5&model_id=midjourney&seed=&apikey=Rs-edgarsan`
-    client.sendMessage(from, { image: wife}, { quoted: m });
+    client.sendMessage(from, { image: {url:wife}}, { quoted: m });
     }
     break
 case '/dehaze':{
