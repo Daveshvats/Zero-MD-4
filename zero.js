@@ -3100,7 +3100,7 @@ case '/diffme':{
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let media = await quoted.download()
-    const imageBufer = readFileSync(media);
+    const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
     
@@ -3136,7 +3136,7 @@ if (args[0] === 'color_line') {
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let media = await quoted.download()
-    const imageBufer = readFileSync(media);
+    const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
     
@@ -3172,7 +3172,7 @@ if (args[0] === 'fresh') {
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let media = await quoted.download()
-    const imageBufer = readFileSync(media);
+    const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
     
@@ -3208,7 +3208,7 @@ if (args[0] === 'makima') {
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let media = await quoted.download()
-    const imageBufer = readFileSync(media);
+    const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
     
@@ -3244,7 +3244,7 @@ if (args[0] === '') {
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     let media = await quoted.download()
-    const imageBufer = readFileSync(media);
+    const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
     
