@@ -3099,7 +3099,7 @@ case '/diffme':{
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
-    let media = await quoted.download()
+    let media = await client.downloadAndSaveMediaMessage(quoted)
     const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
@@ -3135,7 +3135,7 @@ if (args[0] === 'color_line') {
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
-    let media = await quoted.download()
+    let media = await client.downloadAndSaveMediaMessage(quoted)
     const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
@@ -3171,7 +3171,7 @@ if (args[0] === 'fresh') {
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
-    let media = await quoted.download()
+    let media = await client.downloadAndSaveMediaMessage(quoted)
     const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
@@ -3207,7 +3207,7 @@ if (args[0] === 'makima') {
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
-    let media = await quoted.download()
+    let media = await client.downloadAndSaveMediaMessage(quoted)
     const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
@@ -3243,7 +3243,7 @@ if (args[0] === '') {
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
-    let media = await quoted.download()
+    let media = await client.downloadAndSaveMediaMessage(quoted)
     const imageBufer = fs.readFileSync(media);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
