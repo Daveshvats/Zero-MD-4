@@ -91,7 +91,7 @@ try{
 				ZeroBotIncBot();
 			} else if (reason === DisconnectReason.connectionReplaced) {
 				console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
-				(ZeroBotIncBot(),5000)
+				process.exit()
 			} else if (reason === DisconnectReason.loggedOut) {
 				console.log(`Device Logged Out, Please Scan Again And Run.`);
 				ZeroBotIncBot();
