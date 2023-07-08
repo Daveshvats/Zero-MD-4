@@ -3101,8 +3101,10 @@ case '/diffme':{
     await m.reply("wait")
     let media = await client.downloadAndSaveMediaMessage(quoted)
     let image2 = await TelegraPh(media)
+    let vedya = await axios.get(image2)
+    let savee =  fs.writeFile(vedya)
     const form = new FormData();
-    const blob = new Blob([image2], { type: "image/jpg" });
+    const blob = new Blob([savee], { type: "image/jpg" });
     
     form.append("file", blob, "image.jpg");
     const { data } = await axios
@@ -3125,6 +3127,7 @@ case '/diffme':{
     const { result } = data;
     const bufer = Buffer.from(result.base64Image , 'base64')
     client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
+    fs.unlink(vedya)
 }
 if (args[0] === 'color_line') {
     const queryParams = {
