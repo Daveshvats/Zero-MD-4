@@ -8,6 +8,7 @@ const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, jidNorma
 const { clockString, parseMention, formatp, tanggal, getTime, isUrl, sleep, runtime, fetchJson, getBuffer, jsonformat, format, reSize, generateProfilePicture, getRandom } = require('./lib/myfunc')
 const { color, bgcolor } = require('./lib/color')
 const { fetchBuffer, buffergif } = require("./lib/myfunc2")
+const rose = process.env.rose;
 const { rentfromZero, conns } = require('./RentBot')
 const { uptotelegra } = require('./scrape/upload')
 const { msgFilter } = require('./lib/antispam')
@@ -2795,6 +2796,7 @@ break
                 }
             }
             break
+            
             case '/delete': case '/del': {
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
@@ -3010,11 +3012,12 @@ case '/remini': {
             break
 case '/chatgpt':{
     if (!text) return m.reply ('*Please provide a query*')          
-let tioress22 = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=SGWN&text=${text}&user=zero`)
+let tioress22 = await fetch(`https://api.itsrose.life/chatGPT/completions?prompt=${text}&apikey=${rose}`)
 let hasill22 = await tioress22.json()
-client.sendMessage(from, { text: `${hasill22.result}`.trim() }, { quoted: m });
+client.sendMessage(from, { text: `${hasill22.message}`.trim() }, { quoted: m });
 }
 break	
+
 case '/dalle':{
     if (!text) return m.reply ('*Please provide a query*')
     let wife = `https://api.lolhuman.xyz/api/dall-e?apikey=SGWN&text=${text}`;
@@ -3084,6 +3087,189 @@ case '/recolor':{
               quoted: m,
             }
             );});
+}
+break
+case '/diffme':{
+    if (args[0] === 'anime') {
+    const queryParams = {
+        style: "anime",
+        json: true, // get json response instead of image buffer
+    };
+    let q = m.quoted ? m.quoted : m
+    let mime = (q.msg || q).mimetype || q.mediaType || ""
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    await m.reply("wait")
+    let media = await quoted.download()
+    const imageBufer = readFileSync(media);
+    const form = new FormData();
+    const blob = new Blob([imageBufer], { type: "image/jpg" });
+    
+    form.append("file", blob, "image.jpg");
+    const { data } = await axios
+        .request({
+            baseURL: "https://api.itsrose.life",
+            url: "/image/differentMe",
+            method: "POST",
+            params: {
+                ...queryParams,
+                apikey: rose,
+            },
+            data: form,
+        })
+        .catch((e) => e?.["response"]);
+    const { status, message } = data; // any statusCode
+    
+    if (!status) {
+        return m.reply(message); // see the message
+    }
+    const { result } = data;
+    const bufer = Buffer.from(result.base64Image , 'base64')
+    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+}
+if (args[0] === 'color_line') {
+    const queryParams = {
+        style: "color_line",
+        json: true, // get json response instead of image buffer
+    };
+    let q = m.quoted ? m.quoted : m
+    let mime = (q.msg || q).mimetype || q.mediaType || ""
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    await m.reply("wait")
+    let media = await quoted.download()
+    const imageBufer = readFileSync(media);
+    const form = new FormData();
+    const blob = new Blob([imageBufer], { type: "image/jpg" });
+    
+    form.append("file", blob, "image.jpg");
+    const { data } = await axios
+        .request({
+            baseURL: "https://api.itsrose.life",
+            url: "/image/differentMe",
+            method: "POST",
+            params: {
+                ...queryParams,
+                apikey: rose,
+            },
+            data: form,
+        })
+        .catch((e) => e?.["response"]);
+    const { status, message } = data; // any statusCode
+    
+    if (!status) {
+        return m.reply(message); // see the message
+    }
+    const { result } = data;
+    const bufer = Buffer.from(result.base64Image , 'base64')
+    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+}
+if (args[0] === 'fresh') {
+    const queryParams = {
+        style: "fresh",
+        json: true, // get json response instead of image buffer
+    };
+    let q = m.quoted ? m.quoted : m
+    let mime = (q.msg || q).mimetype || q.mediaType || ""
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    await m.reply("wait")
+    let media = await quoted.download()
+    const imageBufer = readFileSync(media);
+    const form = new FormData();
+    const blob = new Blob([imageBufer], { type: "image/jpg" });
+    
+    form.append("file", blob, "image.jpg");
+    const { data } = await axios
+        .request({
+            baseURL: "https://api.itsrose.life",
+            url: "/image/differentMe",
+            method: "POST",
+            params: {
+                ...queryParams,
+                apikey: rose,
+            },
+            data: form,
+        })
+        .catch((e) => e?.["response"]);
+    const { status, message } = data; // any statusCode
+    
+    if (!status) {
+        return m.reply(message); // see the message
+    }
+    const { result } = data;
+    const bufer = Buffer.from(result.base64Image , 'base64')
+    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+}
+if (args[0] === 'makima') {
+    const queryParams = {
+        style: "makima",
+        json: true, // get json response instead of image buffer
+    };
+    let q = m.quoted ? m.quoted : m
+    let mime = (q.msg || q).mimetype || q.mediaType || ""
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    await m.reply("wait")
+    let media = await quoted.download()
+    const imageBufer = readFileSync(media);
+    const form = new FormData();
+    const blob = new Blob([imageBufer], { type: "image/jpg" });
+    
+    form.append("file", blob, "image.jpg");
+    const { data } = await axios
+        .request({
+            baseURL: "https://api.itsrose.life",
+            url: "/image/differentMe",
+            method: "POST",
+            params: {
+                ...queryParams,
+                apikey: rose,
+            },
+            data: form,
+        })
+        .catch((e) => e?.["response"]);
+    const { status, message } = data; // any statusCode
+    
+    if (!status) {
+        return m.reply(message); // see the message
+    }
+    const { result } = data;
+    const bufer = Buffer.from(result.base64Image , 'base64')
+    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+}
+if (args[0] === '') {
+    const queryParams = {
+        style: "cat_ears",
+        json: true, // get json response instead of image buffer
+    };
+    let q = m.quoted ? m.quoted : m
+    let mime = (q.msg || q).mimetype || q.mediaType || ""
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    await m.reply("wait")
+    let media = await quoted.download()
+    const imageBufer = readFileSync(media);
+    const form = new FormData();
+    const blob = new Blob([imageBufer], { type: "image/jpg" });
+    
+    form.append("file", blob, "image.jpg");
+    const { data } = await axios
+        .request({
+            baseURL: "https://api.itsrose.life",
+            url: "/image/differentMe",
+            method: "POST",
+            params: {
+                ...queryParams,
+                apikey: rose,
+            },
+            data: form,
+        })
+        .catch((e) => e?.["response"]);
+    const { status, message } = data; // any statusCode
+    
+    if (!status) {
+        return m.reply(message); // see the message
+    }
+    const { result } = data;
+    const bufer = Buffer.from(result.base64Image , 'base64')
+    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+}
 }
 break
 case '/toanime':{
@@ -4749,7 +4935,7 @@ const i = Math.floor(Math.random() * wallpaper.length)
                 })
 //client.sendMessage(from,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
 break
-case '/akira': case '/akiyama': case '/ana': case '/art': case '/asuna': case '/ayuzawa': case '/boruto': case '/bts': case '/chiho': case '/chitoge': case '/cosplay': case '/cosplayloli': case '/cosplaysagiri': case '/cyber': case '/deidara': case '/doraemon': case '/elaina': case '/emilia': case '/erza': case '/exo':  case '/gamewallpaper': case '/gremory': case '/hacker': case '/hestia': case '/hinata': case '/husbu': case '/inori': case '/islamic': case '/isuzu': case '/itachi': case '/itori': case '/jennie': case '/jiso': case '/justina': case '/kaga': case '/kagura': case '/kakasih': case '/kaori': case '/cartoon': case '/shortquote': case '/keneki': case '/kotori': case '/kurumi': case '/lisa': case '/loli': case '/madara': case '/megumin': case '/mikasa': case '/mikey': case '/miku': case '/minato': case '/mountain': case '/naruto': case '/neko': case '/neko2': case '/nekonime': case '/nezuko': case '/onepiece': case '/pentol': case '/pokemon': case '/programming':  case '/randomnime': case '/randomnime2': case '/rize': case '/rose': case '/sagiri': case '/sakura': case '/sasuke': case '/satanic': case '/shina': case '/shinka': case '/shinomiya': case '/shizuka': case '/shota': case '/space': case '/technology': case '/tejina': case '/toukachan': case '/tsunade': case '/waifu': case '/yotsuba': case '/yuki': case '/yulibocil': case '/yumeko':{
+case '/akira': case '/akiyama': case '/ana': case '/art': case '/asuna': case '/ayuzawa': case '/boruto': case '/bts': case '/chiho': case '/chitoge': case '/cosplay': case '/cosplayloli': case '/cosplaysagiri': case '/cyber': case '/deidara': case '/doraemon': case '/elaina': case '/emilia': case '/erza': case '/exo':  case '/gamewallpaper': case '/gremory': case '/hacker': case '/hestia': case '/hinata': case '/husbu': case '/inori': case '/islamic': case '/isuzu': case '/itachi': case '/itori': case '/jennie': case '/jiso': case '/justina': case '/kaga': case '/kagura': case '/kakasih': case '/kaori': case '/cartoon': case '/shortquote': case '/keneki': case '/kotori': case '/kurumi': case '/lisa': case '/loli': case '/madara': case '/megumin': case '/mikasa': case '/mikey': case '/miku': case '/minato': case '/mountain': case '/naruto': case '/neko': case '/nekonime': case '/nezuko': case '/onepiece': case '/pentol': case '/pokemon': case '/programming':  case '/randomnime': case '/randomnime2': case '/rize': case '/rose': case '/sagiri': case '/sakura': case '/sasuke': case '/satanic': case '/shina': case '/shinka': case '/shinomiya': case '/shizuka': case '/shota': case '/space': case '/technology': case '/tejina': case '/toukachan': case '/tsunade': case '/waifu': case '/yotsuba': case '/yuki': case '/yulibocil': case '/yumeko':{
 
 ZeroStickWait()
 let heyy
@@ -4817,7 +5003,6 @@ if (/motor/.test(command)) heyy = await fetchJson('https://raw.githubusercontent
 if (/mountain/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/mountain.json')
 if (/naruto/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/naruto.json')
 if (/neko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/neko.json')
-if (/neko2/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/neko2.json')
 if (/nekonime/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/nekonime.json')
 if (/nezuko/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/nezuko.json')
 if (/onepiece/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/Daveshvats/something/master/onepiece.json')
@@ -4858,6 +5043,7 @@ let yeha = heyy[Math.floor(Math.random() * heyy.length)]
 client.sendMessage(from, { image: { url: yeha }, caption : mess.success }, { quoted: m })
 }
 break
+
 case '/>':
 case '/=>':
 if (!ZeroTheCreator) return ZeroStickOwner()
