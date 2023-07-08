@@ -3102,7 +3102,7 @@ case '/diffme':{
     let media = await client.downloadAndSaveMediaMessage(quoted)
     let image2 = await TelegraPh(media)
     let vedya = await axios.get(image2)
-    let savee =  fs.writeFile(vedya)
+    const savee = Buffer.from(media , 'base64')
     const form = new FormData();
     const blob = new Blob([savee], { type: "image/jpg" });
     
