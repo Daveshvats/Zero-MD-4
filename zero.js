@@ -3018,18 +3018,29 @@ client.sendMessage(from, { text: `${hasill22.message}`.trim() }, { quoted: m });
 }
 break	
 case'/waifudiff':{
-    if (!text) return m.reply ('*Please provide a query*')
-    let wife =await fetch(`https://api.itsrose.life/image/anime/diffusion?prompt=${text}&negative_prompt=${args[1]}&width=512&height=512&apikey=Rs-edgarsan`)
-    let waifu = await wife.json()
-    const bufer = Buffer.from(waifu.result.images , 'base64')
-    client.sendMessage(
-        m.chat,
-        { image: bufer },
-        {
-          quoted: m,
-        }
-      )
-}
+    let API="https://api.itsrose.life"
+    if (!text) {
+		return m.reply(`Example: *${
+		usedPrefix + command
+	}* 1girl, solo, ponytail, blush.`);
+	}
+	m.reply("Progress...");
+	let url;
+	const q = m.quoted ? m.quoted : m;
+	const mime = (q.msg || q).mimetype || q.mediaType || "";
+	if (/image\/(jpe?g|png)/.test(mime)) {
+		url = await TelegraPh(await q.download?.())
+	}
+	try {
+		await client.sendMessage(m.chat, {
+			image: {
+				url: API("rose", "/image/diffusion", { prompt, style: "ACG", ratio: "1:1", sampler: "Euler a", ...(url ? { init_image: url } : {}), cfg: 7, negative_prompt: "(worst quality, low quality, extra hand), monochrome" }, "apikey")
+			},
+			caption: "Prompt: " + prompt + ""
+		}, { quoted: m })
+	} catch {
+		m.reply("Failed :(")
+}}
 break
 case '/dalle':{
     if (!text) return m.reply ('*Please provide a query*')
@@ -3105,188 +3116,46 @@ case '/recolor':{
 break
 
 case '/diffme':{
-    if (args[0] === 'anime') {
-    const queryParams = {
-        style: "anime",
-        json: true, // get json response instead of image buffer
-    };
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
-    await m.reply("wait")
-    const form = new FormData();
-    let media = await quoted.download()
-    const filename = `${Math.random().toString(36)}`;
-    await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-    const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-    const blob = new Blob([fs.readFileSync(`./dustbin/${filename}.jpg`)], { type: "image/jpg" });
-    
-    form.append("file", fs.readFileSync(`./dustbin/${filename}.jpg`), `${filename}.jpg`);
-    const { data } = await axios
-        .request({
-            baseURL: "https://api.itsrose.life",
-            url: "/image/differentMe",
-            method: "POST",
-            params: {
-                ...queryParams,
-                apikey: 'Rs-edgarsan',
-            },
-            data: form,
-        })
-        .catch((e) => e?.["response"]);
-    const { status, message } = data; // any statusCode
-    
-    if (!status) {
-        return m.reply(message); // see the message
-    }
-    const { result } = data;
-    const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
-}
-if (args[0] === 'color_line') {
-    const queryParams = {
-        style: "color_line",
-        json: true, // get json response instead of image buffer
-    };
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
-    await m.reply("wait")
-    let media = await client.downloadAndSaveMediaMessage(quoted)
-    let image2 = await TelegraPh(media)
-    const form = new FormData();
-    const blob = new Blob([image2], { type: "image/jpg" });
-    
-    form.append("file", blob, "image.jpg");
-    const { data } = await axios
-        .request({
-            baseURL: "https://api.itsrose.life",
-            url: "/image/differentMe",
-            method: "POST",
-            params: {
-                ...queryParams,
-                apikey: rose,
-            },
-            data: form,
-        })
-        .catch((e) => e?.["response"]);
-    const { status, message } = data; // any statusCode
-    
-    if (!status) {
-        return m.reply(message); // see the message
-    }
-    const { result } = data;
-    const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
-}
-if (args[0] === 'fresh') {
-    const queryParams = {
-        style: "fresh",
-        json: true, // get json response instead of image buffer
-    };
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
-    await m.reply("wait")
-    let media = await client.downloadAndSaveMediaMessage(quoted)
-    let image2 = await TelegraPh(media)
-    const form = new FormData();
-    const blob = new Blob([image2], { type: "image/jpg" });
-    form.append("file", blob, "image.jpg");
-    const { data } = await axios
-        .request({
-            baseURL: "https://api.itsrose.life",
-            url: "/image/differentMe",
-            method: "POST",
-            params: {
-                ...queryParams,
-                apikey: rose,
-            },
-            data: form,
-        })
-        .catch((e) => e?.["response"]);
-    const { status, message } = data; // any statusCode
-    
-    if (!status) {
-        return m.reply(message); // see the message
-    }
-    const { result } = data;
-    const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
-}
-if (args[0] === 'makima') {
-    const queryParams = {
-        style: "makima",
-        json: true, // get json response instead of image buffer
-    };
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
-    await m.reply("wait")
-    let media = await client.downloadAndSaveMediaMessage(quoted)
-    let image2 = await TelegraPh(media)
-    const form = new FormData();
-    const blob = new Blob([image2], { type: "image/jpg" });
-    
-    form.append("file", blob, "image.jpg");
-    const { data } = await axios
-        .request({
-            baseURL: "https://api.itsrose.life",
-            url: "/image/differentMe",
-            method: "POST",
-            params: {
-                ...queryParams,
-                apikey: rose,
-            },
-            data: form,
-        })
-        .catch((e) => e?.["response"]);
-    const { status, message } = data; // any statusCode
-    
-    if (!status) {
-        return m.reply(message); // see the message
-    }
-    const { result } = data;
-    const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
-}
-if (args[0] === '') {
-    const queryParams = {
-        style: "cat_ears",
-        json: true, // get json response instead of image buffer
-    };
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
-    await m.reply("wait")
-    let media = await client.downloadAndSaveMediaMessage(quoted)
-    let image2 = await TelegraPh(media)
-    const form = new FormData();
-    const blob = new Blob([image2], { type: "image/jpg" });
-    
-    form.append("file", blob, "image.jpg");
-    const { data } = await axios
-        .request({
-            baseURL: "https://api.itsrose.life",
-            url: "/image/differentMe",
-            method: "POST",
-            params: {
-                ...queryParams,
-                apikey: rose,
-            },
-            data: form,
-        })
-        .catch((e) => e?.["response"]);
-    const { status, message } = data; // any statusCode
-    
-    if (!status) {
-        return m.reply(message); // see the message
-    }
-    const { result } = data;
-    const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
-}
-}
+    const q = m.quoted ? m.quoted : m;
+	const mime = (q.msg || q).mimetype || q.mediaType || "";
+	if (!mime) {
+		return m.reply(`Reply/send image with caption ${usedPrefix+command}`);
+	}
+	if (!/image\/(jpe?g|png)/.test(mime)) {
+		return m.reply(`File not support!`);
+	}
+	m.reply("Progress");
+	const imgBuffer = await q.download();
+	const form = new FormData();
+	const blob = new Blob([imgBuffer], { type: "image/jpg" });
+	form.append("file", blob, "image.jpg");
+
+	const style = "anime";
+	const { data } = await axios
+		.request({
+			baseURL: "https://api.itsrose.site", // "https://api.itsrose.site"
+			url: "/image/differentMe",
+			method: "POST",
+			params: {
+				style,
+				json: true,
+				apikey: "Rs-edgarsan",
+			},
+			data: form,
+		})
+		.catch((e) => e?.response);
+	const { status, result, message } = data;
+	if (!status) {
+		return m.reply(message);
+	}
+	await client.sendMessage(
+		m.chat,
+		{
+			image: Buffer.from(result["base64Image"], "base64"),
+			caption: `Style: ${style}`,
+		},
+		{ quoted: m }
+	);}
 break
 case '/toanime':{
     let q = m.quoted ? m.quoted : m
