@@ -3099,11 +3099,11 @@ case '/diffme':{
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
+    const form = new FormData();
     let media = await await quoted.download()
     const filename = `${Math.random().toString(36)}`;
     const vedya = await fs.writeFileSync(`./dustbin/${filename}.jpeg`, media);
-    const imageBufer = fs.createReadStream(`./dustbin/${filename}.jpeg`);
-    const form = new FormData();
+    const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpeg`);
     const blob = new Blob([imageBufer], { type: "image/jpeg" });
     
     form.append("file", blob, `${filename}.jpeg`);
