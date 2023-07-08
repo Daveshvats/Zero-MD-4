@@ -3028,14 +3028,11 @@ case'/waifudiff':{
 	let url;
 	const q = m.quoted ? m.quoted : m;
 	const mime = (q.msg || q).mimetype || q.mediaType || "";
-	if (/image\/(jpe?g|png)/.test(mime)) {
-        let someh = await client.downloadAndSaveMediaMessage(quoted)
-		url = await TelegraPh(someh)
-	}
+	
 	try {
 		await client.sendMessage(m.chat, {
 			image: {
-				url: API("rose", "/image/diffusion", { prompt, style: "ACG", ratio: "1:1", sampler: "Euler a", ...(url ? { init_image: url } : {}), cfg: 7, negative_prompt: "(worst quality, low quality, extra hand), monochrome" }, "Rs-edgarsan")
+				url: API("rose", "/image/diffusion", { prompt, style: "ACG", ratio: "1:1", sampler: "Euler a", cfg: 7, negative_prompt: "(worst quality, low quality, extra hand), monochrome" }, "Rs-edgarsan")
 			},
 			caption: "Prompt: " + prompt + ""
 		}, { quoted: m })
