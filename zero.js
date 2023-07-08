@@ -3106,7 +3106,7 @@ case '/diffme':{
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
     
-    form.append("file", blob, filename);
+    form.append("file", blob, `${filename}.jpg`);
     const { data } = await axios
         .request({
             baseURL: "https://api.itsrose.life",
