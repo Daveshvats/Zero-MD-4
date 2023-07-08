@@ -3036,8 +3036,8 @@ case'/waifudiff':{
 			},
 			caption: "Prompt: " + prompt + ""
 		}, { quoted: m })
-	} catch {
-		m.reply("Failed :(")
+	} catch (err){
+		m.reply(err)
 }}
 break
 case '/dalle':{
