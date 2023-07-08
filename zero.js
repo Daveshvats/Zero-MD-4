@@ -3029,7 +3029,7 @@ case'/waifudiff':{
 	const q = m.quoted ? m.quoted : m;
 	const mime = (q.msg || q).mimetype || q.mediaType || "";
 	if (/image\/(jpe?g|png)/.test(mime)) {
-        let someh = quoted.download()
+        let someh = await client.downloadAndSaveMediaMessage(quoted)
 		url = await TelegraPh(someh)
 	}
 	try {
