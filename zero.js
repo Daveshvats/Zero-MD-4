@@ -3104,9 +3104,9 @@ case '/diffme':{
     const filename = `${Math.random().toString(36)}`;
     await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
     const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-    const blob = new Blob([imageBufer], { type: "image/jpg" });
+    const fck = new Blob([fs.readFileSync(`./dustbin/${filename}.jpg`)], { type: "image/jpg" });
     
-    form.append("file", [fs.readFileSync(`./dustbin/${filename}.jpg`),"image/jpg"], "filename.jpg");
+    form.append("file", fck, "filename.jpg");
     const { data } = await axios
         .request({
             baseURL: "https://api.itsrose.life",
