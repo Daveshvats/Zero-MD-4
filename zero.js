@@ -3017,7 +3017,20 @@ let hasill22 = await tioress22.json()
 client.sendMessage(from, { text: `${hasill22.message}`.trim() }, { quoted: m });
 }
 break	
-
+case'/waifudiff':{
+    if (!text) return m.reply ('*Please provide a query*')
+    let wife =await fetch(`https://api.itsrose.life/image/anime/diffusion?prompt=${text}&negative_prompt=${args[1]}&width=512&height=512&apikey=Rs-edgarsan`)
+    let waifu = await wife.json()
+    const bufer = Buffer.from(waifu.result.images , 'base64')
+    client.sendMessage(
+        m.chat,
+        { image: bufer },
+        {
+          quoted: m,
+        }
+      )
+}
+break
 case '/dalle':{
     if (!text) return m.reply ('*Please provide a query*')
     let wife = `https://api.lolhuman.xyz/api/dall-e?apikey=SGWN&text=${text}`;
@@ -3030,19 +3043,7 @@ case '/dalle':{
         );
 }		
 break
-case'/waifudiff':{
-    if (!text) return m.reply ('*Please provide a query*')
-    let wife =`https://api.itsrose.life/image/anime/diffusion?prompt=${text}&negative_prompt=${args[1]}&width=512&height=512&apikey=Rs-edgarsan`
-    const bufer = Buffer.from(wife.result.images , 'base64')
-    client.sendMessage(
-        m.chat,
-        { image: bufer },
-        {
-          quoted: m,
-        }
-      )
-}
-break
+
 case '/dehaze':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
