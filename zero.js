@@ -3030,7 +3030,14 @@ case '/dalle':{
         );
 }		
 break
-
+case '/stablediff':{
+    if (!text) return m.reply ('*Please provide a query*')
+    let seedo = Math.floor(Math.random() * ("20000" - "10000" + 1) + "1000"
+      )
+    let wife = `https://api.itsrose.life/image/stable/diffusion?prompt=${text}&negative_prompt=nsfw%2C%203d%2C%20bad%20anatomy.&ratio=1%3A1&cfg=7.5&model_id=midjourney&seed=${seedo}&apikey=Rs-edgarsan`
+    client.sendMessage(from, { image: wife}, { quoted: m });
+    }
+    break
 case '/dehaze':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
@@ -3105,6 +3112,7 @@ case'/waifudiff':{
         client.sendMessage(from, { image: Buffer.from(`${kome.result.images}` , 'base64')}, { quoted: m });
 }
 break
+
 case '/diffme':{
     const q = m.quoted ? m.quoted : m;
 	const mime = (q.msg || q).mimetype || q.mediaType || "";
