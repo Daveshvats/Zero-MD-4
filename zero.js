@@ -3101,12 +3101,12 @@ case '/diffme':{
     await m.reply("wait")
     let media = await await quoted.download()
     const filename = `${Math.random().toString(36)}`;
-    const vedya = await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-    const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpg`);
+    const vedya = await fs.writeFileSync(`./dustbin/${filename}.jpeg`, media);
+    const imageBufer = fs.createReadStream(`./dustbin/${filename}.jpeg`);
     const form = new FormData();
-    const blob = new Blob([imageBufer], { type: "image/jpg" });
+    const blob = new Blob([imageBufer], { type: "image/jpeg" });
     
-    form.append("file", blob, `${filename}.jpg`);
+    form.append("file", blob, `${filename}.jpeg`);
     const { data } = await axios
         .request({
             baseURL: "https://api.itsrose.life",
