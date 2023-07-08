@@ -3095,18 +3095,17 @@ case '/diffme':{
         style: "anime",
         json: true, // get json response instead of image buffer
     };
-    let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
     const form = new FormData();
-    let media = await await quoted.download()
+    let media = await quoted.download()
     const filename = `${Math.random().toString(36)}`;
     await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
     const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-    const blob = new Blob(fs.readFileSync(`./dustbin/${filename}.jpg`), { type: "image/jpg" });
+    const blob = new Blob([imageBufer], { type: "image/jpg" });
     
-    form.append("file", blob, "image.jpg");
+    form.append("file", fs.readFileSync(`./dustbin/${filename}.jpg`), "filename.jpg");
     const { data } = await axios
         .request({
             baseURL: "https://api.itsrose.life",
@@ -3127,7 +3126,6 @@ case '/diffme':{
     const { result } = data;
     const bufer = Buffer.from(result.base64Image , 'base64')
     client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
-    fs.unlink(vedya)
 }
 if (args[0] === 'color_line') {
     const queryParams = {
