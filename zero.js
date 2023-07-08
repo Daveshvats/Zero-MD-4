@@ -3095,6 +3095,7 @@ case '/diffme':{
         style: "anime",
         json: true, // get json response instead of image buffer
     };
+    let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
