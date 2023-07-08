@@ -91,13 +91,13 @@ try{
 				ZeroBotIncBot();
 			} else if (reason === DisconnectReason.connectionReplaced) {
 				console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
-				ZeroBotIncBot()
+				(ZeroBotIncBot(),5000)
 			} else if (reason === DisconnectReason.loggedOut) {
 				console.log(`Device Logged Out, Please Scan Again And Run.`);
 				ZeroBotIncBot();
 			} else if (reason === DisconnectReason.restartRequired) {
 				console.log("Restart Required, Restarting...");
-				(ZeroBotIncBot(),5000);
+				ZeroBotIncBot();
 			} else if (reason === DisconnectReason.timedOut) {
 				console.log("Connection TimedOut, Reconnecting...");
 				ZeroBotIncBot();
