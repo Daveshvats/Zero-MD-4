@@ -3052,7 +3052,7 @@ case '/stablediff':{
     let wife = await fetch(`https://api.itsrose.life/image/diffusion/txt2img?server_name=frieren&prompt=${logo4}&negative_prompt=paintings%2C%20sketches%2C%20(worst%20quality%3A2)%2C%20(low%20quality%3A2)%2C%20(normal%20quality%3A2)%2C%20lowres%2C%20normal%20quality%2C%20((monochrome))%2C%20((grayscale))%2C%20skin%20spots%2C%20acnes%2C%20skin%20blemishes%2C%20age%20spot%2C%20glans&width=896&height=1344&steps=25&model_id=${logo9}&sampler=UniPC&cfg=7.5&enhance_prompt=yes&multi_lingual=yes&image_num=1&safety_checker=no&panorama=no&hiresFix=no&lora_strength=1&clip_skip=2&tomesd=yes&use_karras_sigmas=yes&apikey=Rs-edgarsan`)
     let kalu = await wife.json()
     let imgfs = fetch(`${kalu.result.images}`)
-    client.sendMessage(from, { image:{url:`${kalu.result.images}`}}, { quoted: m });
+    client.sendMessage(from, { text:`${kalu.result.images}`}, { quoted: m });
 }
 break
 case'listmodel':{
