@@ -3107,7 +3107,6 @@ case'/waifudiff':{
 			text: {
 				 ame
 			},
-			caption: `Prompt:${text}`
 		}, { quoted: m })
 	}
 break
