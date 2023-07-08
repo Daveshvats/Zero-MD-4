@@ -3102,11 +3102,11 @@ case '/diffme':{
     const form = new FormData();
     let media = await await quoted.download()
     const filename = `${Math.random().toString(36)}`;
-    const vedya = await fs.writeFileSync(`./dustbin/${filename}.jpeg`, media);
-    const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpeg`);
-    const blob = new Blob([imageBufer], { type: "image/jpeg" });
+    await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
+    const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpg`);
+    const blob = new Blob(fs.readFileSync(`./dustbin/${filename}.jpg`), { type: "image/jpg" });
     
-    form.append("file", blob, `${filename}.jpeg`);
+    form.append("file", blob, "image.jpg");
     const { data } = await axios
         .request({
             baseURL: "https://api.itsrose.life",
