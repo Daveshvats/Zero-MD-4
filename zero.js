@@ -3102,7 +3102,7 @@ case '/diffme':{
     let media = await await quoted.download()
     const filename = `${Math.random().toString(36)}`;
     const vedya = await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-    const imageBufer = readFileSync(`./dustbin/${filename}.jpg`);
+    const imageBufer = fs.readFileSync(`./dustbin/${filename}.jpg`);
     const form = new FormData();
     const blob = new Blob([imageBufer], { type: "image/jpg" });
     
