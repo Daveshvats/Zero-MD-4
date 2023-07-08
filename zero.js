@@ -3017,29 +3017,7 @@ let hasill22 = await tioress22.json()
 client.sendMessage(from, { text: `${hasill22.message}`.trim() }, { quoted: m });
 }
 break	
-case'/waifudiff':{
-    if (!text) {
-		return m.reply(`Example: *${
-		prefixo + command
-	}* 1girl, solo, ponytail, blush.`);
-	}
-	m.reply("Progress...");
-	const q = m.quoted ? m.quoted : m;
-	try {
-        let some = await fetch(`https://api.itsrose.life/image/anime/diffusion?prompt=${text}&negative_prompt=lowres%2C%20bad%20anatomy%2C%20text%2C%20error%2C%20missing%20fingers%2C%20extra%20digit%2C%20fewer%20digits%2C%20cropped%2C%20worst%20quality%2C%20low%20normal%20jpeg%20artifacts%2C%20signature%2C%20watermark%2C%20username%2C%20blurry%2C%20artist%20name%2C%20bad_prompt_version2%2C%20(((Blurry%20Eyes)))%2C%20(((bad%20anatomy)))%2C%20((disabled%20body))%2C%20((deformed%20((missing%20finger))%2C%20((mutant%20hands))%2C%20((more%20than%20five%20fingers))%2C%20badly%20drawn%20lack%20of%20detail%2C%20(((Low%20resolution)))%2C%20((bad%20((text))%2C%20low-quality%20image%2C%20details%20in%20the%20distorted%20mouth&width=512&height=512&apikey=Rs-edgarsan`)
-		let kome = await some.json()
-        let ame = kome.result.images
-        let urlf = await TelegraPh(ame)
-        await client.sendMessage(m.chat, {
-			image: {
-				url: urlf
-			},
-			caption: "Prompt: " + prompt + ""
-		}, { quoted: m })
-	} catch (err){
-		m.reply(err)
-}}
-break
+
 case '/dalle':{
     if (!text) return m.reply ('*Please provide a query*')
     let wife = `https://api.lolhuman.xyz/api/dall-e?apikey=SGWN&text=${text}`;
@@ -3112,7 +3090,29 @@ case '/recolor':{
             );});
 }
 break
-
+case'/waifudiff':{
+    if (!text) {
+		return m.reply(`Example: *${
+		prefixo + command
+	}* 1girl, solo, ponytail, blush.`);
+	}
+	m.reply("Progress...");
+	const q = m.quoted ? m.quoted : m;
+	try {
+        let some = await fetch(`https://api.itsrose.life/image/anime/diffusion?prompt=${text}&negative_prompt=lowres%2C%20bad%20anatomy%2C%20text%2C%20error%2C%20missing%20fingers%2C%20extra%20digit%2C%20fewer%20digits%2C%20cropped%2C%20worst%20quality%2C%20low%20normal%20jpeg%20artifacts%2C%20signature%2C%20watermark%2C%20username%2C%20blurry%2C%20artist%20name%2C%20bad_prompt_version2%2C%20(((Blurry%20Eyes)))%2C%20(((bad%20anatomy)))%2C%20((disabled%20body))%2C%20((deformed%20((missing%20finger))%2C%20((mutant%20hands))%2C%20((more%20than%20five%20fingers))%2C%20badly%20drawn%20lack%20of%20detail%2C%20(((Low%20resolution)))%2C%20((bad%20((text))%2C%20low-quality%20image%2C%20details%20in%20the%20distorted%20mouth&width=512&height=512&apikey=Rs-edgarsan`)
+		let kome = await some.json()
+        let ame = kome.result.images
+        const urlf = Buffer.from(ame , 'base64')
+        await client.sendMessage(m.chat, {
+			image: {
+				url: urlf
+			},
+			caption: "Prompt: " + prompt + ""
+		}, { quoted: m })
+	} catch (err){
+		m.reply(err)
+}}
+break
 case '/diffme':{
     const q = m.quoted ? m.quoted : m;
 	const mime = (q.msg || q).mimetype || q.mediaType || "";
