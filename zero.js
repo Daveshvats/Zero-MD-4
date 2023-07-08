@@ -3124,7 +3124,7 @@ case '/diffme':{
     }
     const { result } = data;
     const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
 }
 if (args[0] === 'color_line') {
     const queryParams = {
@@ -3196,7 +3196,7 @@ if (args[0] === 'fresh') {
     }
     const { result } = data;
     const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
 }
 if (args[0] === 'makima') {
     const queryParams = {
@@ -3232,7 +3232,7 @@ if (args[0] === 'makima') {
     }
     const { result } = data;
     const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
 }
 if (args[0] === '') {
     const queryParams = {
@@ -3268,7 +3268,7 @@ if (args[0] === '') {
     }
     const { result } = data;
     const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(from,{ image: { url: buffer }, caption : mess.success })
+    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
 }
 }
 break
