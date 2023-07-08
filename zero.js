@@ -3035,7 +3035,7 @@ case'/waifudiff':{
 	try {
 		await client.sendMessage(m.chat, {
 			image: {
-				url: API("rose", "/image/diffusion", { prompt, style: "ACG", ratio: "1:1", sampler: "Euler a", ...(url ? { init_image: url } : {}), cfg: 7, negative_prompt: "(worst quality, low quality, extra hand), monochrome" }, "apikey")
+				url: API("rose", "/image/diffusion", { prompt, style: "ACG", ratio: "1:1", sampler: "Euler a", ...(url ? { init_image: url } : {}), cfg: 7, negative_prompt: "(worst quality, low quality, extra hand), monochrome" }, "Rs-edgarsan")
 			},
 			caption: "Prompt: " + prompt + ""
 		}, { quoted: m })
