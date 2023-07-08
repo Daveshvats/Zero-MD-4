@@ -3012,12 +3012,23 @@ case '/remini': {
             break
 case '/chatgpt':{
     if (!text) return m.reply ('*Please provide a query*')          
-let tioress22 = await fetch(`https://api.itsrose.life/chatGPT/completions?prompt=${text}&apikey=${rose}`)
+let tioress22 = await fetch(`https://api.itsrose.life/chatGPT/completions?prompt=${text}&apikey=Rs-edgarsan`)
 let hasill22 = await tioress22.json()
 client.sendMessage(from, { text: `${hasill22.message}`.trim() }, { quoted: m });
 }
 break	
-
+case '/prompt':{
+    let q = m.quoted ? m.quoted : m
+    let mime = (q.msg || q).mimetype || q.mediaType || ""
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    await m.reply("wait")
+    let data = await client.downloadAndSaveMediaMessage(quoted)
+    let image = await TelegraPh(data)
+   let waifu = await fetch(`https://api.itsrose.life/image/stable/prompter?url=${image}&apikey=Rs-edgarsan`)
+   let kalu = await waifu.json()
+   client.sendMessage(from, { text: `${kalu.result.prompt}`}, { quoted: m });
+}
+break
 case '/dalle':{
     if (!text) return m.reply ('*Please provide a query*')
     await m.reply("wait")
@@ -3038,18 +3049,7 @@ case '/stablediff':{
     client.sendMessage(from, { image: {url:wife}}, { quoted: m });
     }
     break
-case '/prompt':{
-    let q = m.quoted ? m.quoted : m
-    let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
-    await m.reply("wait")
-    let data = await client.downloadAndSaveMediaMessage(quoted)
-    let image = await TelegraPh(data)
-   let waifu=await fetch(`https://api.itsrose.life/image/stable/prompter?url=${image}&apikey=Rs-edgarsan`)
-   let kalu = waifu.json()
-   client.sendMessage(from, { text: `${kalu.result.prompt}`}, { quoted: m });
-}
-break
+
 case '/dehaze':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
