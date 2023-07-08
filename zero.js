@@ -8,7 +8,7 @@ const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, jidNorma
 const { clockString, parseMention, formatp, tanggal, getTime, isUrl, sleep, runtime, fetchJson, getBuffer, jsonformat, format, reSize, generateProfilePicture, getRandom } = require('./lib/myfunc')
 const { color, bgcolor } = require('./lib/color')
 const { fetchBuffer, buffergif } = require("./lib/myfunc2")
-const rose = process.env.rose;
+const rose = process.env.APIKEY;
 const { rentfromZero, conns } = require('./RentBot')
 const { uptotelegra } = require('./scrape/upload')
 const { msgFilter } = require('./lib/antispam')
