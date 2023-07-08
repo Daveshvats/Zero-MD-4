@@ -3099,14 +3099,12 @@ case '/diffme':{
     let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
     await m.reply("wait")
-    let media = await client.downloadAndSaveMediaMessage(quoted)
-    let image2 = await TelegraPh(media)
-    let vedya = await axios.get(image2)
+    let media = await await quoted.download()
     const savee = Buffer.from(media , 'base64')
     const form = new FormData();
     const blob = new Blob([savee], { type: "image/jpg" });
     
-    form.append("file",Buffer.from(blob), "image.jpg");
+    form.append("file", blob, "image.jpg");
     const { data } = await axios
         .request({
             baseURL: "https://api.itsrose.life",
