@@ -3038,6 +3038,18 @@ case '/stablediff':{
     client.sendMessage(from, { image: {url:wife}}, { quoted: m });
     }
     break
+case '/prompt':{
+    let q = m.quoted ? m.quoted : m
+    let mime = (q.msg || q).mimetype || q.mediaType || ""
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    await m.reply("wait")
+    let data = await client.downloadAndSaveMediaMessage(quoted)
+    let image = await TelegraPh(data)
+   let waifu=await fetch(`https://api.itsrose.life/image/stable/prompter?url=${image}&apikey=Rs-edgarsan`)
+   let kalu = waifu.json()
+   client.sendMessage(from, { text: `${kalu.result.prompt}`}, { quoted: m });
+}
+break
 case '/dehaze':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
