@@ -3222,7 +3222,7 @@ case '/diffme':{
         json: true, // get json response instead of image buffer
     };
     let mime = (q.msg || q).mimetype || q.mediaType || ""
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command ${prefixo + command}!`)
     await m.reply("wait")
     let media = await quoted.download()
     const filename = `${Math.random().toString(36)}`;
@@ -3242,7 +3242,7 @@ case '/diffme':{
             method: "POST",
             params: {
                 ...queryParams,
-                apikey: rose,
+                apikey: "Rs-edgarsan",
             },
             data: form,
         })
