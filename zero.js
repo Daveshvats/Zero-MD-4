@@ -3311,7 +3311,7 @@ case '/diffme':{
 		);
 	}
 	// remove the user from queque
-	delete conn.differentMe[m.sender];}
+	delete client.differentMe[m.sender];}
 break
 case '/toanime':{
     let q = m.quoted ? m.quoted : m
