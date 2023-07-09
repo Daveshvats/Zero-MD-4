@@ -3275,8 +3275,8 @@ case '/diffme':{
 			);
 			break;
 		}
-		}
-		const caption = `Style: ${style.replace("_", " ")}`;
+		
+		const caption = `${index + 1}. Style: ${style.replace("_", " ")}`;
 		// Send the base64 image to client.
 		await client.sendMessage(
 			m.chat,
@@ -3288,7 +3288,7 @@ case '/diffme':{
 		);
 	}
 	// remove the user from queque
-	delete client.differentMe[m.sender];
+	delete client.differentMe[m.sender];}
 break   
 case '/toanime':{
     let q = m.quoted ? m.quoted : m
