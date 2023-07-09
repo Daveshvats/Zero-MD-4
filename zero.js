@@ -3243,7 +3243,7 @@ case '/diffme':{
 	m.reply(`Generating ${styles.length} different style`);
 
 	// Find your way to get image buffer
-	const imgBuffer = await q.download();
+	const imgBuffer = await client.downloadAndSaveMediaMessage(quoted)
     const formData = require("form-data");
 	const form = new formData
 
