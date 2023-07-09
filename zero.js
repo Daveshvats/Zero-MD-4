@@ -3216,8 +3216,6 @@ case'/waifudiff':{
 break
 
 case '/diffme':{
-    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command ${prefixo + command}!`)
-    if (!args[0]) m.reply("please provide a model to use like anime or summer For Example = /diffme anime")
     client.differentMe = client.differentMe ? client.differentMe : {};
 
 	if (m.sender in client.differentMe) {
@@ -3226,7 +3224,7 @@ case '/diffme':{
 
 	const q = m.quoted ? m.quoted : m;
 	const mime = (q.msg || q).mimetype || q.mediaType || "";
-
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command ${prefixo + command}!`)
 	// supported image mimetype is JPG/JPEG/PNG
 	if (!/image\/(jpe?g|png)/.test(mime)) {
 		return m.reply(`Unsupported file!`);
