@@ -3234,7 +3234,7 @@ case '/diffme':{
 	}
 
 	// assign user to temporary variable; queque, to avoid spam.
-	conn["differentMe"][m.sender] = true;
+	client["differentMe"][m.sender] = true;
 
 	// Example used styles.
 	const styles = ["anime", "comic"];
