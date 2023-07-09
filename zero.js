@@ -3216,531 +3216,82 @@ case'/waifudiff':{
 break
 
 case '/diffme':{
-    let mime = (q.msg || q).mimetype || q.mediaType || ""
     if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command ${prefixo + command}!`)
     if (!args[0]) m.reply("please provide a model to use like anime or summer For Example = /diffme anime")
-    await m.reply("wait")
-    if (args[0] === 'anime') {
-    const queryParams = {
-        style: "anime",
-        json: true, // get json response instead of image buffer
-    };
-    
-    let media = await quoted.download()
-    const filename = `${Math.random().toString(36)}`;
-    //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-    //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-    const formData = require("form-data");
+    client.differentMe = client.differentMe ? client.differentMe : {};
+
+	if (m.sender in client.differentMe) {
+		return m.reply("Please wait, you have undone job.");
+	}
+
+	const q = m.quoted ? m.quoted : m;
+	const mime = (q.msg || q).mimetype || q.mediaType || "";
+
+	// supported image mimetype is JPG/JPEG/PNG
+	if (!/image\/(jpe?g|png)/.test(mime)) {
+		return m.reply(`Unsupported file!`);
+	}
+
+	// assign user to temporary variable; queque, to avoid spam.
+	client["differentMe"][m.sender] = true;
+
+	// Example used styles.
+	const styles = ["anime", "comic","azure_sky"];
+
+	// send text to user; if the image is being generate
+	m.reply(`Generating ${styles.length} different style`);
+
+	// Find your way to get image buffer
+	const imgBuffer = await quoted.download();
+	const formData = require("form-data");
 	const form = new formData
 
-	form.append("file", Buffer.from(media), {
+	form.append("file", Buffer.from(imgBuffer), {
 		contentType: "image/jpg",
 		filename: "image.jpg"
 	})
-    const { data } = await axios
-        .request({
-            baseURL: "https://api.itsrose.life",
-            url: "/image/differentMe",
-            method: "POST",
-            params: {
-                ...queryParams,
-                apikey: "Rs-edgarsan",
-            },
-            data: form,
-        })
-        .catch((e) => e?.["response"]);
-    const { status, message } = data; // any statusCode
-    
-    if (!status) {
-        return m.reply(message); // see the message
-    }
-    const { result } = data;
-    const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })
-}
-if (args[0] === 'color_line') {
-    const queryParams = {
-        style: "color_line",
-        json: true, // get json response instead of image buffer
-    };
-    
-    let media = await quoted.download()
-    const filename = `${Math.random().toString(36)}`;
-    //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-    //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-    const formData = require("form-data");
-	const form = new formData
 
-	form.append("file", Buffer.from(media), {
-		contentType: "image/jpg",
-		filename: "image.jpg"
-	})
-    const { data } = await axios
-        .request({
-            baseURL: "https://api.itsrose.life",
-            url: "/image/differentMe",
-            method: "POST",
-            params: {
-                ...queryParams,
-                apikey: "Rs-edgarsan",
-            },
-            data: form,
-        })
-        .catch((e) => e?.["response"]);
-    const { status, message } = data; // any statusCode
-    
-    if (!status) {
-        return m.reply(message); // see the message
-    }
-    const { result } = data;
-    const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })
-}
-if (args[0] === 'fresh') {
-    const queryParams = {
-        style: "fresh",
-        json: true, // get json response instead of image buffer
-    };
-    
-    let media = await quoted.download()
-    const filename = `${Math.random().toString(36)}`;
-    //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-    //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-    const formData = require("form-data");
-	const form = new formData
+	for (const [index, style] of styles.entries()) {
+		const { data, status: statusCode } = await axios
+			.request({
+				baseURL: "https://api.itsrose.site", // "https://api.itsrose.site"
+				url: "/image/differentMe",
+				method: "POST",
+				params: {
+					style,
+					json: true, // false
+					apikey: "Rs-edgarsan",
+				},
+				data: form,
+			})
+			.catch((e) => e?.response);
+		const { status, result, message } = data;
 
-	form.append("file", Buffer.from(media), {
-		contentType: "image/jpg",
-		filename: "image.jpg"
-	})
-    const { data } = await axios
-        .request({
-            baseURL: "https://api.itsrose.life",
-            url: "/image/differentMe",
-            method: "POST",
-            params: {
-                ...queryParams,
-                apikey: "Rs-edgarsan",
-            },
-            data: form,
-        })
-        .catch((e) => e?.["response"]);
-    const { status, message } = data; // any statusCode
-    
-    if (!status) {
-        return m.reply(message); // see the message
-    }
-    const { result } = data;
-    const bufer = Buffer.from(result.base64Image , 'base64')
-    client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-    if (args[0] === 'makima') {
-        const queryParams = {
-            style: "makima",
-            json: true, // get json response instead of image buffer
-        };
-        
-        let media = await quoted.download()
-        const filename = `${Math.random().toString(36)}`;
-        //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-        //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-        const formData = require("form-data");
-        const form = new formData
-    
-        form.append("file", Buffer.from(media), {
-            contentType: "image/jpg",
-            filename: "image.jpg"
-        })
-        const { data } = await axios
-            .request({
-                baseURL: "https://api.itsrose.life",
-                url: "/image/differentMe",
-                method: "POST",
-                params: {
-                    ...queryParams,
-                    apikey: "Rs-edgarsan",
-                },
-                data: form,
-            })
-            .catch((e) => e?.["response"]);
-        const { status, message } = data; // any statusCode
-        
-        if (!status) {
-            return m.reply(message); // see the message
-        }
-        const { result } = data;
-        const bufer = Buffer.from(result.base64Image , 'base64')
-        client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-        if (args[0] === 'cat_ears') {
-            const queryParams = {
-                style: "cat_ears",
-                json: true, // get json response instead of image buffer
-            };
-            
-            let media = await quoted.download()
-            const filename = `${Math.random().toString(36)}`;
-            //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-            //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-            const formData = require("form-data");
-            const form = new formData
-        
-            form.append("file", Buffer.from(media), {
-                contentType: "image/jpg",
-                filename: "image.jpg"
-            })
-            const { data } = await axios
-                .request({
-                    baseURL: "https://api.itsrose.life",
-                    url: "/image/differentMe",
-                    method: "POST",
-                    params: {
-                        ...queryParams,
-                        apikey: "Rs-edgarsan",
-                    },
-                    data: form,
-                })
-                .catch((e) => e?.["response"]);
-            const { status, message } = data; // any statusCode
-            
-            if (!status) {
-                return m.reply(message); // see the message
-            }
-            const { result } = data;
-            const bufer = Buffer.from(result.base64Image , 'base64')
-            client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-            if (args[0] === 'full_bloom') {
-                const queryParams = {
-                    style: "full_bloom",
-                    json: true, // get json response instead of image buffer
-                };
-                
-                let media = await quoted.download()
-                const filename = `${Math.random().toString(36)}`;
-                //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                const formData = require("form-data");
-                const form = new formData
-            
-                form.append("file", Buffer.from(media), {
-                    contentType: "image/jpg",
-                    filename: "image.jpg"
-                })
-                const { data } = await axios
-                    .request({
-                        baseURL: "https://api.itsrose.life",
-                        url: "/image/differentMe",
-                        method: "POST",
-                        params: {
-                            ...queryParams,
-                            apikey: "Rs-edgarsan",
-                        },
-                        data: form,
-                    })
-                    .catch((e) => e?.["response"]);
-                const { status, message } = data; // any statusCode
-                
-                if (!status) {
-                    return m.reply(message); // see the message
-                }
-                const { result } = data;
-                const bufer = Buffer.from(result.base64Image , 'base64')
-                client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                if (args[0] === 'angel') {
-                    const queryParams = {
-                        style: "angel",
-                        json: true, // get json response instead of image buffer
-                    };
-                    
-                    let media = await quoted.download()
-                    const filename = `${Math.random().toString(36)}`;
-                    //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                    //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                    const formData = require("form-data");
-                    const form = new formData
-                
-                    form.append("file", Buffer.from(media), {
-                        contentType: "image/jpg",
-                        filename: "image.jpg"
-                    })
-                    const { data } = await axios
-                        .request({
-                            baseURL: "https://api.itsrose.life",
-                            url: "/image/differentMe",
-                            method: "POST",
-                            params: {
-                                ...queryParams,
-                                apikey: "Rs-edgarsan",
-                            },
-                            data: form,
-                        })
-                        .catch((e) => e?.["response"]);
-                    const { status, message } = data; // any statusCode
-                    
-                    if (!status) {
-                        return m.reply(message); // see the message
-                    }
-                    const { result } = data;
-                    const bufer = Buffer.from(result.base64Image , 'base64')
-                    client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                    if (args[0] === 'gracefull') {
-                        const queryParams = {
-                            style: "gracefull",
-                            json: true, // get json response instead of image buffer
-                        };
-                        
-                        let media = await quoted.download()
-                        const filename = `${Math.random().toString(36)}`;
-                        //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                        //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                        const formData = require("form-data");
-                        const form = new formData
-                    
-                        form.append("file", Buffer.from(media), {
-                            contentType: "image/jpg",
-                            filename: "image.jpg"
-                        })
-                        const { data } = await axios
-                            .request({
-                                baseURL: "https://api.itsrose.life",
-                                url: "/image/differentMe",
-                                method: "POST",
-                                params: {
-                                    ...queryParams,
-                                    apikey: "Rs-edgarsan",
-                                },
-                                data: form,
-                            })
-                            .catch((e) => e?.["response"]);
-                        const { status, message } = data; // any statusCode
-                        
-                        if (!status) {
-                            return m.reply(message); // see the message
-                        }
-                        const { result } = data;
-                        const bufer = Buffer.from(result.base64Image , 'base64')
-                        client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                        if (args[0] === 'anime25d') {
-                            const queryParams = {
-                                style: "anime25d",
-                                json: true, // get json response instead of image buffer
-                            };
-                            
-                            let media = await quoted.download()
-                            const filename = `${Math.random().toString(36)}`;
-                            //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                            //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                            const formData = require("form-data");
-                            const form = new formData
-                        
-                            form.append("file", Buffer.from(media), {
-                                contentType: "image/jpg",
-                                filename: "image.jpg"
-                            })
-                            const { data } = await axios
-                                .request({
-                                    baseURL: "https://api.itsrose.life",
-                                    url: "/image/differentMe",
-                                    method: "POST",
-                                    params: {
-                                        ...queryParams,
-                                        apikey: "Rs-edgarsan",
-                                    },
-                                    data: form,
-                                })
-                                .catch((e) => e?.["response"]);
-                            const { status, message } = data; // any statusCode
-                            
-                            if (!status) {
-                                return m.reply(message); // see the message
-                            }
-                            const { result } = data;
-                            const bufer = Buffer.from(result.base64Image , 'base64')
-                            client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                            if (args[0] === 'realistic') {
-                                const queryParams = {
-                                    style: "realistic",
-                                    json: true, // get json response instead of image buffer
-                                };
-                                
-                                let media = await quoted.download()
-                                const filename = `${Math.random().toString(36)}`;
-                                //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                                //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                                const formData = require("form-data");
-                                const form = new formData
-                            
-                                form.append("file", Buffer.from(media), {
-                                    contentType: "image/jpg",
-                                    filename: "image.jpg"
-                                })
-                                const { data } = await axios
-                                    .request({
-                                        baseURL: "https://api.itsrose.life",
-                                        url: "/image/differentMe",
-                                        method: "POST",
-                                        params: {
-                                            ...queryParams,
-                                            apikey: "Rs-edgarsan",
-                                        },
-                                        data: form,
-                                    })
-                                    .catch((e) => e?.["response"]);
-                                const { status, message } = data; // any statusCode
-                                
-                                if (!status) {
-                                    return m.reply(message); // see the message
-                                }
-                                const { result } = data;
-                                const bufer = Buffer.from(result.base64Image , 'base64')
-                                client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                                if (args[0] === 'manhwa_female') {
-                                    const queryParams = {
-                                        style: "manhwa_female",
-                                        json: true, // get json response instead of image buffer
-                                    };
-                                    
-                                    let media = await quoted.download()
-                                    const filename = `${Math.random().toString(36)}`;
-                                    //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                                    //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                                    const formData = require("form-data");
-                                    const form = new formData
-                                
-                                    form.append("file", Buffer.from(media), {
-                                        contentType: "image/jpg",
-                                        filename: "image.jpg"
-                                    })
-                                    const { data } = await axios
-                                        .request({
-                                            baseURL: "https://api.itsrose.life",
-                                            url: "/image/differentMe",
-                                            method: "POST",
-                                            params: {
-                                                ...queryParams,
-                                                apikey: "Rs-edgarsan",
-                                            },
-                                            data: form,
-                                        })
-                                        .catch((e) => e?.["response"]);
-                                    const { status, message } = data; // any statusCode
-                                    
-                                    if (!status) {
-                                        return m.reply(message); // see the message
-                                    }
-                                    const { result } = data;
-                                    const bufer = Buffer.from(result.base64Image , 'base64')
-                                    client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                                    if (args[0] === 'manhwa_male') {
-                                        const queryParams = {
-                                            style: "manhwa_male",
-                                            json: true, // get json response instead of image buffer
-                                        };
-                                        
-                                        let media = await quoted.download()
-                                        const filename = `${Math.random().toString(36)}`;
-                                        //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                                        //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                                        const formData = require("form-data");
-                                        const form = new formData
-                                    
-                                        form.append("file", Buffer.from(media), {
-                                            contentType: "image/jpg",
-                                            filename: "image.jpg"
-                                        })
-                                        const { data } = await axios
-                                            .request({
-                                                baseURL: "https://api.itsrose.life",
-                                                url: "/image/differentMe",
-                                                method: "POST",
-                                                params: {
-                                                    ...queryParams,
-                                                    apikey: "Rs-edgarsan",
-                                                },
-                                                data: form,
-                                            })
-                                            .catch((e) => e?.["response"]);
-                                        const { status, message } = data; // any statusCode
-                                        
-                                        if (!status) {
-                                            return m.reply(message); // see the message
-                                        }
-                                        const { result } = data;
-                                        const bufer = Buffer.from(result.base64Image , 'base64')
-                                        client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                                        if (args[0] === 'summer') {
-                                            const queryParams = {
-                                                style: "summer",
-                                                json: true, // get json response instead of image buffer
-                                            };
-                                            
-                                            let media = await quoted.download()
-                                            const filename = `${Math.random().toString(36)}`;
-                                            //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                                            //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                                            const formData = require("form-data");
-                                            const form = new formData
-                                        
-                                            form.append("file", Buffer.from(media), {
-                                                contentType: "image/jpg",
-                                                filename: "image.jpg"
-                                            })
-                                            const { data } = await axios
-                                                .request({
-                                                    baseURL: "https://api.itsrose.life",
-                                                    url: "/image/differentMe",
-                                                    method: "POST",
-                                                    params: {
-                                                        ...queryParams,
-                                                        apikey: "Rs-edgarsan",
-                                                    },
-                                                    data: form,
-                                                })
-                                                .catch((e) => e?.["response"]);
-                                            const { status, message } = data; // any statusCode
-                                            
-                                            if (!status) {
-                                                return m.reply(message); // see the message
-                                            }
-                                            const { result } = data;
-                                            const bufer = Buffer.from(result.base64Image , 'base64')
-                                            client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                                            if (args[0] === 'azure_sky') {
-                                                const queryParams = {
-                                                    style: "azure_sky",
-                                                    json: true, // get json response instead of image buffer
-                                                };
-                                                
-                                                let media = await quoted.download()
-                                                const filename = `${Math.random().toString(36)}`;
-                                                //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-                                                //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
-                                                const formData = require("form-data");
-                                                const form = new formData
-                                            
-                                                form.append("file", Buffer.from(media), {
-                                                    contentType: "image/jpg",
-                                                    filename: "image.jpg"
-                                                })
-                                                const { data } = await axios
-                                                    .request({
-                                                        baseURL: "https://api.itsrose.life",
-                                                        url: "/image/differentMe",
-                                                        method: "POST",
-                                                        params: {
-                                                            ...queryParams,
-                                                            apikey: "Rs-edgarsan",
-                                                        },
-                                                        data: form,
-                                                    })
-                                                    .catch((e) => e?.["response"]);
-                                                const { status, message } = data; // any statusCode
-                                                
-                                                if (!status) {
-                                                    return m.reply(message); // see the message
-                                                }
-                                                const { result } = data;
-                                                const bufer = Buffer.from(result.base64Image , 'base64')
-                                                client.sendMessage(m.chat,{ image: { url: bufer }, caption : "Done" })}
-                                        }
+		if (!status) {
+			await client.sendMessage(
+				m.chat,
+				{
+					text: "Generating Stop",
+				},
+				{ quoted: m }
+			);
+			break;
+		}
+		}
+		const caption = `${index + 1}. Style: ${style.replace("_", " ")}`;
+		// Send the base64 image to client.
+		await client.sendMessage(
+			m.chat,
+			{
+				image: Buffer.from(result["base64Image"], "base64"),
+				caption,
+			},
+			{ quoted: m }
+		);
+	}
+	// remove the user from queque
+	delete client.differentMe[m.sender];
+break   
 case '/toanime':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
