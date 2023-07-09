@@ -3216,16 +3216,18 @@ case'/waifudiff':{
 break
 
 case '/diffme':{
-    const q = m.quoted ? m.quoted : m;
-	const mime = (q.msg || q).mimetype || q.mediaType || "";
-	if (!mime) {
-		return m.reply(`Reply/send image with caption ${usedPrefix+command}`);
-	}
-	if (!/image\/(jpe?g|png)/.test(mime)) {
-		return m.reply(`File not support!`);
-	}
-	m.reply("Progress");
-	const imgBuffer = await q.download();
+    if (args[0] === 'anime') {
+    const queryParams = {
+        style: "anime",
+        json: true, // get json response instead of image buffer
+    };
+    let mime = (q.msg || q).mimetype || q.mediaType || ""
+    if (!/image/g.test(mime)) m.reply(`Reply/Send Image With Command${prefixo + command}!`)
+    await m.reply("wait")
+    let media = await quoted.download()
+    const filename = `${Math.random().toString(36)}`;
+    await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
+    const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
     const formData = require("form-data");
 	const form = new formData
 
@@ -3233,34 +3235,27 @@ case '/diffme':{
 		contentType: "image/jpg",
 		filename: "image.jpg"
 	})
-
-	const style = "anime";
-	const { data } = await axios
-		.request({
-			baseURL: "https://api.itsrose.site", // "https://api.itsrose.site"
-			url: "/image/differentMe",
-			method: "POST",
-			params: {
-				style,
-				json: true,
-				apikey: "Rs-edgarsan",
-			},
-			data: form,
-		})
-		.catch((e) => e?.response);
-	const { status, result, message } = data;
-	if (!status) {
-		return m.reply(message);
-	}
-	await client.sendMessage(
-		m.chat,
-		{
-			image: Buffer.from(result["base64Image"], "base64"),
-			caption: `Style: ${style}`,
-		},
-		{ quoted: m }
-	);}
-break
+    const { data } = await axios
+        .request({
+            baseURL: "https://api.itsrose.life",
+            url: "/image/differentMe",
+            method: "POST",
+            params: {
+                ...queryParams,
+                apikey: rose,
+            },
+            data: form,
+        })
+        .catch((e) => e?.["response"]);
+    const { status, message } = data; // any statusCode
+    
+    if (!status) {
+        return m.reply(message); // see the message
+    }
+    const { result } = data;
+    const bufer = Buffer.from(result.base64Image , 'base64')
+    client.sendMessage(from,{ image: { url: bufer }, caption : mess.success })
+}}
 case '/toanime':{
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ""
