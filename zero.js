@@ -3234,7 +3234,7 @@ case '/diffme':{
 	client["differentMe"][m.sender] = true;
 
 	// Example used styles.
-	const styles = ["anime","manhwa"];
+	const styles = [`${text}`];
 
 	// send text to user; if the image is being generate
 	m.reply(`Generating ${styles.length} different style`);
