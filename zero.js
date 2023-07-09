@@ -3226,12 +3226,12 @@ case '/diffme':{
     await m.reply("wait")
     let media = await quoted.download()
     const filename = `${Math.random().toString(36)}`;
-    await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
-    const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
+    //await fs.writeFileSync(`./dustbin/${filename}.jpg`, media);
+    //const imgBuffer = fs.readFileSync(`./dustbin/${filename}.jpg`);
     const formData = require("form-data");
 	const form = new formData
 
-	form.append("file", Buffer.from(imgBuffer), {
+	form.append("file", Buffer.from(media), {
 		contentType: "image/jpg",
 		filename: "image.jpg"
 	})
