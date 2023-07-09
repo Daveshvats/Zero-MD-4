@@ -3234,7 +3234,7 @@ case '/diffme':{
 	client["differentMe"][m.sender] = true;
 
 	// Example used styles.
-	const styles = ["anime", "comic","azure_sky"];
+	const styles = ["anime"];
 
 	// send text to user; if the image is being generate
 	m.reply(`Generating ${styles.length} different style`);
@@ -3252,7 +3252,7 @@ case '/diffme':{
 	for (const [index, style] of styles.entries()) {
 		const { data, status: statusCode } = await axios
 			.request({
-				baseURL: "https://api.itsrose.site", // "https://api.itsrose.site"
+				baseURL: "https://api.itsrose.life", // "https://api.itsrose.site"
 				url: "/image/differentMe",
 				method: "POST",
 				params: {
